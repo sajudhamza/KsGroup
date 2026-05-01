@@ -1,0 +1,750 @@
+/* Hi-fi · KS Hospitality · Dark, moody, cinematic */
+:root {
+  --bg: #0E0D0B;
+  --bg-2: #15130F;
+  --bg-3: #1C1916;
+  --line: #2A2620;
+  --line-2: #3A332B;
+  --cream: #EDE6D8;
+  --cream-2: #C9C0AE;
+  --cream-3: #8C8472;
+  --ink: #0E0D0B;
+  --accent: #6B1E1E;
+  --accent-2: #8E2A2A;
+  --gold: #B8915A;
+
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.ks {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01" on;
+  width: 100%;
+  max-width: 100%;
+  /* IMPORTANT: do NOT make .ks a scroll container — let the document scroll.
+     Two scroll containers (body + .ks) on macOS with always-show scrollbars
+     causes phantom horizontal scrollbars from sub-pixel rounding. */
+  overflow: visible;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+.ks::-webkit-scrollbar { width: 0; height: 0; }
+/* Defensive: long words, oversized inline styles or images must never push layout */
+.ks, .ks > * { min-width: 0; }
+.ks section, .ks .container, .ks footer.ks-foot, .ks nav.ks-nav { max-width: 100% !important; }
+.ks img, .ks svg, .ks video { max-width: 100%; }
+.ks h1, .ks h2, .ks h3, .ks h4, .ks p { overflow-wrap: anywhere; word-break: normal; }
+.ks::-webkit-scrollbar { width: 6px; }
+.ks::-webkit-scrollbar-thumb { background: var(--line-2); }
+.ks * { box-sizing: border-box; }
+
+.ks .serif { font-family: var(--serif); font-weight: 400; }
+.ks .ital { font-style: italic; }
+.ks .mono {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--cream-3);
+}
+.ks .mono-on { color: var(--cream-2); }
+.ks .accent { color: var(--accent-2); }
+.ks .gold { color: var(--gold); }
+
+/* Display sizes */
+.ks h1, .ks h2, .ks h3, .ks h4 { margin: 0; font-weight: 400; }
+.ks .display-xl { font-family: var(--serif); font-size: 96px; line-height: 0.95; letter-spacing: -2.5px; }
+.ks .display-l  { font-family: var(--serif); font-size: 72px; line-height: 0.98; letter-spacing: -2px; }
+.ks .display-m  { font-family: var(--serif); font-size: 56px; line-height: 1.02; letter-spacing: -1.5px; }
+.ks .display-s  { font-family: var(--serif); font-size: 40px; line-height: 1.08; letter-spacing: -1px; }
+.ks .title-l    { font-family: var(--serif); font-size: 28px; line-height: 1.15; letter-spacing: -0.4px; }
+.ks .title-m    { font-family: var(--serif); font-size: 22px; line-height: 1.2; letter-spacing: -0.2px; }
+.ks .body-l     { font-size: 17px; line-height: 1.6; color: var(--cream-2); font-weight: 300; }
+.ks .body       { font-size: 14px; line-height: 1.65; color: var(--cream-2); font-weight: 300; }
+.ks .body-s     { font-size: 12px; line-height: 1.6; color: var(--cream-3); font-weight: 300; }
+
+/* Layout */
+.ks .container { max-width: 1280px; margin: 0 auto; padding: 0 56px; }
+.ks .rule { height: 1px; background: var(--line); }
+.ks .rule-cream { height: 1px; background: rgba(237,230,216,0.18); }
+
+/* Sections */
+.ks section { position: relative; }
+
+/* Buttons */
+.ks .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  border: 1px solid var(--cream);
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s;
+  text-decoration: none;
+}
+.ks .btn:hover { background: var(--cream); color: var(--ink); }
+.ks .btn-fill { background: var(--cream); color: var(--ink); }
+.ks .btn-fill:hover { background: transparent; color: var(--cream); }
+.ks .btn-ghost { border-color: var(--line-2); color: var(--cream-2); }
+.ks .btn-accent { border-color: var(--accent-2); color: var(--cream); }
+.ks .btn-accent:hover { background: var(--accent); color: var(--cream); border-color: var(--accent); }
+
+/* Tag */
+.ks .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  padding: 6px 10px;
+  border: 1px solid var(--line-2);
+  color: var(--cream-2);
+}
+.ks .tag-active { border-color: var(--cream); color: var(--cream); background: rgba(237,230,216,0.06); }
+.ks .tag-accent { border-color: var(--accent-2); color: var(--accent-2); }
+
+/* Kicker (mono with hairlines on either side) */
+.ks .kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--cream-3);
+}
+.ks .kicker::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--cream-3);
+}
+
+.ks .img-logocard {
+  background:
+    radial-gradient(ellipse at 50% 40%, #221E18 0%, #15120E 70%, #0E0D0B 100%),
+    var(--bg-3);
+  position: relative;
+  overflow: hidden;
+}
+.ks .img-logocard::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(237,230,216,0.1);
+  pointer-events: none;
+}
+.ks .img-logocard.img-big::after {
+  inset: 24px;
+}
+
+.ks .img-real {
+  background: var(--bg-3);
+}
+.ks .img-real img {
+  transition: transform 0.6s ease;
+}
+
+/* Form inputs */
+.ks .ks-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line-2);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  padding: 10px 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.ks .ks-input:focus {
+  border-bottom-color: var(--cream);
+}
+.ks .ks-input::placeholder { color: var(--cream-3); }
+
+/* Image utilities */
+.ks .img {
+  background: var(--bg-3);
+  position: relative;
+  overflow: hidden;
+}
+.ks .img-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(237,230,216,0.04) 1px, transparent 1px),
+    radial-gradient(rgba(237,230,216,0.03) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 2px;
+  opacity: 0.5;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* Property logo chip — small frosted square overlaid on a property photo
+   to surface the brand mark without hiding the image. */
+.ks .property-logo-chip {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 64px;
+  height: 64px;
+  background: rgba(14, 13, 11, 0.55);
+  border: 1px solid rgba(237, 230, 216, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.ks .property-logo-chip img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(0.95);
+  opacity: 0.92;
+}
+
+/* Photo placeholder — dark vignette stripes labeled with what goes there */
+.ks .ph {
+  background:
+    linear-gradient(180deg, rgba(14,13,11,0.0) 60%, rgba(14,13,11,0.6) 100%),
+    repeating-linear-gradient(135deg, transparent 0 22px, rgba(237,230,216,0.025) 22px 23px),
+    radial-gradient(ellipse at 50% 40%, #1f1c17 0%, #15120E 70%, #0E0D0B 100%);
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+.ks .ph::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(237,230,216,0.1);
+  pointer-events: none;
+}
+.ks .ph-label {
+  position: absolute;
+  left: 20px; bottom: 16px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(237,230,216,0.55);
+  z-index: 2;
+}
+.ks .ph-label .accent-dot {
+  display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-2);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Number column with hairline */
+.ks .num-list {
+  border-top: 1px solid var(--line);
+}
+.ks .num-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto auto;
+  align-items: baseline;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: padding 0.3s ease, background 0.3s ease;
+}
+.ks .num-row:hover {
+  padding-left: 8px;
+  padding-right: 8px;
+  background: linear-gradient(90deg, transparent, rgba(237,230,216,0.02), transparent);
+}
+.ks .num-row:hover .num-arrow { transform: translateX(6px); color: var(--cream); }
+
+/* Animations */
+@keyframes ks-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ks-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ks-zoom-out {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
+.ks .reveal { animation: ks-fade-up 1s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+.ks .reveal-slow { animation: ks-fade-up 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+.ks .reveal-fade { animation: ks-fade 1.6s ease both; }
+.ks .ken-burns { animation: ks-zoom-out 12s ease-out both; transform-origin: 50% 60%; }
+
+/* Hairline list */
+.ks .meta-row {
+  display: flex; align-items: baseline; gap: 24px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.ks .meta-row:last-child { border-bottom: none; }
+
+/* Marquee strip */
+@keyframes ks-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ks .marquee-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+  background: var(--bg-2);
+}
+.ks .marquee {
+  display: flex;
+  white-space: nowrap;
+  animation: ks-marquee 40s linear infinite;
+  width: max-content;
+}
+.ks .marquee > span {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 26px;
+  color: var(--cream-2);
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+}
+.ks .marquee .dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent-2);
+  display: inline-block;
+}
+
+/* Logo plate */
+.ks-plate {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.ks-plate-mark {
+  width: 44px; height: 44px;
+  border: 1px solid var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.ks-plate-mark::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(237,230,216,0.3);
+}
+.ks-plate-mark span {
+  font-family: var(--serif);
+  font-size: 22px;
+  letter-spacing: -1px;
+  color: var(--cream);
+  line-height: 1;
+}
+.ks-plate-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.ks-plate-text .name {
+  font-family: var(--serif);
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  color: var(--cream);
+}
+.ks-plate-text .sub {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-top: 5px;
+}
+
+/* Nav */
+.ks-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 18px 56px;
+  background: rgba(14,13,11,0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.ks-nav-links {
+  display: flex; gap: 28px; flex: 1; justify-content: center;
+}
+.ks-nav-links a {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--cream-2);
+  text-decoration: none;
+  position: relative;
+  padding: 4px 0;
+}
+.ks-nav-links a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px;
+  height: 1px; background: var(--accent-2);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.ks-nav-links a:hover { color: var(--cream); }
+.ks-nav-links a:hover::after,
+.ks-nav-links a.active::after { transform: scaleX(1); }
+.ks-nav-links a.active { color: var(--cream); }
+
+/* Footer columns */
+.ks-foot {
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding: 56px;
+}
+
+/* ==========================================================================
+   MOBILE NAV — hamburger toggle + slide-down drawer
+   The toggle and drawer are hidden on desktop, visible at <=768px below.
+   ========================================================================== */
+.ks-nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--line-2);
+  padding: 0;
+  width: 40px; height: 40px;
+  cursor: pointer;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  flex-shrink: 0;
+}
+.ks-nav-toggle span {
+  display: block;
+  position: absolute;
+  left: 10px; right: 10px;
+  height: 1px;
+  background: var(--cream);
+  transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+}
+.ks-nav-toggle span:nth-child(1) { top: 14px; }
+.ks-nav-toggle span:nth-child(2) { top: 19px; }
+.ks-nav-toggle span:nth-child(3) { top: 24px; }
+.ks-nav.is-open .ks-nav-toggle span:nth-child(1) { top: 19px; transform: rotate(45deg); }
+.ks-nav.is-open .ks-nav-toggle span:nth-child(2) { opacity: 0; }
+.ks-nav.is-open .ks-nav-toggle span:nth-child(3) { top: 19px; transform: rotate(-45deg); }
+
+.ks-nav-drawer {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg);
+  z-index: 49;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  padding: 100px 24px 48px;
+  padding-top: max(100px, env(safe-area-inset-top, 0) + 88px);
+  padding-bottom: max(48px, env(safe-area-inset-bottom, 0) + 24px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.ks-nav-drawer.is-open { opacity: 1; visibility: visible; }
+.ks-nav-drawer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 520px;
+}
+.ks-nav-drawer-link {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--cream);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.ks-nav-drawer-link.active { color: var(--accent-2); }
+
+/* ==========================================================================
+   TABLET — 1024px and below
+   Container padding shrinks, typography drops one notch.
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .ks .container { padding: 0 32px; }
+  .ks-nav { padding: 16px 32px; }
+  .ks-foot { padding: 48px 32px; }
+
+  .ks .display-xl { font-size: 72px; letter-spacing: -1.8px; }
+  .ks .display-l  { font-size: 56px; letter-spacing: -1.4px; }
+  .ks .display-m  { font-size: 44px; letter-spacing: -1px; }
+  .ks .display-s  { font-size: 32px; letter-spacing: -0.6px; }
+  .ks .title-l    { font-size: 24px; }
+  .ks .title-m    { font-size: 20px; }
+
+  /* Section padding overrides — most sections use inline 56px sides */
+  .ks section[style*="56px"] {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+  .ks section[style*="120px 56px"],
+  .ks section[style*="140px 56px"],
+  .ks section[style*="100px 56px"] {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+  }
+}
+
+/* ==========================================================================
+   PHONE — 768px and below
+   Single-column everything, hamburger nav, photo aspect-ratio,
+   typography down a major notch, padding tightened.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* --- Container & section padding --- */
+  .ks .container { padding: 0 20px; }
+  .ks section[style*="px"] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  .ks section[style*="120px"],
+  .ks section[style*="140px"],
+  .ks section[style*="100px"] {
+    padding-top: 64px !important;
+    padding-bottom: 64px !important;
+  }
+
+  /* --- Typography --- */
+  .ks .display-xl { font-size: 44px; line-height: 1.05; letter-spacing: -1px; }
+  .ks .display-l  { font-size: 38px; line-height: 1.08; letter-spacing: -0.9px; }
+  .ks .display-m  { font-size: 30px; line-height: 1.12; letter-spacing: -0.6px; }
+  .ks .display-s  { font-size: 24px; line-height: 1.15; letter-spacing: -0.4px; }
+  .ks .title-l    { font-size: 20px; }
+  .ks .title-m    { font-size: 17px; }
+  .ks .body-l     { font-size: 15px; line-height: 1.6; }
+  .ks .body       { font-size: 13px; }
+
+  /* --- Nav: hamburger mode --- */
+  .ks-nav { padding: 14px 20px; gap: 12px; }
+  .ks-nav-links { display: none; }
+  .ks-nav-cta { display: none !important; }
+  .ks-nav-toggle { display: block; margin-left: auto; }
+
+  /* --- Collapse all multi-column inline grids to a single column --- */
+  .ks [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Reset any feature/big tile spans */
+  .ks [style*="grid-column"]   { grid-column: auto !important; }
+  .ks [style*="grid-row"]      { grid-row: auto !important; }
+  .ks [style*="gridTemplateRows"],
+  .ks [style*="grid-template-rows"] { grid-template-rows: auto !important; }
+
+  /* num-row keeps its layout via .num-row CSS class — restyle for mobile */
+  .ks .num-row {
+    grid-template-columns: 32px 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 8px 14px !important;
+    padding: 18px 0 !important;
+  }
+  .ks .num-row > :nth-child(1) { grid-column: 1; grid-row: 1; }
+  .ks .num-row > :nth-child(2) { grid-column: 2; grid-row: 1 / span 2; }
+  .ks .num-row > :nth-child(3) { grid-column: 1 / -1; grid-row: 3; padding-top: 4px; }
+  .ks .num-row > .num-arrow    { display: none; }
+
+  /* --- Reduce gaps on grids/flex containers --- */
+  .ks [style*="gap: 96"],
+  .ks [style*="gap: 80"],
+  .ks [style*="gap: 64"],
+  .ks [style*="gap: 56"],
+  .ks [style*="gap: 48"]  { gap: 28px !important; }
+  .ks [style*="gap: 40"],
+  .ks [style*="gap: 32"]  { gap: 24px !important; }
+
+  /* --- Photos with inline pixel heights → fluid aspect ratio --- */
+  .ks .img[style*="height: 540"],
+  .ks .img[style*="height: 620"],
+  .ks .img[style*="height: 640"] {
+    height: auto !important;
+    aspect-ratio: 4/5;
+  }
+  .ks .img[style*="height: 380"],
+  .ks .img[style*="height: 360"],
+  .ks .img[style*="height: 320"],
+  .ks .img[style*="height: 280"],
+  .ks .img[style*="height: 258"] {
+    height: auto !important;
+    aspect-ratio: 4/3;
+  }
+
+  /* --- Hero section: full screen height, type lockup tightened --- */
+  .ks section[style*="100vh"] {
+    height: auto !important;
+    min-height: 100svh !important;
+  }
+  /* Top-right hero meta moves below the lockup on mobile */
+  .ks section[style*="100vh"] > div[style*="top: 32px"][style*="right: 56px"] {
+    top: auto !important;
+    bottom: 100% !important;
+    right: 20px !important;
+    text-align: left !important;
+  }
+  /* Hero lockup */
+  .ks section[style*="100vh"] > div[style*="bottom: 64px"] {
+    left: 20px !important;
+    right: 20px !important;
+    bottom: 48px !important;
+    gap: 24px !important;
+  }
+  /* Hero stats row */
+  .ks section[style*="100vh"] [style*="gap: 40"] {
+    gap: 24px !important;
+    flex-wrap: wrap !important;
+  }
+  /* Hide the "scroll" indicator on phones (cramped) */
+  .ks section[style*="100vh"] > div[style*="bottom: 18px"] { display: none !important; }
+
+  /* --- Cinematic divider section (560px tall) --- */
+  .ks section[style*="height: 560"] {
+    height: auto !important;
+    min-height: 360px !important;
+    padding: 80px 24px !important;
+  }
+
+  /* --- Sticky asides un-stick on mobile --- */
+  .ks [style*="position: \"sticky\""],
+  .ks [style*="sticky"] { position: static !important; }
+  .ks aside[style*="sticky"] { margin-top: 32px; padding: 24px !important; }
+
+  /* --- Cards & quadrants (the "Four non-negotiables" 2x2) --- */
+  .ks [style*="padding: 48"] { padding: 28px !important; }
+  .ks [style*="padding: 40"] { padding: 24px !important; }
+  /* Restore single-column borders for the quadrants */
+  .ks [style*="border: 1px solid var(--line)"] > div[style*="borderRight"] {
+    border-right: none !important;
+  }
+  .ks [style*="border: 1px solid var(--line)"] > div:not(:last-child) {
+    border-bottom: 1px solid var(--line) !important;
+  }
+
+  /* --- meta-row (Email · Phone · Instagram listings): label stacks above value --- */
+  .ks .meta-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    padding: 14px 0 !important;
+  }
+  .ks .meta-row > [style*="width: 100"],
+  .ks .meta-row > [style*="width: 110"],
+  .ks .meta-row > [style*="width: 90"] { width: auto !important; }
+
+  /* --- Marquee: smaller italic murmur on mobile --- */
+  .ks .marquee > span { font-size: 18px !important; padding: 0 14px !important; gap: 14px !important; }
+  .ks .marquee-wrap { padding: 14px 0; }
+
+  /* --- Buttons: chunkier touch targets --- */
+  .ks .btn {
+    padding: 14px 20px;
+    font-size: 9px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* --- Form inputs: bigger so iOS doesn't auto-zoom (>=16px) --- */
+  .ks .ks-input { font-size: 16px; padding: 12px 0; }
+
+  /* --- Footer: stack columns --- */
+  .ks-foot { padding: 40px 20px; padding-bottom: max(40px, env(safe-area-inset-bottom, 0) + 24px); }
+  .ks-foot > div:first-child {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .ks-foot > div:last-child {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 8px !important;
+  }
+
+  /* --- Property logo chip: smaller on phones --- */
+  .ks .property-logo-chip { width: 48px; height: 48px; padding: 7px; top: 10px; right: 10px; }
+
+  /* --- Word-break long emails on small screens --- */
+  .ks .title-m { overflow-wrap: anywhere; }
+
+  /* --- iOS no-zoom on input focus --- */
+  html { -webkit-text-size-adjust: 100%; }
+}
+
+/* ==========================================================================
+   SMALL PHONE — 480px and below
+   One more typography step down + tighter padding.
+   ========================================================================== */
+@media (max-width: 480px) {
+  .ks .container { padding: 0 16px; }
+  .ks section[style*="px"] {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .ks section[style*="120px"],
+  .ks section[style*="140px"],
+  .ks section[style*="100px"] {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+
+  .ks .display-xl { font-size: 38px; letter-spacing: -0.8px; }
+  .ks .display-l  { font-size: 32px; }
+  .ks .display-m  { font-size: 26px; }
+  .ks .display-s  { font-size: 22px; }
+
+  .ks-nav { padding: 12px 16px; }
+  .ks-foot { padding: 32px 16px; padding-bottom: max(32px, env(safe-area-inset-bottom, 0) + 16px); }
+
+  .ks .num-row { padding: 14px 0 !important; }
+  .ks .num-row .display-s { font-size: 22px !important; }
+
+  .ks .marquee > span { font-size: 16px !important; padding: 0 12px !important; }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY — respect reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .ks .ken-burns,
+  .ks .reveal,
+  .ks .reveal-slow,
+  .ks .reveal-fade,
+  .ks .marquee { animation: none !important; }
+  .ks .img-real img { transition: none !important; }
+}

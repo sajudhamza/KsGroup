@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>KS Hospitality Group — Unforgettable F&amp;B and Hospitality Experiences</title>
+<meta name="description" content="A vertically integrated hospitality group operating restaurants, rooftops, hotels and residential rentals across New York, the Hamptons, Maine and Utah." />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0E0D0B" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta property="og:title" content="KS Hospitality Group" />
+<meta property="og:description" content="Unforgettable F&B and hospitality experiences. We don't just build brands. We give them life." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0 !important; padding: 0 !important;
+    background: #0E0D0B; color: #EDE6D8;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative;
+  }
+  /* macOS "always show scrollbars" can create a phantom horizontal scrollbar
+     from sub-pixel rounding. Force the horizontal scrollbar to be invisible
+     at the WebKit level, in addition to overflow-x:hidden. */
+  html::-webkit-scrollbar:horizontal,
+  body::-webkit-scrollbar:horizontal,
+  #root::-webkit-scrollbar:horizontal { display: none; height: 0; width: 0; }
+  body { overscroll-behavior: none; font-family: "Inter", system-ui, sans-serif; }
+  #root { width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; position: relative; }
+  *, *::before, *::after { box-sizing: border-box; }
+  #ks-splash {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    background: #0E0D0B;
+    transition: opacity 0.6s ease;
+  }
+  #ks-splash.gone { opacity: 0; pointer-events: none; }
+  .ks-splash-mark {
+    width: 64px; height: 64px;
+    border: 1px solid #EDE6D8;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    color: #EDE6D8;
+  }
+  .ks-splash-mark::before {
+    content: ""; position: absolute; inset: 4px;
+    border: 1px solid rgba(237,230,216,0.3);
+  }
+</style>
+</head>
+<body>
+<div id="ks-splash"><div class="ks-splash-mark">KS</div></div>
+<div id="root"></div>
+<script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
