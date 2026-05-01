@@ -195,7 +195,7 @@ export const Footer = ({ onNav }) => {
       </div>
       <div className="rule" style={{ margin: '48px 0 24px' }}/>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <div className="mono">© MMXXVI · KS Hospitality Group</div>
+        <div className="mono">© 2024 · KS Hospitality Group</div>
         <div className="mono">New York · Hamptons · Lewiston · Park City</div>
         <div className="mono">All rights reserved</div>
       </div>

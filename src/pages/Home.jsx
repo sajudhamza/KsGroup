@@ -25,7 +25,7 @@ export default function HiFiHome({ onNav }) {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,13,11,0.45) 0%, rgba(14,13,11,0.1) 35%, rgba(14,13,11,0.2) 55%, rgba(14,13,11,0.95) 100%)' }}/>
 
         <div className="reveal-fade" style={{ position: 'absolute', top: 32, right: 56, textAlign: 'right' }}>
-          <div className="mono mono-on">SPRING / SUMMER · MMXXVI</div>
+          <div className="mono mono-on">SPRING / SUMMER · 2024</div>
           <div className="mono" style={{ marginTop: 4 }}>NEW YORK · HAMPTONS · MAINE · UTAH</div>
         </div>
 
@@ -49,7 +49,7 @@ export default function HiFiHome({ onNav }) {
             {[
               [props.length, 'Properties'],
               ['4', 'Regions'],
-              ['MMX', 'Founded'],
+              ['2024', 'Founded'],
             ].map(([k, v]) => (
               <div key={v}>
                 <div className="serif" style={{ fontSize: 36, lineHeight: 1, color: 'var(--cream)' }}>{k}</div>

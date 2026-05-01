@@ -6,21 +6,21 @@
 export const KS_DATA = {
   brand: {
     name: 'KS Hospitality Group',
-    sub: 'EST. MMX',
+    sub: 'EST. 2024',
     tagline: "We don't just build brands. We give them life.",
     headline: 'Unforgettable F&B and Hospitality Experiences',
   },
 
   contact: {
     email: 'info@kshospitalitygroup.com',
-    careersEmail: 'kanvar@kshospitalitygroup.com',
+    careersEmail: 'careers@kshospitalitygroup.com',
     phone: '646-423-8278',
     instagram: 'https://www.instagram.com/kshospitalitygroup/',
   },
 
   mission: [
     'With decades of unmatched success in food, beverage and hospitality, KS Hospitality Group is more than a name. We are operators, builders and storytellers, dedicated to crafting unforgettable experiences.',
-    'Our concepts blend authentic hospitality, quality-driven product, and vibrant social spaces that redefine the neighborhoods they live in. We create restaurants, bars, hotels and event spaces that pulse with innovation.',
+    'Our concepts blend authentic hospitality, quality driven product, and vibrant social spaces that redefine the neighborhoods they live in. We create restaurants, bars, hotels and event spaces that pulse with innovation.',
     'Menus are artistic creations. Cocktails are labors of love. Every interaction is meaningful.',
   ],
   missionShort:
