@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>KS Hospitality Group — Unforgettable F&amp;B and Hospitality Experiences</title>
+<title>KS Hospitality Group Unforgettable F&amp;B and Hospitality Experiences</title>
 <meta name="description" content="A vertically integrated hospitality group operating restaurants, rooftops, hotels and residential rentals across New York, the Hamptons, Maine and Utah." />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#0E0D0B" />
@@ -32,7 +32,9 @@
   html::-webkit-scrollbar:horizontal,
   body::-webkit-scrollbar:horizontal,
   #root::-webkit-scrollbar:horizontal { display: none; height: 0; width: 0; }
-  body { overscroll-behavior: none; font-family: "Inter", system-ui, sans-serif; }
+  /* Only block horizontal overscroll; `overscroll-behavior: none` on both axes
+     can prevent wheel/trackpad scroll from chaining to the page in some browsers. */
+  body { overscroll-behavior-x: none; font-family: "Inter", system-ui, sans-serif; }
   #root { width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; position: relative; }
   *, *::before, *::after { box-sizing: border-box; }
   #ks-splash {

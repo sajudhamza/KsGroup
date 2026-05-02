@@ -47,28 +47,40 @@ export const TopNav = ({ active = 'Portfolio', onNav }) => {
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 769px)')
+    const closeOnDesktop = () => {
+      if (mq.matches) setOpen(false)
+    }
+    closeOnDesktop()
+    mq.addEventListener('change', closeOnDesktop)
+    return () => mq.removeEventListener('change', closeOnDesktop)
+  }, [])
+
   return (
     <nav className={`ks-nav ${open ? 'is-open' : ''}`}>
-      <a href="#" onClick={(e) => go(e, 'home')} style={{ textDecoration: 'none' }}>
-        <LogoPlate size="sm" />
-      </a>
-      <div className="ks-nav-links">
-        {items.map(i => (
-          <a key={i} href="#" onClick={(e) => go(e, map[i])} className={i === active ? 'active' : ''}>{i}</a>
-        ))}
+      <div className="ks-nav-bar">
+        <a href="#" onClick={(e) => go(e, 'home')} style={{ textDecoration: 'none' }}>
+          <LogoPlate size="sm" />
+        </a>
+        <div className="ks-nav-links">
+          {items.map(i => (
+            <a key={i} href="#" onClick={(e) => go(e, map[i])} className={i === active ? 'active' : ''}>{i}</a>
+          ))}
+        </div>
+        <a href="#" onClick={(e) => go(e, 'contact')} className="btn btn-accent ks-nav-cta" style={{ padding: '10px 16px' }}>
+          Get in touch <span>→</span>
+        </a>
+        <button
+          type="button"
+          className="ks-nav-toggle"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          onClick={() => setOpen(o => !o)}
+        >
+          <span/><span/><span/>
+        </button>
       </div>
-      <a href="#" onClick={(e) => go(e, 'contact')} className="btn btn-accent ks-nav-cta" style={{ padding: '10px 16px' }}>
-        Get in touch <span>→</span>
-      </a>
-      <button
-        type="button"
-        className="ks-nav-toggle"
-        aria-label={open ? 'Close menu' : 'Open menu'}
-        aria-expanded={open}
-        onClick={() => setOpen(o => !o)}
-      >
-        <span/><span/><span/>
-      </button>
 
       <div className={`ks-nav-drawer ${open ? 'is-open' : ''}`} role="dialog" aria-hidden={!open}>
         <div className="ks-nav-drawer-inner">

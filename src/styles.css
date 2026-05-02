@@ -387,11 +387,16 @@
   margin-top: 5px;
 }
 
-/* Nav */
+/* Nav — outer shell is sticky but has no backdrop-filter, so the mobile
+   .ks-nav-drawer (position:fixed) is not trapped as a child of a filtered layer. */
 .ks-nav {
   position: sticky;
   top: 0;
   z-index: 50;
+}
+.ks-nav-bar {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: 32px;
@@ -467,9 +472,10 @@
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: var(--bg);
-  z-index: 49;
+  z-index: 1;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.35s ease, visibility 0.35s ease;
   padding: 100px 24px 48px;
   padding-top: max(100px, env(safe-area-inset-top, 0) + 88px);
@@ -477,7 +483,11 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
-.ks-nav-drawer.is-open { opacity: 1; visibility: visible; }
+.ks-nav-drawer.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 .ks-nav-drawer-inner {
   display: flex;
   flex-direction: column;
@@ -502,7 +512,7 @@
    ========================================================================== */
 @media (max-width: 1024px) {
   .ks .container { padding: 0 32px; }
-  .ks-nav { padding: 16px 32px; }
+  .ks-nav-bar { padding: 16px 32px; }
   .ks-foot { padding: 48px 32px; }
 
   .ks .display-xl { font-size: 72px; letter-spacing: -1.8px; }
@@ -555,7 +565,7 @@
   .ks .body       { font-size: 13px; }
 
   /* --- Nav: hamburger mode --- */
-  .ks-nav { padding: 14px 20px; gap: 12px; }
+  .ks-nav-bar { padding: 14px 20px; gap: 12px; }
   .ks-nav-links { display: none; }
   .ks-nav-cta { display: none !important; }
   .ks-nav-toggle { display: block; margin-left: auto; }
@@ -728,7 +738,7 @@
   .ks .display-m  { font-size: 26px; }
   .ks .display-s  { font-size: 22px; }
 
-  .ks-nav { padding: 12px 16px; }
+  .ks-nav-bar { padding: 12px 16px; }
   .ks-foot { padding: 32px 16px; padding-bottom: max(32px, env(safe-area-inset-bottom, 0) + 16px); }
 
   .ks .num-row { padding: 14px 0 !important; }
