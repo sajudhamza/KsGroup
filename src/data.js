@@ -69,7 +69,7 @@ export const KS_DATA = {
   },
 
   stats: [
-    { k: 'Properties', v: '15' },
+    { k: 'Properties', v: '13' },
     { k: 'Regions',    v: '4'  },
     { k: 'Founded',    v: '2024' },
   ],
@@ -78,10 +78,9 @@ export const KS_DATA = {
   heroImage: '/img/Lounges/Stone and Soil/1.jpg',
   heroLabel: 'Stone & Soil',
 
-  // Properties — order here also drives the homepage layout
-  // (index 0 = featured big card; 1–2 = stack to the right; 3–5 = row of three).
+  // Properties — order matches the May 2026 deck (Our Venues).
+  // Homepage layout: index 0 = featured big card; 1–2 = stack to the right; 3–5 = row of three.
   properties: [
-    // ROOFTOPS
     {
       id: 'elsie-rooftop',
       name: 'Elsie Rooftop',
@@ -99,6 +98,39 @@ export const KS_DATA = {
         'A bold marketing and social media strategy has built a fiercely loyal following, a high-converting sales funnel, and a reputation as one of the city\'s most sought-after destinations for elevated nightlife and exclusive events.',
       ],
       press: 'Featured in The New York Times, Forbes, Page Six, Time Out New York, Eater NY, Thrillist, Travel + Leisure, Gotham Magazine, Fox 5 NY, and the New York Post.',
+    },
+    {
+      id: 'elsie-penthouse',
+      name: 'Elsie Penthouse',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Midtown, NY',
+      url: 'http://www.elsiepenthouse.com',
+      img: '/img/Lounges/Elsie Penthouse/1.jpg',
+      logo: '/img/Lounges/Elsie Penthouse/logo.png',
+      kind: 'photo',
+      blurb:
+        'Our most exclusive offering — a private event space for buyouts, designed for those who expect the extraordinary.',
+      description: [
+        'Located within Elsie Rooftop in the heart of Midtown Manhattan, Elsie Penthouse is our most exclusive offering — opened in Summer 2024, this private event space is available exclusively for buyouts and private events, designed for those who expect the extraordinary.',
+        'Intimate yet grand, the Penthouse features floor-to-ceiling windows, sweeping views of the New York City skyline, and a refined aesthetic that blends Gilded Age elegance with modern luxury. Whether for a corporate dinner, a private celebration, or a full venue buyout, the space transforms effortlessly to match your vision.',
+        'With dedicated white-glove event coordination, custom menus, and complete privacy from the main venue, Elsie Penthouse delivers an experience that is entirely your own. This is Midtown Manhattan at its most elevated — in every sense of the word.',
+      ],
+    },
+    {
+      id: 'stone-and-soil',
+      name: 'Stone & Soil',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Rose Hill, NY',
+      url: '#',
+      img: '/img/Lounges/Stone and Soil/1.jpg',
+      kind: 'photo',
+      blurb:
+        'A refined Japanese cocktail bar guided by omotenashi — precision, restraint, and sustainability in every glass.',
+      description: [
+        'Stone & Soil is a refined Japanese cocktail bar tucked inside NoMad\'s Park South Hotel, from KS Hospitality Group\'s Kanvar Singh alongside Jimmy Rizvi and beverage directors Hirotomo Akutsu and Rio Azmee. Guided by omotenashi — the Japanese philosophy of wholehearted hospitality — the bar delivers an experience rooted in precision, restraint, and sustainability.',
+        'The intimate Japandi-designed space features recycled wood and leather, hand-applied finishes, and sculptural clay installations, with hand-carved ice sourced daily to fit custom Japanese glassware. The tightly curated cocktail menu leans on fermentation, infusion, and zero-waste technique, with many drinks taking days to prepare — complemented by elevated small bites that match the same philosophy.',
+      ],
+      press: 'Featured in Eater NY, Time Out New York, and The New York Times.',
     },
     {
       id: 'rosehill-rooftop',
@@ -119,21 +151,72 @@ export const KS_DATA = {
       press: 'Featured in Time Out New York, Eater NY, The Infatuation, Cititour, and The Rooftop Guide among the top rooftop bars in NYC.',
     },
     {
-      id: 'phd-terrace',
-      name: 'PHD Terrace',
-      cat: 'Rooftop', catSlug: 'rooftops',
-      loc: 'Midtown, NY',
-      url: 'http://phdterrace.com',
-      img: '/img/Rooftops/PHD Terrace/1.jpg',
+      id: 'skewr',
+      name: 'Skewr',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Rose Hill, NY',
+      url: '#',
+      img: '/img/Lounges/Skewr/1.jpg',
       kind: 'photo',
-      blurb: 'All-season rooftop oasis atop Dream Midtown with skyline views.',
+      blurb:
+        'A wood-fired Mediterranean table built for sharing — skewers kissed by open flame in NoMad.',
       description: [
-        'Located at the top of Dream Hotel Midtown, PHD Terrace is a welcoming, all-season rooftop oasis perfect for after-work drinks, weekend revelry, and private events.',
-        'The bi-level lounge features three rooms with unparalleled views in the heart of Midtown — seamlessly blending indoor and outdoor entertaining for year-round celebrations.',
+        'Long before restaurants had mood lighting and reservation waitlists, there was fire. A flame, a skewer, and something worth gathering around. It\'s the oldest form of hospitality — and somehow, the most forgotten.',
+        'Skewr brings it back. Tucked into NoMad at 127 East 27th Street, this wood-fired Mediterranean table is built for sharing — ethically sourced ingredients, bold mezze, and skewers kissed by open flame. The New York Times said it best: it conjures coastal Italy. We\'d say it conjures something even older than that.',
+        'From flame-roasted dips and freshly baked pita to seasonal vegetables and impeccably sourced meats, every dish at Skewr is an invitation to slow down, share, and stay a while. One of four KS Hospitality Group venues at the Hyatt Hotel at Park South.',
+      ],
+      press: 'Featured in Forbes, Time Out New York, and The Infatuation since opening in February 2026.',
+    },
+    {
+      id: 'brewr',
+      name: 'Brewr',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Rose Hill, NY',
+      url: '#',
+      img: '/img/Lounges/Brewr/1.jpg',
+      kind: 'photo',
+      blurb:
+        'By day, a bright café. By night, a warm bar-lounge where espresso martinis take center stage.',
+      description: [
+        'Some places can\'t make up their mind. Brewr doesn\'t have to. By day, it\'s a bright, unhurried café — handcrafted coffee, fresh pastries, and the kind of easy atmosphere that makes an hour feel like five minutes. By night, the lights dim, the energy shifts, and Brewr becomes something else entirely: a warm, low-lit bar-lounge where espresso martinis and coffee-inspired cocktails take center stage.',
+        'Located at 127 East 27th Street in NoMad, Brewr is a neighborhood gathering place that refuses to be just one thing — because the best spots in New York never are. One of four KS Hospitality Group venues at the Hyatt Hotel at Park South.',
       ],
     },
-
-    // REAL ESTATE
+    {
+      id: 'premiere-park-city',
+      name: 'Premiere Park City',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Park City, UT',
+      url: 'http://www.premiereparkcity.com',
+      img: '/img/Lounges/Premiere Park City/1.png',
+      logo: '/img/Lounges/Premiere Park City/logo.png',
+      kind: 'photo',
+      blurb:
+        'A 5,000-square-foot lounge born from the energy and glamour of the Sundance Film Festival.',
+      description: [
+        'Premiere Park City is a 5,000-square-foot lounge born from the energy and glamour of the Sundance Film Festival — a space where sophistication, great food, and unforgettable moments come together in the heart of Park City, Utah. Intimate yet expansive, it was designed for the kind of events that people talk about long after they end.',
+        'Created by Kanvar Singh and Lisa Barlow — entrepreneur and star of The Real Housewives of Salt Lake City — Premiere Park City is a reflection of their shared vision: a venue where every detail is intentional, every guest feels like a VIP, and every occasion becomes a memory.',
+        'KS Hospitality Group has served as the management company for Premiere Park City since inception, bringing the same operational excellence and hospitality-forward approach that defines every property in the portfolio.',
+      ],
+      press: 'Covered by Fox 13, TownLift, and the Park Record since opening in July 2024.',
+    },
+    {
+      id: 'casa-cece',
+      name: 'Casa CeCe',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Midtown, NY',
+      url: '#',
+      img: '/img/Lounges/Casa CeCe/1.jpg',
+      kind: 'photo',
+      blurb:
+        'Midtown\'s premier supper club — where fine dining, immersive performance, and late-night nightlife converge.',
+      description: [
+        'Casa CeCe is Midtown Manhattan\'s premier supper club experience, where fine dining, immersive performance, and late-night nightlife converge. The 4,500-square-foot, two-level space features a glowing curved bar, plush velvet banquettes, mirrored finishes, and aerial-ready ceilings — all designed to shift seamlessly from dinner to show to after-party.',
+        'At the heart of the experience is Diamond Moon, an avant-garde cabaret production featuring live aerial artists and performance art. A curated cocktail program and shareable bites round out an evening that\'s equal parts restaurant, theater, and nightclub — open until 4 AM on weekends.',
+        'KS Hospitality Group serves as both investor and management company for Casa CeCe, bringing the same operational excellence and hospitality-forward approach that defines every property in the portfolio.',
+      ],
+      press: 'Featured in amNewYork, Downtown Magazine, The Knockturnal, Spoiled NYC, and Cititour since opening in November 2025.',
+    },
     {
       id: 'watermark',
       name: 'The Watermark Hamptons',
@@ -167,139 +250,6 @@ export const KS_DATA = {
       kind: 'photo',
       blurb: 'Bridgehampton residence.',
     },
-
-    // LOUNGES
-    {
-      id: 'premiere-park-city',
-      name: 'Premiere Park City',
-      cat: 'Lounge', catSlug: 'lounges',
-      loc: 'Park City, UT',
-      url: 'http://www.premiereparkcity.com',
-      img: '/img/Lounges/Premiere Park City/1.png',
-      logo: '/img/Lounges/Premiere Park City/logo.png',
-      kind: 'photo',
-      blurb:
-        'A 5,000-square-foot lounge born from the energy and glamour of the Sundance Film Festival.',
-      description: [
-        'Premiere Park City is a 5,000-square-foot lounge born from the energy and glamour of the Sundance Film Festival — a space where sophistication, great food, and unforgettable moments come together in the heart of Park City, Utah. Intimate yet expansive, it was designed for the kind of events that people talk about long after they end.',
-        'Created by Kanvar Singh and Lisa Barlow — entrepreneur and star of The Real Housewives of Salt Lake City — Premiere Park City is a reflection of their shared vision: a venue where every detail is intentional, every guest feels like a VIP, and every occasion becomes a memory.',
-        'KS Hospitality Group has served as the management company for Premiere Park City since inception, bringing the same operational excellence and hospitality-forward approach that defines every property in the portfolio.',
-      ],
-      press: 'Covered by Fox 13, TownLift, and the Park Record since opening in July 2024.',
-    },
-    {
-      id: 'elsie-penthouse',
-      name: 'Elsie Penthouse',
-      cat: 'Lounge', catSlug: 'lounges',
-      loc: 'Midtown, NY',
-      url: 'http://www.elsiepenthouse.com',
-      img: '/img/Lounges/Elsie Penthouse/1.jpg',
-      logo: '/img/Lounges/Elsie Penthouse/logo.png',
-      kind: 'photo',
-      blurb:
-        'Our most exclusive offering — a private event space for buyouts, designed for those who expect the extraordinary.',
-      description: [
-        'Located within Elsie Rooftop in the heart of Midtown Manhattan, Elsie Penthouse is our most exclusive offering — opened in Summer 2024, this private event space is available exclusively for buyouts and private events, designed for those who expect the extraordinary.',
-        'Intimate yet grand, the Penthouse features floor-to-ceiling windows, sweeping views of the New York City skyline, and a refined aesthetic that blends Gilded Age elegance with modern luxury. Whether for a corporate dinner, a private celebration, or a full venue buyout, the space transforms effortlessly to match your vision.',
-        'With dedicated white-glove event coordination, custom menus, and complete privacy from the main venue, Elsie Penthouse delivers an experience that is entirely your own. This is Midtown Manhattan at its most elevated — in every sense of the word.',
-      ],
-    },
-    {
-      id: 'casa-cece',
-      name: 'Casa CeCe',
-      cat: 'Lounge', catSlug: 'lounges',
-      loc: 'Midtown, NY',
-      url: '#',
-      img: '/img/Lounges/Casa CeCe/1.jpg',
-      kind: 'photo',
-      blurb:
-        'Midtown\'s premier supper club — where fine dining, immersive performance, and late-night nightlife converge.',
-      description: [
-        'Casa CeCe is Midtown Manhattan\'s premier supper club experience, where fine dining, immersive performance, and late-night nightlife converge. The 4,500-square-foot, two-level space features a glowing curved bar, plush velvet banquettes, mirrored finishes, and aerial-ready ceilings — all designed to shift seamlessly from dinner to show to after-party.',
-        'At the heart of the experience is Diamond Moon, an avant-garde cabaret production featuring live aerial artists and performance art. A curated cocktail program and shareable bites round out an evening that\'s equal parts restaurant, theater, and nightclub — open until 4 AM on weekends.',
-        'KS Hospitality Group serves as both investor and management company for Casa CeCe, bringing the same operational excellence and hospitality-forward approach that defines every property in the portfolio.',
-      ],
-      press: 'Featured in amNewYork, Downtown Magazine, The Knockturnal, Spoiled NYC, and Cititour since opening in November 2025.',
-    },
-    {
-      id: 'brewr',
-      name: 'Brewr',
-      cat: 'Lounge', catSlug: 'lounges',
-      loc: 'Rose Hill, NY',
-      url: '#',
-      img: '/img/Lounges/Brewr/1.jpg',
-      kind: 'photo',
-      blurb:
-        'By day, a bright café. By night, a warm bar-lounge where espresso martinis take center stage.',
-      description: [
-        'Some places can\'t make up their mind. Brewr doesn\'t have to. By day, it\'s a bright, unhurried café — handcrafted coffee, fresh pastries, and the kind of easy atmosphere that makes an hour feel like five minutes. By night, the lights dim, the energy shifts, and Brewr becomes something else entirely: a warm, low-lit bar-lounge where espresso martinis and coffee-inspired cocktails take center stage.',
-        'Located at 127 East 27th Street in NoMad, Brewr is a neighborhood gathering place that refuses to be just one thing — because the best spots in New York never are. One of four KS Hospitality Group venues at the Hyatt Hotel at Park South.',
-      ],
-    },
-    {
-      id: 'skewr',
-      name: 'Skewr',
-      cat: 'Lounge', catSlug: 'lounges',
-      loc: 'Rose Hill, NY',
-      url: '#',
-      img: '/img/Lounges/Skewr/1.jpg',
-      kind: 'photo',
-      blurb:
-        'A wood-fired Mediterranean table built for sharing — skewers kissed by open flame in NoMad.',
-      description: [
-        'Long before restaurants had mood lighting and reservation waitlists, there was fire. A flame, a skewer, and something worth gathering around. It\'s the oldest form of hospitality — and somehow, the most forgotten.',
-        'Skewr brings it back. Tucked into NoMad at 127 East 27th Street, this wood-fired Mediterranean table is built for sharing — ethically sourced ingredients, bold mezze, and skewers kissed by open flame. The New York Times said it best: it conjures coastal Italy. We\'d say it conjures something even older than that.',
-        'From flame-roasted dips and freshly baked pita to seasonal vegetables and impeccably sourced meats, every dish at Skewr is an invitation to slow down, share, and stay a while. One of four KS Hospitality Group venues at the Hyatt Hotel at Park South.',
-      ],
-      press: 'Featured in Forbes, Time Out New York, and The Infatuation since opening in February 2026.',
-    },
-    {
-      id: 'stone-and-soil',
-      name: 'Stone & Soil',
-      cat: 'Lounge', catSlug: 'lounges',
-      loc: 'Rose Hill, NY',
-      url: '#',
-      img: '/img/Lounges/Stone and Soil/1.jpg',
-      kind: 'photo',
-      blurb:
-        'A refined Japanese cocktail bar guided by omotenashi — precision, restraint, and sustainability in every glass.',
-      description: [
-        'Stone & Soil is a refined Japanese cocktail bar tucked inside NoMad\'s Park South Hotel, from KS Hospitality Group\'s Kanvar Singh alongside Jimmy Rizvi and beverage directors Hirotomo Akutsu and Rio Azmee. Guided by omotenashi — the Japanese philosophy of wholehearted hospitality — the bar delivers an experience rooted in precision, restraint, and sustainability.',
-        'The intimate Japandi-designed space features recycled wood and leather, hand-applied finishes, and sculptural clay installations, with hand-carved ice sourced daily to fit custom Japanese glassware. The tightly curated cocktail menu leans on fermentation, infusion, and zero-waste technique, with many drinks taking days to prepare — complemented by elevated small bites that match the same philosophy.',
-      ],
-      press: 'Featured in Eater NY, Time Out New York, and The New York Times.',
-    },
-    {
-      id: 'rickey',
-      name: 'The Rickey',
-      cat: 'Lounge', catSlug: 'lounges',
-      loc: 'Midtown, NY',
-      url: 'http://www.therickey.com',
-      img: '/img/Lounges/Rickey/1.jpg',
-      kind: 'photo',
-      blurb: 'Craft cocktail lounge at Dream Midtown with an inventive drinks menu.',
-      description: [
-        'Located on the lobby level of posh, boutique hotel Dream Midtown, The Rickey is an energetic and inviting craft cocktail lounge, with an unconventional mixed drinks menu and a sophisticated yet accessible wine program.',
-        'Conceptualized by acclaimed mixologist Johnny Swet, the high quality cocktail menu features only fresh ingredients and unique cocktailing methods. Guests lounge on plush velvet sofas and chairs, or at the wrap-around marble bar — with a hidden DJ booth tucked in the back corner.',
-      ],
-    },
-
-    // HOTELS
-    {
-      id: 'lic-manhattan-view',
-      name: 'LIC Manhattan View Hotel',
-      cat: 'Hotel', catSlug: 'hotels',
-      loc: 'Long Island City, NY',
-      url: '#',
-      img: '/img/Hotels/LIC Manhattan View Hotel/1.png',
-      kind: 'photo',
-      blurb: 'A strategically located LIC hotel — 15 minutes from Midtown by subway.',
-      description: [
-        'LIC Manhattan View Hotel is located in Long Island City, just a 15-minute subway ride from Midtown Manhattan, with easy access to Rockefeller Center and Central Park. LaGuardia Airport is a 10-minute drive away, and the 39th Ave Subway Station is one block from the hotel.',
-        'Guest rooms feature a 32-inch flat-screen TV, complimentary Wi-Fi, a mini-fridge, and a hair dryer. An on-site restaurant and lounge are currently undergoing renovations.',
-        'KS Hospitality Group will serve as both investor and management company for the LIC Manhattan View Hotel, bringing its full operational and hospitality expertise to one of LIC\'s most strategically located properties.',
-      ],
-    },
     {
       id: 'ramada',
       name: 'Clarion Lewiston Maine',
@@ -313,6 +263,21 @@ export const KS_DATA = {
         'The Clarion Lewiston Hotel & Conference Center has undergone extensive renovations, emerging as a fully reimagined 117-room property with a full-service convention center in the heart of Lewiston, Maine.',
         'The Maine Grill is the flagship food and beverage venue within the property — currently in development and set to become the premier dining destination in the region.',
         'KS Hospitality Group serves as both investor and management company for the hotel and all food and beverage venues on property. The Clarion Lewiston is poised for its grand opening at the end of May 2026.',
+      ],
+    },
+    {
+      id: 'lic-manhattan-view',
+      name: 'LIC Manhattan View Hotel',
+      cat: 'Hotel', catSlug: 'hotels',
+      loc: 'Long Island City, NY',
+      url: '#',
+      img: '/img/Hotels/LIC Manhattan View Hotel/1.png',
+      kind: 'photo',
+      blurb: 'A strategically located LIC hotel — 15 minutes from Midtown by subway.',
+      description: [
+        'LIC Manhattan View Hotel is located in Long Island City, just a 15-minute subway ride from Midtown Manhattan, with easy access to Rockefeller Center and Central Park. LaGuardia Airport is a 10-minute drive away, and the 39th Ave Subway Station is one block from the hotel.',
+        'Guest rooms feature a 32-inch flat-screen TV, complimentary Wi-Fi, a mini-fridge, and a hair dryer. An on-site restaurant and lounge are currently undergoing renovations.',
+        'KS Hospitality Group will serve as both investor and management company for the LIC Manhattan View Hotel, bringing its full operational and hospitality expertise to one of LIC\'s most strategically located properties.',
       ],
     },
   ],
