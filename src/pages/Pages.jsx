@@ -89,47 +89,67 @@ export const HiFiAbout = ({ onNav }) => {
         <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
           <Photo src="/img/Rooftops/Elsie Rooftop/1.jpg" label="Elsie Rooftop" style={{ height: 620 }}/>
           <div style={{ paddingTop: 40 }}>
-            <p className="body-l">
-              KS Hospitality Group is a vertically integrated company operating restaurants, rooftops,
-              hotels and residential rentals across New York, the Hamptons, Maine and Utah.
-            </p>
-            <p className="body-l" style={{ marginTop: 24 }}>
-              Our concepts blend authentic hospitality, quality-driven product, and the kind of social
-              spaces that redefine, not duplicate, their neighborhoods.
-            </p>
-            <p className="body-l" style={{ marginTop: 24 }}>
-              Menus are artistic creations. Cocktails are labors of love. Every interaction means something.
-            </p>
-            <p className="body-l ital" style={{ marginTop: 24, color: 'var(--cream)' }}>
-              We concept, build and operate. We do not franchise.
-            </p>
+            {D.about.map((p, i) => (
+              <p key={i} className="body-l" style={{ marginTop: i === 0 ? 0 : 24 }}>{p}</p>
+            ))}
+            {D.mission.map((p, i) => (
+              <p key={`m-${i}`} className="body-l" style={{ marginTop: 24 }}>{p}</p>
+            ))}
+            <blockquote className="body-l ital" style={{ marginTop: 40, paddingLeft: 24, borderLeft: '2px solid var(--accent)', color: 'var(--cream)' }}>
+              &ldquo;{D.quote.text}&rdquo;
+              <footer className="mono" style={{ marginTop: 16, fontStyle: 'normal', fontSize: 11 }}>
+                — {D.quote.author}, {D.quote.role}
+              </footer>
+            </blockquote>
           </div>
         </div>
       </section>
 
       <section style={{ padding: '120px 56px' }}>
         <div className="container">
-          <Kicker>How we work</Kicker>
-          <h2 className="display-m" style={{ marginTop: 16, maxWidth: 720 }}>Four non-negotiables.</h2>
+          <Kicker>Our Strengths</Kicker>
+          <h2 className="display-m" style={{ marginTop: 16, maxWidth: 720 }}>
+            Everything a property needs, <span className="ital">under one roof.</span>
+          </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, marginTop: 64, border: '1px solid var(--line)' }}>
-            {[
-              ['I', 'Neighborhood first', 'Every concept starts with the block, not the brand book.'],
-              ['II', 'Operator-led', 'Decisions made by people who have run a Saturday-night service.'],
-              ['III', 'Beautiful, not precious', 'Rooms that feel cared for, not curated to death.'],
-              ['IV', 'Honest economics', "If the model doesn't work for the staff, it doesn't open."],
-            ].map(([n, t, d], i) => (
-              <div key={n} style={{
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, marginTop: 64, border: '1px solid var(--line)' }}>
+            {D.strengths.map((s, i) => (
+              <div key={s.label} style={{
                 padding: 48,
-                borderRight: i % 2 === 0 ? '1px solid var(--line)' : 'none',
-                borderBottom: i < 2 ? '1px solid var(--line)' : 'none',
+                borderRight: i < D.strengths.length - 1 ? '1px solid var(--line)' : 'none',
               }}>
-                <div className="serif ital" style={{ fontSize: 36, color: 'var(--accent-2)', lineHeight: 1 }}>{n}</div>
-                <div className="title-l" style={{ marginTop: 24 }}>{t}</div>
-                <p className="body" style={{ marginTop: 14 }}>{d}</p>
+                <div className="mono accent">{s.numeral}</div>
+                <div className="title-l" style={{ marginTop: 24 }}>{s.label}</div>
+                <p className="body" style={{ marginTop: 14 }}>{s.line}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section style={{ padding: '120px 56px', borderTop: '1px solid var(--line)' }}>
+        <div className="container">
+          <Kicker>Our Network</Kicker>
+          <h2 className="display-m" style={{ marginTop: 16, maxWidth: 720 }}>
+            Connections that <span className="ital">move the needle.</span>
+          </h2>
+          <p className="body-l" style={{ marginTop: 24, maxWidth: 720 }}>
+            With a curated mailing list of 60,000, an exclusive membership community of 2,500+, and established brand partnerships, we connect properties to the right people — corporate clients, tastemakers, planners, bookers, and industry decision-makers.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, marginTop: 64, border: '1px solid var(--line)' }}>
+            {D.network.map((n, i) => (
+              <div key={n.label} style={{
+                padding: 40,
+                borderRight: i % 2 === 0 ? '1px solid var(--line)' : 'none',
+                borderBottom: i < D.network.length - 2 ? '1px solid var(--line)' : 'none',
+              }}>
+                <div className="title-m">{n.label}</div>
+                <p className="body" style={{ marginTop: 12 }}>{n.line}</p>
+              </div>
+            ))}
+          </div>
+          <p className="display-s ital" style={{ marginTop: 48, color: 'var(--cream)' }}>{D.networkTagline}</p>
         </div>
       </section>
 
@@ -171,8 +191,8 @@ export const HiFiTeam = ({ onNav }) => {
             Operators behind<br/><span className="ital">every detail</span>.
           </h1>
           <p className="body-l" style={{ marginTop: 28, maxWidth: 620 }}>
-            The people who concept, build and run every KS property. Decades of combined experience,
-            from Michelin kitchens to global hotel groups.
+            The team behind NYC&apos;s favorite venues — hospitality veterans with deep expertise
+            across hotels, restaurants, and bars.
           </p>
         </div>
       </section>
@@ -245,10 +265,20 @@ export const HiFiProperty = ({ onNav, propertyId, openProperty }) => {
             <p className="title-l ital" style={{ marginTop: 32, color: 'var(--cream-2)', maxWidth: 620 }}>
               {p.blurb}
             </p>
-            <p className="body-l" style={{ marginTop: 32, maxWidth: 580 }}>
-              Concept by KS, build by KS, operated by KS. Visit the property site for reservations,
-              menus, and current events.
-            </p>
+            {(p.description || []).map((para, i) => (
+              <p key={i} className="body-l" style={{ marginTop: i === 0 ? 32 : 20, maxWidth: 580 }}>{para}</p>
+            ))}
+            {p.press && (
+              <p className="body" style={{ marginTop: 32, maxWidth: 580, color: 'var(--cream-3)' }}>
+                {p.press}
+              </p>
+            )}
+            {!p.description && (
+              <p className="body-l" style={{ marginTop: 32, maxWidth: 580 }}>
+                Concept by KS, build by KS, operated by KS. Visit the property site for reservations,
+                menus, and current events.
+              </p>
+            )}
           </div>
 
           <aside style={{ position: 'sticky', top: 120, alignSelf: 'start', border: '1px solid var(--line)', padding: 32 }}>

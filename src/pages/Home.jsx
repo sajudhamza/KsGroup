@@ -25,7 +25,7 @@ export default function HiFiHome({ onNav }) {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,13,11,0.45) 0%, rgba(14,13,11,0.1) 35%, rgba(14,13,11,0.2) 55%, rgba(14,13,11,0.95) 100%)' }}/>
 
         <div className="reveal-fade" style={{ position: 'absolute', top: 32, right: 56, textAlign: 'right' }}>
-          <div className="mono mono-on">SPRING / SUMMER · 2024</div>
+          <div className="mono mono-on">SPRING 2026</div>
           <div className="mono" style={{ marginTop: 4 }}>NEW YORK · HAMPTONS · MAINE · UTAH</div>
         </div>
 
@@ -37,7 +37,7 @@ export default function HiFiHome({ onNav }) {
               <span className="ital" style={{ color: 'var(--cream-2)' }}>We give them life.</span>
             </h1>
             <p className="body-l" style={{ marginTop: 24, maxWidth: 620, color: 'var(--cream-2)' }}>
-              Unforgettable F&amp;B and hospitality experiences. Concepted, built and operated by KS Hospitality Group.
+              {D.brand.tagline} Concepted, built and operated by KS Hospitality Group.
             </p>
             <div style={{ display: 'flex', gap: 14, marginTop: 36, flexWrap: 'wrap' }}>
               <a href="#" onClick={(e) => go(e, 'portfolio')} className="btn btn-fill">Explore the portfolio →</a>
@@ -46,14 +46,10 @@ export default function HiFiHome({ onNav }) {
           </div>
 
           <div style={{ display: 'flex', gap: 40, paddingBottom: 8 }}>
-            {[
-              [props.length, 'Properties'],
-              ['4', 'Regions'],
-              ['2024', 'Founded'],
-            ].map(([k, v]) => (
-              <div key={v}>
-                <div className="serif" style={{ fontSize: 36, lineHeight: 1, color: 'var(--cream)' }}>{k}</div>
-                <div className="mono" style={{ marginTop: 8 }}>{v}</div>
+            {D.stats.map(({ k, v }) => (
+              <div key={k}>
+                <div className="serif" style={{ fontSize: 36, lineHeight: 1, color: 'var(--cream)' }}>{v}</div>
+                <div className="mono" style={{ marginTop: 8 }}>{k}</div>
               </div>
             ))}
           </div>
@@ -201,9 +197,9 @@ export default function HiFiHome({ onNav }) {
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 56, textAlign: 'center' }}>
           <div className="mono mono-on">II · THE WORK</div>
           <h2 className="display-m serif ital" style={{ marginTop: 28, maxWidth: 880, lineHeight: 1.15 }}>
-            Menus as artistic creations.<br/>
-            Cocktails as labors of love.<br/>
-            Interactions that mean something.
+            {D.values[0].line}<br/>
+            {D.values[1].line}<br/>
+            {D.values[2].line}
           </h2>
         </div>
       </section>
