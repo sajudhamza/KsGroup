@@ -10,7 +10,7 @@ TAO_FOOTER_RE = re.compile(
 )
 
 REWARDS_BANNER_SECTION_RE = re.compile(
-    r'<section\b[^>]*>.*?Website-BannerWebBanner2025\.png.*?</section>',
+    r'<section\b[^>]*>(?:(?!</section>).)*?Website-BannerWebBanner2025\.png(?:(?!</section>).)*?</section>',
     re.DOTALL | re.IGNORECASE,
 )
 
