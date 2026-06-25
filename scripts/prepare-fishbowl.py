@@ -24,13 +24,13 @@ VENUE_SLUG = "venues/fishbowl-new-york"
 
 ASSET_DIRS = ("wp-content", "wp-includes", "_external", "wp-json")
 EXTRA_PAGES = (
+    "contact",
     "privacy-policy",
     "website-terms-of-use",
     "diversity-statement",
     "uk-tax-strategy",
     "press-inquiries",
     "careers",
-    "contact",
     "giftcards",
     "sign-up",
     "special-events",
@@ -49,6 +49,8 @@ CSS_URL_NO_QUOTE_RE = re.compile(r"""url\(\s*/(?![/\s#]|fishbowl/)""", re.I)
 
 
 def rewrite_text(text: str) -> str:
+    text = text.replace("https://taogroup.com/", f"{PREFIX}/")
+    text = text.replace("http://taogroup.com/", f"{PREFIX}/")
     text = text.replace(f"/{VENUE_SLUG}/", f"{PREFIX}/")
     text = text.replace(f"/{VENUE_SLUG}", PREFIX)
 

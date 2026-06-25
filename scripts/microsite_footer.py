@@ -24,7 +24,110 @@ REWARDS_MENU_CTA_RE = re.compile(
     re.DOTALL | re.IGNORECASE,
 )
 
+KS_EMAIL = "info@kshospitalitygroup.com"
+KS_PHONE = "646-423-8278"
+KS_PHONE_TEL = "+16464238278"
+KS_SITE = "https://www.kshospitalitygroup.com"
+
+TAO_NAVBAR_BRAND_RE = re.compile(
+    r'<a class="navbar-brand d-flex align-items-center" href="[^"]*" rel="home" title="[^"]*">\s*<svg.*?</svg>\s*</a>',
+    re.DOTALL | re.IGNORECASE,
+)
+
+TAO_MOBILE_NAV_LOGO_RE = re.compile(
+    r'<li class="d-block d-lg-none ms-3 pb-4 pl-3"[^>]*>\s*<svg[^>]*class="svg-footer-logo"[^>]*>.*?</svg>\s*</li>',
+    re.DOTALL | re.IGNORECASE,
+)
+
+CORPORATE_CONTACT_LINKS_RE = re.compile(
+    r'<div class="content-block__links">\s*(?:<a\s+class="btn btn-link btn-link--underline my-2"[^>]*>.*?</a>\s*)+</div>',
+    re.DOTALL | re.IGNORECASE,
+)
+
+CORPORATE_CONTACT_INTRO_RE = re.compile(
+    r"<p>Have general questions or comments for (?:Tao Group Hospitality|KS Hospitality Group)\?</p>",
+    re.IGNORECASE,
+)
+
+TAO_CONTACT_HEADROOM_RE = re.compile(
+    r'<div class="headroom[^"]*">.*?</div><!--End Headroom-->',
+    re.DOTALL | re.IGNORECASE,
+)
+
+CONTACT_REGION_SELECT_RE = re.compile(
+    r'(<select class="wpcf7-form-control wpcf7-select[^"]*"[^>]*name="contact"[^>]*>).*?(</select>)',
+    re.DOTALL | re.IGNORECASE,
+)
+
+NY_LOCATIONS_FIELD_RE = re.compile(
+    r"<p>New York Locations.*?(\[select\* newyork-locations.*?\])\s*</p>",
+    re.DOTALL | re.IGNORECASE,
+)
+
+TAO_FAVICON_BLOCK_RE = re.compile(
+    r"<!-- Fav and touch icons -->.*?<meta name=\"msapplication-square310x310logo\"[^>]*>\s*",
+    re.DOTALL | re.IGNORECASE,
+)
+
+KS_FAVICON_HTML = """<!-- KS favicon -->
+<link rel="icon" href="/ks-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/ks-favicon.svg">
+<link rel="shortcut icon" href="/ks-favicon.svg">
+<meta name="theme-color" content="#0e0d0b">
+<meta name="application-name" content="KS Hospitality Group">
+"""
+
 FOOTER_CSS = '<link rel="stylesheet" href="/ks-microsite-footer.css" id="ks-microsite-footer-css">'
+
+VENUE_BY_PREFIX = {
+    "/rickey": ("The Rickey", "/rickey/"),
+    "/fishbowl": ("Fishbowl", "/fishbowl/"),
+}
+
+KS_VENUE_CATEGORIES = (
+    {
+        "name": "Rooftops",
+        "venues": (
+            ("Elsie Rooftop", "https://www.elsierooftop.com", "Midtown, NY"),
+            ("Elsie Penthouse", "http://www.elsiepenthouse.com", "Midtown, NY"),
+            ("Rosehill Rooftop", "http://www.rosehillrooftop.com", "Rose Hill, NY"),
+        ),
+    },
+    {
+        "name": "Lounges",
+        "venues": (
+            ("Stone & Soil", "/?page=portfolio", "Rose Hill, NY"),
+            ("Skewr", "/?page=portfolio", "Rose Hill, NY"),
+            ("Brewr", "/?page=portfolio", "Rose Hill, NY"),
+            ("Casa CeCe", "/?page=portfolio", "Midtown, NY"),
+            ("Premiere Park City", "http://www.premiereparkcity.com", "Park City, UT"),
+            ("The Rickey", "/rickey/", "Dream Midtown, NY"),
+            ("Fishbowl", "/fishbowl/", "Dream Midtown, NY"),
+        ),
+    },
+    {
+        "name": "Hotels",
+        "venues": (
+            ("Clarion Lewiston Maine", "/?page=portfolio", "Lewiston, ME"),
+            ("LIC Manhattan View Hotel", "/?page=portfolio", "Long Island City, NY"),
+        ),
+    },
+    {
+        "name": "Real Estate",
+        "venues": (
+            ("The Watermark Hamptons", "http://www.thewatermarkhamptons.com", "Southampton, NY"),
+            ("The Landmark Hamptons", "http://www.thelandmarkhamptons.com", "East Hampton, NY"),
+            ("The Benchmark Hamptons", "http://www.thebenchmarkhamptons.com", "Bridgehampton, NY"),
+        ),
+    },
+)
+
+KS_REGIONS = (
+    ("New York", "/?page=portfolio"),
+    ("Hamptons", "/?page=portfolio"),
+    ("Maine", "/?page=portfolio"),
+    ("Park City", "/?page=portfolio"),
+)
 
 KS_FOOTER_HTML = """<footer id="ks-hospitality-footer" class="ks-microsite-foot">
   <div class="ks-microsite-foot__grid">
@@ -75,6 +178,249 @@ KS_FOOTER_HTML = """<footer id="ks-hospitality-footer" class="ks-microsite-foot"
 </footer>"""
 
 
+def ks_nav_logo_html(home_href: str) -> str:
+    return f"""<a class="navbar-brand d-flex align-items-center ks-microsite-nav-logo-wrap" href="{home_href}" rel="home" title="KS Hospitality Group">
+  <span class="ks-microsite-nav-logo__mark" aria-hidden="true">KS</span>
+  <span class="ks-microsite-nav-logo__text">
+    <span class="ks-microsite-nav-logo__name">KS Hospitality Group</span>
+    <span class="ks-microsite-nav-logo__sub">EST. 2024</span>
+  </span>
+</a>"""
+
+
+def ks_mobile_nav_logo_html() -> str:
+    return """<li class="d-block d-lg-none ms-3 pb-4 pl-3" role="presentation">
+  <span class="ks-microsite-nav-logo-wrap ks-microsite-nav-logo-wrap--mobile">
+    <span class="ks-microsite-nav-logo__mark" aria-hidden="true">KS</span>
+    <span class="ks-microsite-nav-logo__name">KS Hospitality Group</span>
+  </span>
+</li>"""
+
+
+def ks_corporate_contact_links_html() -> str:
+    return f"""<div class="content-block__links">
+            <a
+        class="btn btn-link btn-link--underline my-2"
+        href="mailto:{KS_EMAIL}"
+        title="{KS_EMAIL}"
+	      target=""
+      >
+                  {KS_EMAIL}
+        <span></span>
+      </a>
+            <a
+        class="btn btn-link btn-link--underline my-2"
+        href="tel:{KS_PHONE_TEL}"
+        title="{KS_PHONE}"
+	      target=""
+      >
+                  {KS_PHONE}
+        <span></span>
+      </a>
+          </div>"""
+
+
+def _venue_link_attrs(url: str) -> tuple[str, str]:
+    if url.startswith("http"):
+        return url, ' target="_blank" rel="noopener noreferrer"'
+    return url, ""
+
+
+def _mega_menu_category_column(category: dict) -> str:
+    items = []
+    for name, url, loc in category["venues"]:
+        href, attrs = _venue_link_attrs(url)
+        items.append(
+            f"""<li role="none" itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
+              <a href="{href}"{attrs} class="dropdown-item-with-icon d-flex" role="menuitem">
+                <div class="info d-flex align-items-center">
+                  <div class="title d-flex align-items-center">{name}</div>
+                  <div class="description">{loc}</div>
+                </div>
+              </a>
+            </li>"""
+        )
+    return f"""<div class="col-md-3 mb-3">
+              <h3 class="h6 mb-3">{category["name"]}</h3>
+              <ul class="list-unstyled p-md-0 mb-2" role="menu">
+                {"".join(items)}
+              </ul>
+            </div>"""
+
+
+def ks_contact_navbar_html(prefix: str) -> str:
+    venue_label, venue_href = VENUE_BY_PREFIX.get(prefix, ("", ""))
+    category_cols = "".join(_mega_menu_category_column(cat) for cat in KS_VENUE_CATEGORIES)
+    region_items = "".join(
+        f"""<li role="none" itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
+              <a href="{href}" class="dropdown-item d-flex" role="menuitem">
+                <div class="info d-flex flex-column">
+                  <div class="title">{label}</div>
+                </div>
+              </a>
+            </li>"""
+        for label, href in KS_REGIONS
+    )
+    venue_nav = ""
+    if venue_label:
+        venue_nav = f"""<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="nav-item">
+              <a class="nav-link" href="{venue_href}">{venue_label}</a>
+            </li>"""
+
+    return f"""<div class="headroom ks-contact-headroom">
+
+  <nav class="navbar navbar-expand-lg ks-contact-nav" aria-label="Main navigation">
+    <div class="container container--fluid ks-contact-nav__bar">
+
+      <div class="ks-contact-nav__brand logo">
+        {ks_nav_logo_html("/")}
+      </div>
+
+      <button id="nav-icon" class="navbar-toggler ks-contact-nav__toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="collapse navbar-collapse ks-contact-nav__menu" id="navbarSupportedContent">
+        <ul class="navbar-nav ks-contact-nav__links ms-lg-auto">
+          {ks_mobile_nav_logo_html()}
+
+          <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="dropdown nav-item position-static ks-contact-nav__dropdown">
+            <button type="button"
+                    title="Portfolio"
+                    data-toggle="dropdown"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    class="dropdown-toggle nav-link ks-contact-nav__link"
+                    id="menu-item-dropdown-portfolio">
+              <span>Portfolio</span>
+            </button>
+            <div class="dropdown-menu mega-menu animate-menu slide-in-menu w-100 mt-0 ks-contact-mega-menu" aria-labelledby="menu-item-dropdown-portfolio">
+              <div class="container--xl">
+                <div class="row">
+                  <div class="col-lg-9 p-0 py-md-2 mb-2">
+                    <div class="row">
+                      {category_cols}
+                    </div>
+                  </div>
+                  <div class="col-lg-3 p-0 py-md-2">
+                    <h3 class="h6 mb-3">Our Regions</h3>
+                    <ul class="list-unstyled p-md-0 mb-4" role="menu">
+                      {region_items}
+                      <li role="none" itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
+                        <a href="/?page=portfolio" class="dropdown-item d-flex" role="menuitem">
+                          <div class="info d-flex flex-column">
+                            <div class="title">View Full Portfolio</div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                    <a href="/?page=portfolio" class="btn ks-contact-mega-menu__cta">Explore Venues</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="nav-item">
+            <a class="nav-link ks-contact-nav__link" href="/?page=about">The Group</a>
+          </li>
+          <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="nav-item">
+            <a class="nav-link ks-contact-nav__link" href="/?page=team">Team</a>
+          </li>
+          <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="nav-item">
+            <a class="nav-link ks-contact-nav__link active" href="/?page=contact" aria-current="page">Contact</a>
+          </li>
+          {venue_nav.replace('class="nav-link"', 'class="nav-link ks-contact-nav__link ks-contact-nav__venue"') if venue_nav else ""}
+
+          <li class="ks-contact-nav__social nav-item d-flex align-items-center d-lg-none">
+            <a href="https://www.instagram.com/kshospitalitygroup/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16"><title>Instagram</title><g fill="currentColor"><circle fill="currentColor" cx="12.145" cy="3.892" r="0.96"></circle> <path data-color="color-2" d="M8,12c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S10.206,12,8,12z M8,6C6.897,6,6,6.897,6,8 s0.897,2,2,2s2-0.897,2-2S9.103,6,8,6z"></path> <path fill="currentColor" d="M12,16H4c-2.056,0-4-1.944-4-4V4c0-2.056,1.944-4,4-4h8c2.056,0,4,1.944,4,4v8C16,14.056,14.056,16,12,16z M4,2C3.065,2,2,3.065,2,4v8c0,0.953,1.047,2,2,2h8c0.935,0,2-1.065,2-2V4c0-0.935-1.065-2-2-2H4z"></path></g></svg>
+            </a>
+          </li>
+        </ul>
+        <a href="mailto:{KS_EMAIL}" class="ks-contact-nav__cta d-none d-lg-inline-flex">Get in touch <span aria-hidden="true">→</span></a>
+        <a href="mailto:{KS_EMAIL}" class="ks-contact-nav__cta ks-contact-nav__cta--mobile d-lg-none">Get in touch <span aria-hidden="true">→</span></a>
+      </div>
+
+    </div>
+  </nav>
+
+</div><!--End Headroom-->"""
+
+
+def patch_contact_form_locations(html: str) -> str:
+    region_options = """<option value="Select a Contact">Select a Contact</option>
+<option value="New York">New York</option>
+<option value="Hamptons">Hamptons</option>
+<option value="Maine">Maine</option>
+<option value="Park City">Park City</option>
+<option value="Press Inquiries">Press Inquiries</option>"""
+
+    def region_sub(match: re.Match[str]) -> str:
+        return f"{match.group(1)}{region_options}{match.group(2)}"
+
+    html = CONTACT_REGION_SELECT_RE.sub(region_sub, html)
+
+    ny_locations = (
+        '[select* newyork-locations first_as_label class:form-control '
+        '"Select A Location" "Elsie Rooftop" "Elsie Penthouse" "Rosehill Rooftop" '
+        '"Stone & Soil" "Skewr" "Brewr" "Casa CeCe" "The Rickey" "Fishbowl" '
+        '"LIC Manhattan View Hotel"]'
+    )
+
+    def ny_sub(match: re.Match[str]) -> str:
+        return (
+            "<p>New York Locations <span class=\"text-danger\">*</span>"
+            f"{ny_locations}\n\t\t\t\t\t</p>"
+        )
+
+    return NY_LOCATIONS_FIELD_RE.sub(ny_sub, html)
+
+
+def detect_microsite_prefix(html: str) -> str:
+    if '"/fishbowl/' in html or "'/fishbowl/" in html or 'href="/fishbowl"' in html:
+        return "/fishbowl"
+    if '"/rickey/' in html or "'/rickey/" in html or 'href="/rickey"' in html:
+        return "/rickey"
+    return ""
+
+
+def is_corporate_contact_page(html: str) -> bool:
+    return "wpcf7-f3133" in html or (
+        CORPORATE_CONTACT_INTRO_RE.search(html) is not None
+        and "content-block__links" in html
+    )
+
+
+def patch_corporate_contact_page(html: str) -> str:
+    if not is_corporate_contact_page(html):
+        return html
+
+    prefix = detect_microsite_prefix(html)
+    html = TAO_CONTACT_HEADROOM_RE.sub(ks_contact_navbar_html(prefix), html)
+    html = CORPORATE_CONTACT_LINKS_RE.sub(ks_corporate_contact_links_html(), html)
+    html = patch_contact_form_locations(html)
+
+    if "ks-corporate-contact" not in html:
+        html = html.replace(
+            '<body class="wp-singular',
+            '<body class="ks-corporate-contact wp-singular',
+            1,
+        )
+
+    return html
+
+
+def replace_ks_favicon(html: str) -> str:
+    if "ks-favicon.svg" in html:
+        return html
+    if "<!-- Fav and touch icons -->" not in html:
+        return html
+    return TAO_FAVICON_BLOCK_RE.sub(KS_FAVICON_HTML, html)
+
+
 def inject_footer_css(html: str) -> str:
     if "ks-microsite-footer.css" in html:
         return html
@@ -96,6 +442,23 @@ def remove_rewards_content(html: str) -> str:
     return html
 
 
+def apply_ks_branding(html: str) -> str:
+    html = html.replace("Tao Group Hospitality", "KS Hospitality Group")
+    html = html.replace("contact@taogroup.com", KS_EMAIL)
+    html = html.replace(
+        '"name": "KS Hospitality Group",\n        "url": "https://taogroup.com"',
+        f'"name": "KS Hospitality Group",\n        "url": "{KS_SITE}"',
+    )
+    html = re.sub(
+        r'"parentOrganization"\s*:\s*\{[^{}]*"name"\s*:\s*"KS Hospitality Group"[^{}]*\}',
+        '"parentOrganization":{"@type":"Organization","name":"KS Hospitality Group","url":"'
+        + KS_SITE
+        + '"}',
+        html,
+    )
+    return html
+
+
 def replace_tao_footer(html: str) -> str:
     if 'id="tao-main-footer"' not in html and 'id="ks-hospitality-footer"' not in html:
         return html
@@ -105,4 +468,7 @@ def replace_tao_footer(html: str) -> str:
 
 def patch_microsite_html(html: str) -> str:
     html = remove_rewards_content(html)
+    html = apply_ks_branding(html)
+    html = replace_ks_favicon(html)
+    html = patch_corporate_contact_page(html)
     return replace_tao_footer(html)
