@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from microsite_footer import patch_microsite_html
+from microsite_footer import patch_microsite_html, strip_tao_references
 
 SOURCE = ROOT / "fishbowl-mirror"
 if not SOURCE.exists():
@@ -73,6 +73,7 @@ def rewrite_text(text: str) -> str:
     while f'{PREFIX}{PREFIX}' in text:
         text = text.replace(f'{PREFIX}{PREFIX}', PREFIX)
 
+    text = strip_tao_references(text, PREFIX)
     return text
 
 

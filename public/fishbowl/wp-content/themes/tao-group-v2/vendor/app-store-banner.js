@@ -6,7 +6,7 @@ const PLATFORM = {
     IOS: {
         key:      'sb_ios_closed_at',
         icon:     '/fishbowl/wp-content/themes/tao-group-v2/images/app-banner-icon.jpg',
-        title:    'Tao Group Hospitality Rewards',
+        title:    'KS Hospitality Group Rewards',
         subtitle:  'Eat. Drink. Earn. Repeat.',
         universalLink: '/fishbowl/rewards',
         appStoreUrl:   'https://apps.apple.com/us/app/tao-group-hospitality-rewards/id1537602625'
@@ -14,9 +14,9 @@ const PLATFORM = {
     ANDROID: {
         key:     'sb_android_closed_at',
         icon:    '/fishbowl/wp-content/themes/tao-group-v2/images/app-banner-icon.jpg',
-        title:   'Tao Group Hospitality Rewards',
+        title:   'KS Hospitality Group Rewards',
         subtitle:'Eat. Drink. Earn. Repeat.',
-        package: 'com.taogroup'
+        package: 'com.kshospitalitygroup'
     }
 };
 

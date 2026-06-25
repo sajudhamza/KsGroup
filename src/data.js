@@ -325,7 +325,7 @@ export const KS_DATA = {
       name: 'Kanvar Singh',
       role: 'Founder & CEO',
       img: '/img/Team/team-kanvar.png',
-      bio: 'Kanvar Singh is the founder and CEO of KS Hospitality Group — a hospitality executive and investor with over 20 years of experience leading hotels, restaurants, and bars across the U.S. and Belgium. As former Vice President of Operations at Dream Hotels and Hyatt Hotels, Kanvar built a career at the intersection of luxury hospitality, high-volume F&B, and real estate. He oversaw Tao at Dream Midtown, led Food & Beverage at Time NY, and has driven Elsie Rooftop to become one of New York City\'s most sought-after rooftop destinations for three consecutive years. Under KS Hospitality Group, Kanvar leads a growing portfolio of venues including Elsie Rooftop, Elsie Penthouse, Stone & Soil, Rosehill Rooftop, Skewr, Brewr, Premiere Park City, Casa CeCe, and more. Kanvar has been featured in Forbes, Leaders Magazine, the Huffington Post, and Hotels Magazine.',
+      bio: 'Kanvar Singh is the founder and CEO of KS Hospitality Group — a hospitality executive and investor with over 20 years of experience leading hotels, restaurants, and bars across the U.S. and Belgium. As former Vice President of Operations at Dream Hotels and Hyatt Hotels, Kanvar built a career at the intersection of luxury hospitality, high-volume F&B, and real estate. He oversaw operations at Dream Midtown, led Food & Beverage at Time NY, and has driven Elsie Rooftop to become one of New York City\'s most sought-after rooftop destinations for three consecutive years. Under KS Hospitality Group, Kanvar leads a growing portfolio of venues including Elsie Rooftop, Elsie Penthouse, Stone & Soil, Rosehill Rooftop, Skewr, Brewr, Premiere Park City, Casa CeCe, and more. Kanvar has been featured in Forbes, Leaders Magazine, the Huffington Post, and Hotels Magazine.',
     },
     {
       name: 'Gabriel Solano',
@@ -355,7 +355,7 @@ export const KS_DATA = {
       name: 'Bianca Lopez',
       role: 'Director of Marketing',
       img: '/img/Team/team-bianca.png',
-      bio: 'Bianca Lopez is a digital marketer and content strategist with over nine years of experience in beauty and hospitality. After managing social media for Anastasia Beverly Hills and Tao Group Hospitality\'s NYC venues, she launched No Reservations — a creative agency serving top clients including STARR Restaurant Group, Hawksmoor, and Bridgeton Development Group. Bianca specializes in turning a brand\'s identity into content that commands attention.',
+      bio: 'Bianca Lopez is a digital marketer and content strategist with over nine years of experience in beauty and hospitality. After managing social media for Anastasia Beverly Hills and KS Hospitality Group\'s NYC venues, she launched No Reservations — a creative agency serving top clients including STARR Restaurant Group, Hawksmoor, and Bridgeton Development Group. Bianca specializes in turning a brand\'s identity into content that commands attention.',
     },
     {
       name: 'Pankaj Chauhan',

@@ -28,6 +28,13 @@ KS_EMAIL = "info@kshospitalitygroup.com"
 KS_PHONE = "646-423-8278"
 KS_PHONE_TEL = "+16464238278"
 KS_SITE = "https://www.kshospitalitygroup.com"
+KS_HOST = "www.kshospitalitygroup.com"
+KS_THEME_PATH_TOKEN = "__KS_THEME_PATH__"
+
+WEGLOT_RE = re.compile(
+    r'<script type="application/json" id="weglot-data">.*?</script>\s*',
+    re.DOTALL | re.IGNORECASE,
+)
 
 TAO_NAVBAR_BRAND_RE = re.compile(
     r'<a class="navbar-brand d-flex align-items-center" href="[^"]*" rel="home" title="[^"]*">\s*<svg.*?</svg>\s*</a>',
@@ -442,21 +449,104 @@ def remove_rewards_content(html: str) -> str:
     return html
 
 
+def strip_tao_references(text: str, prefix: str = "") -> str:
+    """Replace Tao Group branding, domains, and contact info with KS Hospitality Group."""
+    text = text.replace("tao-group-v2", KS_THEME_PATH_TOKEN)
+
+    microsite_origin = f"{KS_SITE}{prefix}" if prefix else KS_SITE
+    microsite_origin_slash = f"{microsite_origin.rstrip('/')}/"
+    microsite_origin_json = microsite_origin_slash.replace("/", "\\/")
+    microsite_origin_encoded = (
+        microsite_origin_slash.replace("https://", "https%3A%2F%2F").replace("/", "%2F")
+    )
+
+    # Tao-owned subdomains and third-party integrations
+    for old in (
+        "tickets.taogroup.com",
+        "taogroup.us12.list-manage.com",
+        "taogroup.cashstar.com",
+        "taogroup.myguestaccount.com",
+        "taogroup.train.paytronix.com",
+        "tao.tripleseat.com",
+        "taodowntown.com",
+        "taorestaurant.com",
+        "www.taodowntown.com",
+        "www.taorestaurant.com",
+    ):
+        text = text.replace(old, KS_HOST)
+
+    text = text.replace(
+        "linkedin.com/company/tao-group-hospitality",
+        "instagram.com/kshospitalitygroup",
+    )
+    text = text.replace("com.taogroup", "com.kshospitalitygroup")
+    text = re.sub(r"/taocares/", "/?page=about", text, flags=re.IGNORECASE)
+
+    text = re.sub(r"@taogroup\.com", "@kshospitalitygroup.com", text, flags=re.IGNORECASE)
+
+    company_replacements = (
+        ("Tao Group Hospitality", "KS Hospitality Group"),
+        ("TAO Group Hospitality", "KS Hospitality Group"),
+        ("TaoGroup Hospitality", "KS Hospitality Group"),
+        ("TaoGroup.com", "KS Hospitality Group"),
+        ("TaoGroup", "KS Hospitality Group"),
+        ("Tao Group", "KS Hospitality Group"),
+        ("TAO GROUP", "KS HOSPITALITY GROUP"),
+        ("taogrouphospitality", "kshospitalitygroup"),
+        ("taogroup-com", "kshospitalitygroup-com"),
+        ("taogroup-faq", "ks-faq"),
+        ("#taogroup-faq", "#ks-faq"),
+    )
+    for old, new in company_replacements:
+        text = text.replace(old, new)
+
+    url_replacements = (
+        ("https://www.taogroup.com/", microsite_origin_slash),
+        ("http://www.taogroup.com/", microsite_origin_slash),
+        ("https://taogroup.com/", microsite_origin_slash),
+        ("http://taogroup.com/", microsite_origin_slash),
+        ("https://www.taogroup.com", microsite_origin),
+        ("http://www.taogroup.com", microsite_origin),
+        ("https://taogroup.com", microsite_origin),
+        ("http://taogroup.com", microsite_origin),
+        ("https:\\/\\/www.taogroup.com\\/", microsite_origin_json),
+        ("http:\\/\\/www.taogroup.com\\/", microsite_origin_json),
+        ("https:\\/\\/taogroup.com\\/", microsite_origin_json),
+        ("http:\\/\\/taogroup.com\\/", microsite_origin_json),
+        ("https:\\/\\/www.taogroup.com", microsite_origin.replace("/", "\\/")),
+        ("https:\\/\\/taogroup.com", microsite_origin.replace("/", "\\/")),
+        ("https%3A%2F%2Fwww.taogroup.com%2F", microsite_origin_encoded),
+        ("https%3A%2F%2Ftaogroup.com%2F", microsite_origin_encoded),
+        ("https%3A%2F%2Fwww.taogroup.com", microsite_origin_encoded.rstrip("%2F")),
+        ("https%3A%2F%2Ftaogroup.com", microsite_origin_encoded.rstrip("%2F")),
+    )
+    for old, new in url_replacements:
+        text = text.replace(old, new)
+
+    text = text.replace('"domains":["taogroup.com"]', f'"domains":["{KS_HOST}"]')
+    microsite_origin_json_plain = microsite_origin.replace("/", "\\/")
+    microsite_wp_json_root = microsite_origin_slash.replace("/", "\\/") + "wp-json\\/"
+    text = re.sub(
+        r'"site_url"\s*:\s*"https?:\\?/\\?/taogroup\.com"',
+        f'"site_url":"{microsite_origin_json_plain}"',
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(
+        r'"root"\s*:\s*"https?:\\?/\\?/taogroup\.com\\?/\\?/wp-json\\?/\\?/"',
+        f'"root":"{microsite_wp_json_root}"',
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(r"(?<!-)taogroup\.com", KS_HOST, text, flags=re.IGNORECASE)
+
+    text = WEGLOT_RE.sub("", text)
+    text = text.replace(KS_THEME_PATH_TOKEN, "tao-group-v2")
+    return text
+
+
 def apply_ks_branding(html: str) -> str:
-    html = html.replace("Tao Group Hospitality", "KS Hospitality Group")
-    html = html.replace("contact@taogroup.com", KS_EMAIL)
-    html = html.replace(
-        '"name": "KS Hospitality Group",\n        "url": "https://taogroup.com"',
-        f'"name": "KS Hospitality Group",\n        "url": "{KS_SITE}"',
-    )
-    html = re.sub(
-        r'"parentOrganization"\s*:\s*\{[^{}]*"name"\s*:\s*"KS Hospitality Group"[^{}]*\}',
-        '"parentOrganization":{"@type":"Organization","name":"KS Hospitality Group","url":"'
-        + KS_SITE
-        + '"}',
-        html,
-    )
-    return html
+    return strip_tao_references(html, detect_microsite_prefix(html))
 
 
 def replace_tao_footer(html: str) -> str:
