@@ -13,13 +13,29 @@ Then open `http://localhost:5174` in your browser.
 
 The dev server also prints a **Network** URL (e.g. `http://192.168.1.x:5174`). Visit that from your phone on the same Wi-Fi to test mobile.
 
-### Other scripts
+### Venue microsites (`/fishbowl`, `/rickey`)
+
+Fishbowl and The Rickey are bundled on the same domain:
+
+| URL | Venue |
+|-----|--------|
+| `www.kshospitalitygroup.com/fishbowl/` | Fishbowl bar & game room |
+| `www.kshospitalitygroup.com/rickey/` | The Rickey cocktail lounge |
 
 | Command | What it does |
 |---|---|
-| `npm run dev`     | Start Vite dev server with hot-reload at `localhost:5174` |
-| `npm run build`   | Produce a production bundle in `dist/` |
-| `npm run preview` | Serve the built `dist/` locally to verify the production build |
+| `npm run prepare-microsites` | Prepares Fishbowl and The Rickey into `public/fishbowl/` and `public/rickey/` |
+| `npm run prepare-fishbowl` | Fishbowl only |
+| `npm run prepare-rickey` | The Rickey only |
+| `npm run dev` | Prepares microsites, then starts KS Group — try `http://localhost:5174/fishbowl/` or `/rickey/` |
+| `npm run build` | Prepares microsites and builds `dist/` |
+
+**Source files:** Each script reads from `<name>-mirror/` in this repo, or falls back to `../The fishbowl` / `../The rickey`. If the source is missing but `public/<name>/` exists, the build keeps the existing copy (for CI/deploy).
+
+**After deploy:** AWS Amplify uses `amplify.yml` (redirects `/fishbowl` and `/rickey` to trailing-slash URLs).
+
+**Local dev:** KS Group runs on **port 5174** (`http://localhost:5174/`). Clarion and other Vite apps may use 5173 — use the KsGroup terminal. Open microsites at `/rickey/` or `/fishbowl/` (restart `npm run dev` after pulling if those paths show the main KS site instead).
+
 
 ## File structure
 

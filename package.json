@@ -5,8 +5,11 @@
   "type": "module",
   "description": "KS Hospitality Group — marketing site (Vite + React).",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "prepare-fishbowl": "python3 scripts/prepare-fishbowl.py",
+    "prepare-rickey": "python3 scripts/prepare-rickey.py",
+    "prepare-microsites": "python3 scripts/prepare-microsites.py",
+    "dev": "npm run prepare-microsites && vite",
+    "build": "npm run prepare-microsites && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

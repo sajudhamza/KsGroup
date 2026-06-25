@@ -69,7 +69,7 @@ export const KS_DATA = {
   },
 
   stats: [
-    { k: 'Properties', v: '13' },
+    { k: 'Properties', v: '15' },
     { k: 'Regions',    v: '4'  },
     { k: 'Founded',    v: '2024' },
   ],
@@ -263,6 +263,37 @@ export const KS_DATA = {
         'The Clarion Lewiston Hotel & Conference Center has undergone extensive renovations, emerging as a fully reimagined 117-room property with a full-service convention center in the heart of Lewiston, Maine.',
         'The Maine Grill is the flagship food and beverage venue within the property — currently in development and set to become the premier dining destination in the region.',
         'KS Hospitality Group serves as both investor and management company for the hotel and all food and beverage venues on property. The Clarion Lewiston is poised for its grand opening at the end of May 2026.',
+      ],
+    },
+    {
+      id: 'the-rickey',
+      name: 'The Rickey',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Dream Midtown, NY',
+      url: '/rickey/',
+      img: '/img/Lounges/Rickey/1.jpg',
+      logo: '/img/Lounges/Rickey/logo.png',
+      kind: 'photo',
+      blurb:
+        'A cocktail lounge at Dream Midtown — craft drinks, happy hour, and skyline views above Manhattan.',
+      description: [
+        'The Rickey is a cocktail lounge at Dream Midtown in New York City, offering craft cocktails, a curated menu, and happy hour in an elevated lounge setting high above Manhattan.',
+        'From intimate evenings to group gatherings, The Rickey is part of the KS Hospitality Group portfolio at Dream Hotels — where hospitality, design, and nightlife come together.',
+      ],
+    },
+    {
+      id: 'fishbowl',
+      name: 'Fishbowl',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Dream Midtown, NY',
+      url: '/fishbowl/',
+      img: '/img/Lounges/Fishbowl/1.jpg',
+      kind: 'photo',
+      blurb:
+        'Midtown\'s upscale game room lounge — bowling, arcade games, and cocktails high above Manhattan.',
+      description: [
+        'Fishbowl is where Midtown Manhattan meets upscale game room. Located at Dream Midtown, this bar lounge and game room pairs craft cocktails with bowling lanes, arcade games, and private event spaces overlooking the city.',
+        'Available for special events, corporate gatherings, and nights out with friends, Fishbowl is one of the signature F&B destinations in the KS Hospitality Group portfolio at Dream Hotels.',
       ],
     },
     {

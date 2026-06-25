@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { KS_DATA } from '../data.js'
 import { TopNav, Photo, PropertyCard, Kicker, Footer } from '../components/Parts.jsx'
+import { propertyLinkProps } from '../utils/propertyLink.js'
 
 // Hi-fi interior pages: Portfolio (filterable), The Group, Property detail, Team, Contact.
 
@@ -296,7 +297,7 @@ export const HiFiProperty = ({ onNav, propertyId, openProperty }) => {
               ))}
             </div>
             {p.url && p.url !== '#' && (
-              <a href={p.url} target="_blank" rel="noopener noreferrer" className="btn btn-fill" style={{ marginTop: 24, width: '100%', justifyContent: 'center' }}>
+              <a {...propertyLinkProps(p.url)} className="btn btn-fill" style={{ marginTop: 24, width: '100%', justifyContent: 'center' }}>
                 Visit site →
               </a>
             )}

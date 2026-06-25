@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { KS_DATA } from '../data.js'
 import { TopNav, Photo, PropertyCard, Kicker, Footer } from '../components/Parts.jsx'
+import { propertyLinkProps } from '../utils/propertyLink.js'
 
 // Hi-fi homepage — Cinematic Full-Bleed direction.
 // Dark, moody, big imagery, hairline rules, oxblood accents.
@@ -142,7 +143,7 @@ export default function HiFiHome({ onNav }) {
 
         <div style={{ padding: '0 56px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1.55fr 1fr', gap: 24 }}>
-            <a href={featured.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <a {...propertyLinkProps(featured.url)} style={{ textDecoration: 'none', color: 'inherit' }}>
               <PropertyCard p={featured} height={540} kenBurns big/>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 18 }}>
                 <div>
@@ -155,7 +156,7 @@ export default function HiFiHome({ onNav }) {
 
             <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 24 }}>
               {props.slice(1, 3).map(p => (
-                <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}>
+                <a key={p.id} {...propertyLinkProps(p.url)} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}>
                   <PropertyCard p={p} height={258}/>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 14 }}>
                     <div>
@@ -171,7 +172,7 @@ export default function HiFiHome({ onNav }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, marginTop: 48 }}>
             {props.slice(3, 6).map(p => (
-              <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <a key={p.id} {...propertyLinkProps(p.url)} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <PropertyCard p={p} height={320}/>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 14 }}>
                   <div>

@@ -9,7 +9,12 @@ import {
 } from './pages/Pages.jsx'
 
 export default function App() {
-  const [page, setPage] = useState('home')
+  const [page, setPage] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    const p = params.get('page')
+    const allowed = ['portfolio', 'about', 'team', 'contact', 'property']
+    return allowed.includes(p) ? p : 'home'
+  })
   const [propertyId, setPropertyId] = useState(null)
 
   useEffect(() => {

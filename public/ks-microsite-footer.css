@@ -1,0 +1,158 @@
+/* KS Hospitality Group footer for venue microsites */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400&family=JetBrains+Mono:wght@400&display=swap");
+
+.ks-microsite-foot {
+  --ks-bg: #0e0d0b;
+  --ks-line: #2a2620;
+  --ks-cream: #ede6d8;
+  --ks-cream-2: #c9c0ae;
+  --ks-cream-3: #8c8472;
+  background: var(--ks-bg);
+  border-top: 1px solid var(--ks-line);
+  color: var(--ks-cream);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 56px 56px 32px;
+  margin-top: 0;
+}
+
+.ks-microsite-foot a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ks-microsite-foot a:hover {
+  color: var(--ks-cream);
+}
+
+.ks-microsite-foot__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.ks-microsite-foot__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ks-microsite-foot__mark {
+  align-items: center;
+  border: 1px solid var(--ks-cream);
+  display: inline-flex;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 22px;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.ks-microsite-foot__name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ks-microsite-foot__name strong {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+}
+
+.ks-microsite-foot__name em {
+  color: var(--ks-cream-3);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ks-microsite-foot__tagline {
+  color: var(--ks-cream-2);
+  font-weight: 300;
+  margin: 24px 0 0;
+  max-width: 320px;
+}
+
+.ks-microsite-foot__contact {
+  color: var(--ks-cream-2);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin: 24px 0 0;
+  text-transform: uppercase;
+}
+
+.ks-microsite-foot__contact + .ks-microsite-foot__contact {
+  margin-top: 6px;
+}
+
+.ks-microsite-foot__heading {
+  color: var(--ks-cream-3);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.ks-microsite-foot__links a {
+  color: var(--ks-cream-2);
+  display: block;
+  font-weight: 300;
+  padding: 6px 0;
+}
+
+.ks-microsite-foot__rule {
+  background: var(--ks-line);
+  height: 1px;
+  margin: 48px auto 24px;
+  max-width: 1280px;
+}
+
+.ks-microsite-foot__bottom {
+  align-items: center;
+  color: var(--ks-cream-3);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  gap: 16px;
+  justify-content: space-between;
+  letter-spacing: 0.16em;
+  margin: 0 auto;
+  max-width: 1280px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .ks-microsite-foot {
+    padding: 40px 24px 24px;
+  }
+
+  .ks-microsite-foot__grid {
+    gap: 32px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ks-microsite-foot__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .ks-microsite-foot__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ks-microsite-foot__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
