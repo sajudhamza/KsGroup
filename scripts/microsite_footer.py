@@ -61,6 +61,54 @@ TAO_CONTACT_HEADROOM_RE = re.compile(
     re.DOTALL | re.IGNORECASE,
 )
 
+CONTACT_FORM_REGION_OPTIONS = """<option value="Select a Contact">Select a Contact</option>
+<option value="New York">New York</option>
+<option value="Hamptons">Hamptons</option>
+<option value="Maine">Maine</option>
+<option value="Park City">Park City</option>
+<option value="Press Inquiries">Press Inquiries</option>"""
+
+CONTACT_FORM_NY_LOCATIONS_SHORTCODE = (
+    '[select* newyork-locations first_as_label class:form-control '
+    '"Select A Location" "Elsie Rooftop" "Elsie Penthouse" "Rosehill Rooftop" '
+    '"Stone & Soil" "Skewr" "Brewr" "Casa CeCe" "The Rickey" "Fishbowl" '
+    '"LIC Manhattan View Hotel"]'
+)
+
+CONTACT_FORM_HIDDEN_FIELDSET = (
+    '<fieldset class="hidden-fields-container"><input type="hidden" name="_wpcf7" value="3133" />'
+    '<input type="hidden" name="_wpcf7_version" value="6.1.6" />'
+    '<input type="hidden" name="_wpcf7_locale" value="en_US" />'
+    '<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f3133-o1" />'
+    '<input type="hidden" name="_wpcf7_container_post" value="0" />'
+    '<input type="hidden" name="_wpcf7_posted_data_hash" value="" />'
+    '<input type="hidden" name="_wpcf7cf_hidden_group_fields" value="[]" />'
+    '<input type="hidden" name="_wpcf7cf_hidden_groups" value="[]" />'
+    '<input type="hidden" name="_wpcf7cf_visible_groups" value="[]" />'
+    '<input type="hidden" name="_wpcf7cf_repeaters" value="[]" />'
+    '<input type="hidden" name="_wpcf7cf_steps" value="{}" />'
+    '<input type="hidden" name="_wpcf7cf_options" value="{&quot;form_id&quot;:3133,'
+    '&quot;conditions&quot;:[{&quot;then_field&quot;:&quot;newyork-locations&quot;,'
+    '&quot;and_rules&quot;:[{&quot;if_field&quot;:&quot;contact&quot;,'
+    '&quot;operator&quot;:&quot;equals&quot;,&quot;if_value&quot;:&quot;New York&quot;}]}],'
+    '&quot;settings&quot;:{&quot;animation&quot;:&quot;yes&quot;,'
+    '&quot;animation_intime&quot;:200,&quot;animation_outtime&quot;:200,'
+    '&quot;conditions_ui&quot;:&quot;normal&quot;,&quot;notice_dismissed&quot;:false,'
+    '&quot;repeater_remove_button&quot;:&quot;bottom&quot;,'
+    '&quot;notice_dismissed_rollback-cf7-5.9.5&quot;:true}}" />'
+    '<input type="hidden" name="_wpcf7_recaptcha_response" value="" />\n</fieldset>'
+)
+
+SITE_CONTENT_RE = re.compile(
+    r'<main class="site-content" id="content">.*?</main>',
+    re.DOTALL | re.IGNORECASE,
+)
+
+SPECIAL_EVENTS_PAGE_RE = re.compile(
+    r"<title>[^<]*Special Events[^<]*</title>",
+    re.IGNORECASE,
+)
+
 CONTACT_REGION_SELECT_RE = re.compile(
     r'(<select class="wpcf7-form-control wpcf7-select[^"]*"[^>]*name="contact"[^>]*>).*?(</select>)',
     re.DOTALL | re.IGNORECASE,
@@ -134,6 +182,63 @@ KS_REGIONS = (
     ("Hamptons", "/?page=portfolio"),
     ("Maine", "/?page=portfolio"),
     ("Park City", "/?page=portfolio"),
+)
+
+KS_SHARED_FEATURED_LOCATIONS = (
+    {
+        "name": "Elsie Rooftop",
+        "location": "Midtown, NY",
+        "href": "https://www.elsierooftop.com",
+        "img": "/img/Rooftops/Elsie Rooftop/1.jpg",
+    },
+    {
+        "name": "Rosehill Rooftop",
+        "location": "Rose Hill, NY",
+        "href": "http://www.rosehillrooftop.com",
+        "img": "/img/Rooftops/Rosehill Rooftop/1.jpg",
+    },
+    {
+        "name": "Stone & Soil",
+        "location": "Rose Hill, NY",
+        "href": "/?page=portfolio",
+        "img": "/img/Lounges/Stone and Soil/1.jpg",
+    },
+    {
+        "name": "Premiere Park City",
+        "location": "Park City, UT",
+        "href": "http://www.premiereparkcity.com",
+        "img": "/img/Lounges/Premiere Park City/1.png",
+    },
+)
+
+FISHBOWL_FEATURED_LOCATIONS = (
+    {
+        "name": "The Rickey",
+        "location": "New York",
+        "href": "/rickey/",
+        "img": "/img/Lounges/Rickey/1.jpg",
+        "fallback_img": "/fishbowl/wp-content/uploads/2019/09/NYC-TheRickey.jpg",
+    },
+    *KS_SHARED_FEATURED_LOCATIONS,
+)
+
+RICKEY_FEATURED_LOCATIONS = (
+    {
+        "name": "Fishbowl",
+        "location": "New York",
+        "href": "/fishbowl/",
+        "img": "/img/Lounges/Fishbowl/1.jpg",
+        "fallback_img": "/rickey/wp-content/uploads/2019/09/NYC-Fishbowl.jpg",
+    },
+    *KS_SHARED_FEATURED_LOCATIONS,
+)
+
+VENUE_FEATURED_SECTION_RE = re.compile(
+    r'(<h2 class="h4 font-weight-light" data-splitting>)Featured (?:Branded Locations|Venues)(</h2>\s*'
+    r'</div>\s*<div class="content-blocks__block">\s*'
+    r'<div class="featured-slider-wrapper"[^>]*>\s*'
+    r'<div class="featured-slider JS-event-section carousel"[^>]*>).*?(</div><!--End Featured Slider-->)',
+    re.DOTALL | re.IGNORECASE,
 )
 
 KS_FOOTER_HTML = """<footer id="ks-hospitality-footer" class="ks-microsite-foot">
@@ -358,29 +463,15 @@ def ks_contact_navbar_html(prefix: str) -> str:
 
 
 def patch_contact_form_locations(html: str) -> str:
-    region_options = """<option value="Select a Contact">Select a Contact</option>
-<option value="New York">New York</option>
-<option value="Hamptons">Hamptons</option>
-<option value="Maine">Maine</option>
-<option value="Park City">Park City</option>
-<option value="Press Inquiries">Press Inquiries</option>"""
-
     def region_sub(match: re.Match[str]) -> str:
-        return f"{match.group(1)}{region_options}{match.group(2)}"
+        return f"{match.group(1)}{CONTACT_FORM_REGION_OPTIONS}{match.group(2)}"
 
     html = CONTACT_REGION_SELECT_RE.sub(region_sub, html)
-
-    ny_locations = (
-        '[select* newyork-locations first_as_label class:form-control '
-        '"Select A Location" "Elsie Rooftop" "Elsie Penthouse" "Rosehill Rooftop" '
-        '"Stone & Soil" "Skewr" "Brewr" "Casa CeCe" "The Rickey" "Fishbowl" '
-        '"LIC Manhattan View Hotel"]'
-    )
 
     def ny_sub(match: re.Match[str]) -> str:
         return (
             "<p>New York Locations <span class=\"text-danger\">*</span>"
-            f"{ny_locations}\n\t\t\t\t\t</p>"
+            f"{CONTACT_FORM_NY_LOCATIONS_SHORTCODE}\n\t\t\t\t\t</p>"
         )
 
     return NY_LOCATIONS_FIELD_RE.sub(ny_sub, html)
@@ -410,14 +501,220 @@ def patch_corporate_contact_page(html: str) -> str:
     html = CORPORATE_CONTACT_LINKS_RE.sub(ks_corporate_contact_links_html(), html)
     html = patch_contact_form_locations(html)
 
-    if "ks-corporate-contact" not in html:
-        html = html.replace(
-            '<body class="wp-singular',
-            '<body class="ks-corporate-contact wp-singular',
-            1,
-        )
+    return add_ks_corporate_contact_body_class(html)
 
+
+def add_ks_corporate_contact_body_class(html: str) -> str:
+    if "ks-corporate-contact" in html:
+        return html
+    return html.replace(
+        '<body class="wp-singular',
+        '<body class="ks-corporate-contact wp-singular',
+        1,
+    )
+
+
+def apply_ks_corporate_contact_chrome(html: str, prefix: str) -> str:
+    html = TAO_CONTACT_HEADROOM_RE.sub(ks_contact_navbar_html(prefix), html)
+    return add_ks_corporate_contact_body_class(html)
+
+
+def ks_corporate_contact_main_html(prefix: str) -> str:
+    form_action = f"{prefix}/contact/#wpcf7-f3133-o1"
+    ny_field = (
+        "<p>New York Locations <span class=\"text-danger\">*</span>"
+        f"{CONTACT_FORM_NY_LOCATIONS_SHORTCODE}\n\t\t\t\t\t</p>"
+    )
+    return f"""    <main class="site-content" id="content">
+
+
+  <!-- Page Header -->
+  <div class="page-header">
+    
+
+  <section class="page-section page-section--dark  page-section--padding--sm" data-section="dark" >
+    
+    
+    <div class="container container--lg">
+      
+  <div>
+    <h1 class="sr-only">Contact</h1>
+  </div>
+
+
+
+<div class="content-blocks text-left">
+            <div class="content-blocks__block">
+          <h2 class="h1 font-weight-light" data-splitting>Contact</h2>
+      </div>
+      </div>    </div>
+
+    
+
+  </section>
+  </div>
+  <!-- Page Builder -->
+  <div id="page-body">
+            
+
+  <section class="page-section page-section--dark  page-section--padding--sm" data-section="dark" >
+    
+    
+    <div class="container container--lg">
+      <div class="row">
+                        
+      
+      <div class="d-flex flex-column col-12 mb-4 col-lg-6 order-lg-0">
+        
+
+<div class="content-blocks text-left">
+            <div class="content-blocks__block">
+          <div class="content-block__text">
+    <div class="moveUp in-view">
+<p>Have general questions or comments for KS Hospitality Group?</p>
+<p>Use the contact form to send us a message and we’ll promptly get back to you.</p>
+<p>Please note: if this question is for a particular venue it is best to contact the venue direct on their website.</p>
+</div>
+  </div>
+      </div>
+      </div>      </div>
+                      
+      
+      <div class="d-flex flex-column col-12 mb-4 col-lg-6 order-lg-0">
+        
+
+<div class="content-blocks text-lg-right">
+            <div class="content-blocks__block">
+          {ks_corporate_contact_links_html()}
+      </div>
+      </div>      </div>
+      </div>
+    </div>
+
+    
+
+  </section>
+          
+
+  <section class="page-section page-section--dark  page-section--padding--none" data-section="dark" >
+    
+    
+    <div class="container container--lg">
+      <div>
+  
+
+<div class="content-blocks text-left">
+            <div class="content-blocks__block">
+        
+<div class="form-style--dark">
+    
+                
+<div class="wpcf7 no-js" id="wpcf7-f3133-o1" lang="en-US" dir="ltr" data-wpcf7-id="3133">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="{form_action}" method="post" class="wpcf7-form init" aria-label="Contact form" novalidate="novalidate" data-status="init">
+{CONTACT_FORM_HIDDEN_FIELDSET}
+<div class="custom-form">
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="form-group">
+				<p><label>Your Name <span class="text-danger">*</span></label><span class="wpcf7-form-control-wrap" data-name="your-name"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control" aria-required="true" aria-invalid="false" value="" type="text" name="your-name" /></span>
+				</p>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="form-group">
+				<p><label>Email <span class="text-danger">*</span></label><span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control" aria-required="true" aria-invalid="false" value="" type="email" name="your-email" /></span>
+				</p>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="form-group">
+				<p><label>Phone <span class="text-danger">*</span></label><span class="wpcf7-form-control-wrap" data-name="phone"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-tel wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-tel form-control" aria-required="true" aria-invalid="false" value="" type="tel" name="phone" /></span>
+				</p>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="form-group">
+				<p><label>Contact <span class="text-danger">*</span></label><span class="wpcf7-form-control-wrap" data-name="contact"><select class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required form-control" aria-required="true" aria-invalid="false" name="contact">{CONTACT_FORM_REGION_OPTIONS}</select></span>
+				</p>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="form-group">
+				<div data-id="newyork-locations" data-orig_data_id="newyork-locations"  class="" data-class="wpcf7cf_group">
+					{ny_field}
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="form-group">
+				<p><label>Subject <span class="text-danger">*</span></label><span class="wpcf7-form-control-wrap" data-name="your-subject"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control" aria-required="true" aria-invalid="false" value="" type="text" name="your-subject" /></span>
+				</p>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="form-group">
+				<p><label>Message <span class="text-danger">*</span></label><span class="wpcf7-form-control-wrap" data-name="your-message"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required form-control message" aria-required="true" aria-invalid="false" name="your-message"></textarea></span>
+				</p>
+			</div>
+		</div>
+	</div>
+	<p><input class="wpcf7-form-control wpcf7-submit has-spinner btn" type="submit" value="Send" />
+	</p>
+	<p><small>This site is protected by reCAPTCHA.<br />
+The Google <a style="opacity: 0.7;" href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a style="opacity: 0.7;" href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.<br />
+</small>
+	</p>
+</div><div class="wpcf7-response-output" aria-hidden="true"></div>
+</form>
+</div>
+        
+    
+  
+  
+</div>
+      </div>
+      </div></div>
+
+    </div>
+
+    
+
+  </section>
+        </div>
+
+
+
+  </main>"""
+
+
+def is_special_events_page(html: str) -> bool:
+    return "page-id-20029" in html and "Select A City" in html
+
+
+def patch_special_events_page(html: str) -> str:
+    if not is_special_events_page(html):
+        return html
+
+    prefix = detect_microsite_prefix(html)
+    html = apply_ks_corporate_contact_chrome(html, prefix)
+    html = SITE_CONTENT_RE.sub(ks_corporate_contact_main_html(prefix), html, count=1)
+    html = SPECIAL_EVENTS_PAGE_RE.sub(
+        "<title>Contact | KS Hospitality Group</title>",
+        html,
+        count=1,
+    )
     return html
+
+
+def patch_book_special_event_links(html: str) -> str:
+    prefix = detect_microsite_prefix(html)
+    if prefix != "/fishbowl":
+        return html
+    return html.replace(
+        'href="/fishbowl/special-events/index.html"',
+        'href="/fishbowl/contact/index.html"',
+    )
 
 
 def replace_ks_favicon(html: str) -> str:
@@ -549,6 +846,82 @@ def apply_ks_branding(html: str) -> str:
     return strip_tao_references(html, detect_microsite_prefix(html))
 
 
+def _featured_carousel_cell(
+    slide_num: int,
+    total: int,
+    name: str,
+    location: str,
+    href: str,
+    img: str,
+) -> str:
+    link_attrs = ""
+    if href.startswith("http"):
+        link_attrs = ' target="_blank" rel="noopener noreferrer"'
+    return f"""        <div
+          class="carousel-cell"
+          role="group"
+          aria-roledescription="slide"
+          aria-label="Slide {slide_num} of {total}"
+        >
+          <a href="{href}"{link_attrs} aria-label="{name}, {location}">
+            <div class="carousel-media">
+              <img src="{img}" class="object-fit" alt="{name}">
+            </div>
+            <div class="carousel-content pt-2 float-start">
+              <h2 class="h5 mb-0 mt-3"><strong>{name}</strong></h2>
+                              <div>
+                  <h6 class="text-muted">{location}</h6>
+                </div>
+                          </div>
+          </a>
+        </div>"""
+
+
+def _featured_slider_html(prefix: str, locations: tuple[dict, ...]) -> str:
+    total = len(locations)
+    cells = []
+    for index, venue in enumerate(locations, start=1):
+        img = venue["img"]
+        if prefix and venue.get("fallback_img"):
+            img = venue["fallback_img"]
+        cells.append(
+            _featured_carousel_cell(
+                index,
+                total,
+                venue["name"],
+                venue["location"],
+                venue["href"],
+                img,
+            )
+        )
+    return "\n\n      \n".join(cells)
+
+
+def patch_venue_featured_locations(html: str) -> str:
+    if "featured-slider JS-event-section carousel" not in html:
+        return html
+
+    prefix = detect_microsite_prefix(html)
+    if "postid-2928" in html:
+        locations = FISHBOWL_FEATURED_LOCATIONS
+        prefix = prefix or "/fishbowl"
+    elif "postid-2988" in html:
+        locations = RICKEY_FEATURED_LOCATIONS
+        prefix = prefix or "/rickey"
+    else:
+        return html
+
+    slider_html = _featured_slider_html(prefix, locations)
+
+    def section_sub(match: re.Match[str]) -> str:
+        return (
+            f'{match.group(1)}Featured Venues{match.group(2)}\n\n      \n{slider_html}\n\n          '
+            f"{match.group(3)}"
+        )
+
+    return VENUE_FEATURED_SECTION_RE.sub(section_sub, html, count=1)
+
+
 def replace_tao_footer(html: str) -> str:
     if 'id="tao-main-footer"' not in html and 'id="ks-hospitality-footer"' not in html:
         return html
@@ -561,4 +934,7 @@ def patch_microsite_html(html: str) -> str:
     html = apply_ks_branding(html)
     html = replace_ks_favicon(html)
     html = patch_corporate_contact_page(html)
+    html = patch_special_events_page(html)
+    html = patch_book_special_event_links(html)
+    html = patch_venue_featured_locations(html)
     return replace_tao_footer(html)
