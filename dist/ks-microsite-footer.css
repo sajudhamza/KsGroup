@@ -1,0 +1,607 @@
+/* KS Hospitality Group footer for venue microsites */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400&family=JetBrains+Mono:wght@400&display=swap");
+
+.ks-microsite-foot {
+  --ks-bg: #0e0d0b;
+  --ks-line: #2a2620;
+  --ks-cream: #ede6d8;
+  --ks-cream-2: #c9c0ae;
+  --ks-cream-3: #8c8472;
+  background: var(--ks-bg);
+  border-top: 1px solid var(--ks-line);
+  color: var(--ks-cream);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 56px 56px 32px;
+  margin-top: 0;
+}
+
+.ks-microsite-foot a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ks-microsite-foot a:hover {
+  color: var(--ks-cream);
+}
+
+.ks-microsite-foot__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.ks-microsite-foot__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ks-microsite-foot__mark {
+  align-items: center;
+  border: 1px solid var(--ks-cream);
+  display: inline-flex;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 22px;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.ks-microsite-foot__name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ks-microsite-foot__name strong {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+}
+
+.ks-microsite-foot__name em {
+  color: var(--ks-cream-3);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ks-microsite-foot__tagline {
+  color: var(--ks-cream-2);
+  font-weight: 300;
+  margin: 24px 0 0;
+  max-width: 320px;
+}
+
+.ks-microsite-foot__contact {
+  color: var(--ks-cream-2);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin: 24px 0 0;
+  text-transform: uppercase;
+}
+
+.ks-microsite-foot__contact + .ks-microsite-foot__contact {
+  margin-top: 6px;
+}
+
+.ks-microsite-foot__heading {
+  color: var(--ks-cream-3);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.ks-microsite-foot__links a {
+  color: var(--ks-cream-2);
+  display: block;
+  font-weight: 300;
+  padding: 6px 0;
+}
+
+.ks-microsite-foot__rule {
+  background: var(--ks-line);
+  height: 1px;
+  margin: 48px auto 24px;
+  max-width: 1280px;
+}
+
+.ks-microsite-foot__bottom {
+  align-items: center;
+  color: var(--ks-cream-3);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  gap: 16px;
+  justify-content: space-between;
+  letter-spacing: 0.16em;
+  margin: 0 auto;
+  max-width: 1280px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .ks-microsite-foot {
+    padding: 40px 24px 24px;
+  }
+
+  .ks-microsite-foot__grid {
+    gap: 32px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ks-microsite-foot__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .ks-microsite-foot__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ks-microsite-foot__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* KS logo in venue microsite nav */
+.ks-microsite-nav-logo-wrap {
+  gap: 12px;
+  color: currentColor;
+  text-decoration: none;
+}
+
+.ks-microsite-nav-logo-wrap--mobile {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ks-microsite-nav-logo__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid currentColor;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.ks-microsite-nav-logo__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ks-microsite-nav-logo__name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ks-microsite-nav-logo__sub {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  opacity: 0.72;
+  text-transform: uppercase;
+}
+
+.headroom .logo .ks-microsite-nav-logo-wrap {
+  max-width: min(280px, 52vw);
+}
+
+.headroom .logo .svg-footer-logo {
+  display: none;
+}
+
+/* KS contact page navbar */
+.ks-contact-headroom {
+  position: sticky;
+  top: 0;
+  z-index: 1070;
+  background: rgba(14, 13, 11, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid #2a2620;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+}
+
+.ks-contact-headroom.headroom--pinned,
+.ks-contact-headroom.headroom--unpinned,
+.ks-contact-headroom.headroom--top {
+  background: rgba(14, 13, 11, 0.92) !important;
+}
+
+.ks-contact-nav {
+  padding: 0;
+}
+
+.ks-contact-nav__bar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 76px;
+  padding: 14px 40px;
+}
+
+.ks-contact-nav__brand {
+  margin-right: auto;
+}
+
+.ks-contact-nav__menu {
+  align-items: center;
+}
+
+.ks-contact-nav__links {
+  align-items: center;
+  gap: 4px;
+}
+
+.ks-contact-nav__dropdown.nav-item {
+  align-items: center;
+  display: flex;
+}
+
+.ks-contact-nav__link,
+.ks-contact-nav__link.dropdown-toggle {
+  color: #c9c0ae !important;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  padding: 10px 14px !important;
+  position: relative;
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+}
+
+.ks-contact-nav__links button.ks-contact-nav__link {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+  text-align: left;
+}
+
+/* Bootstrap caret uses ::after — keep underline on plain links only */
+.ks-contact-nav__link.dropdown-toggle::after {
+  display: none !important;
+}
+
+.ks-contact-nav__link:not(.dropdown-toggle)::after {
+  background: #8e2a2a;
+  bottom: 4px;
+  content: "";
+  height: 1px;
+  left: 14px;
+  position: absolute;
+  right: 14px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.ks-contact-nav__link.dropdown-toggle::before {
+  background: #8e2a2a;
+  bottom: 4px;
+  content: "";
+  height: 1px;
+  left: 14px;
+  position: absolute;
+  right: 14px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.ks-contact-nav__link.dropdown-toggle span::after {
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 4px solid currentColor;
+  content: "";
+  display: inline-block;
+  margin-left: 7px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  transition: transform 0.2s ease;
+}
+
+.ks-contact-nav__dropdown.show .ks-contact-nav__link.dropdown-toggle span::after {
+  border-top: none;
+  border-bottom: 4px solid currentColor;
+  top: -2px;
+}
+
+.ks-contact-nav__link:hover,
+.ks-contact-nav__link.active,
+.ks-contact-nav__link.show {
+  color: #ede6d8 !important;
+}
+
+.ks-contact-nav__link:not(.dropdown-toggle):hover::after,
+.ks-contact-nav__link:not(.dropdown-toggle).active::after,
+.ks-contact-nav__link.dropdown-toggle:hover::before,
+.ks-contact-nav__link.dropdown-toggle.show::before,
+.ks-contact-nav__dropdown.show .ks-contact-nav__link.dropdown-toggle::before {
+  transform: scaleX(1);
+}
+
+.ks-contact-nav__link.ks-contact-nav__venue {
+  border: 1px solid #3a332b;
+  margin-left: 6px;
+}
+
+.ks-contact-nav__cta {
+  align-items: center;
+  background: #6b1e1e;
+  border: 1px solid #6b1e1e;
+  color: #ede6d8 !important;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 400;
+  gap: 8px;
+  letter-spacing: 0.14em;
+  margin-left: 18px;
+  padding: 11px 18px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  white-space: nowrap;
+}
+
+.ks-contact-nav__cta:hover {
+  background: #8e2a2a;
+  border-color: #8e2a2a;
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.ks-contact-nav__cta--mobile {
+  margin: 16px 0 8px 14px;
+}
+
+.ks-contact-nav__toggle {
+  border: 1px solid #3a332b;
+  height: 40px;
+  padding: 0;
+  width: 40px;
+}
+
+.ks-contact-nav__toggle span {
+  background: #ede6d8;
+  display: block;
+  height: 1px;
+  margin: 5px auto;
+  width: 18px;
+}
+
+.ks-contact-mega-menu {
+  background: #15130f !important;
+  border-top: 1px solid #2a2620;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  padding: 1.25rem 0 1.5rem;
+}
+
+.ks-contact-mega-menu .h6 {
+  color: #8c8472;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ks-contact-mega-menu .dropdown-item,
+.ks-contact-mega-menu .dropdown-item-with-icon {
+  border-radius: 2px;
+  color: #ede6d8;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+
+.ks-contact-mega-menu .dropdown-item:hover,
+.ks-contact-mega-menu .dropdown-item-with-icon:hover {
+  background: rgba(237, 230, 216, 0.06);
+  color: #fff;
+}
+
+.ks-contact-mega-menu .dropdown-item .title,
+.ks-contact-mega-menu .dropdown-item-with-icon .title {
+  color: #ede6d8;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.ks-contact-mega-menu .dropdown-item .description,
+.ks-contact-mega-menu .dropdown-item-with-icon .description {
+  color: #8c8472;
+  font-size: 11px;
+  margin-left: 0.5rem;
+}
+
+.ks-contact-mega-menu__cta {
+  background: transparent;
+  border: 1px solid #8c8472;
+  color: #ede6d8;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 10px 16px;
+  text-transform: uppercase;
+}
+
+.ks-contact-mega-menu__cta:hover {
+  background: #ede6d8;
+  border-color: #ede6d8;
+  color: #0e0d0b;
+}
+
+/* KS corporate contact page background + content */
+body.ks-corporate-contact {
+  background: #0e0d0b;
+  color: #ede6d8;
+}
+
+body.ks-corporate-contact .site-content {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(107, 30, 30, 0.14), transparent 55%),
+    linear-gradient(180deg, #15130f 0%, #12100d 28%, #0e0d0b 100%);
+}
+
+body.ks-corporate-contact .page-header,
+body.ks-corporate-contact #page-body .page-section--dark {
+  background: transparent !important;
+}
+
+body.ks-corporate-contact .page-header {
+  border-bottom: 1px solid #2a2620;
+  padding-top: 0.5rem;
+}
+
+body.ks-corporate-contact .page-header .h1 {
+  color: #ede6d8;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+
+body.ks-corporate-contact .content-block__text p {
+  color: #c9c0ae;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+body.ks-corporate-contact .content-block__links .btn-link {
+  color: #ede6d8;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+body.ks-corporate-contact #page-body > .page-section:first-of-type .container {
+  background: rgba(28, 25, 22, 0.55);
+  border: 1px solid #2a2620;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+  padding: 2rem 1.5rem;
+}
+
+body.ks-corporate-contact .form-style--dark {
+  background: rgba(28, 25, 22, 0.72);
+  border: 1px solid #2a2620;
+  border-radius: 2px;
+  padding: 2rem 1.5rem 1.5rem;
+}
+
+body.ks-corporate-contact .form-style--dark label {
+  color: #c9c0ae;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+body.ks-corporate-contact .form-style--dark .form-control,
+body.ks-corporate-contact .form-style--dark select.form-control,
+body.ks-corporate-contact .form-style--dark textarea.form-control {
+  background: #1c1916;
+  border-color: #3a332b;
+  color: #ede6d8;
+}
+
+body.ks-corporate-contact .form-style--dark .form-control:focus,
+body.ks-corporate-contact .form-style--dark select.form-control:focus,
+body.ks-corporate-contact .form-style--dark textarea.form-control:focus {
+  background: #211d19;
+  border-color: #8c8472;
+  box-shadow: 0 0 0 1px rgba(142, 42, 42, 0.35);
+  color: #fff;
+}
+
+body.ks-corporate-contact .form-style--dark .wpcf7-submit.btn {
+  background: #6b1e1e;
+  border-color: #6b1e1e;
+  color: #ede6d8;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  padding: 12px 24px;
+  text-transform: uppercase;
+}
+
+body.ks-corporate-contact .form-style--dark .wpcf7-submit.btn:hover {
+  background: #8e2a2a;
+  border-color: #8e2a2a;
+  color: #fff;
+}
+
+@media (max-width: 991px) {
+  .ks-contact-nav__bar {
+    padding: 12px 20px;
+  }
+
+  .ks-contact-headroom .navbar-collapse,
+  .ks-contact-nav__menu {
+    background: rgba(14, 13, 11, 0.98);
+    border-top: 1px solid #2a2620;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0 1rem;
+    width: 100%;
+  }
+
+  .ks-contact-headroom .mega-menu {
+    box-shadow: none;
+    float: none;
+    position: static !important;
+    width: 100%;
+  }
+
+  .ks-contact-nav__links button.ks-contact-nav__link {
+    width: 100%;
+  }
+
+  .ks-contact-nav__link.dropdown-toggle::before {
+    display: none;
+  }
+
+  body.ks-corporate-contact #page-body > .page-section:first-of-type .container,
+  body.ks-corporate-contact .form-style--dark {
+    padding: 1.25rem 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .ks-contact-nav__link,
+  .ks-contact-nav__link.dropdown-toggle {
+    letter-spacing: 0.14em;
+    padding-left: 12px !important;
+  }
+}

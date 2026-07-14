@@ -7,6 +7,7 @@ import {
   HiFiProperty,
   HiFiContact,
 } from './pages/Pages.jsx'
+import VoiceAssistant from './components/VoiceAssistant.jsx'
 
 export default function App() {
   const [page, setPage] = useState(() => {
@@ -27,24 +28,37 @@ export default function App() {
     setPage('property')
   }
 
+  let content
   switch (page) {
     case 'portfolio':
-      return <HiFiPortfolio onNav={onNav} openProperty={openProperty} />
+      content = <HiFiPortfolio onNav={onNav} openProperty={openProperty} />
+      break
     case 'about':
-      return <HiFiAbout onNav={onNav} />
+      content = <HiFiAbout onNav={onNav} />
+      break
     case 'team':
-      return <HiFiTeam onNav={onNav} />
+      content = <HiFiTeam onNav={onNav} />
+      break
     case 'property':
-      return (
+      content = (
         <HiFiProperty
           onNav={onNav}
           propertyId={propertyId}
           openProperty={openProperty}
         />
       )
+      break
     case 'contact':
-      return <HiFiContact onNav={onNav} />
+      content = <HiFiContact onNav={onNav} />
+      break
     default:
-      return <HiFiHome onNav={onNav} />
+      content = <HiFiHome onNav={onNav} />
   }
+
+  return (
+    <>
+      {content}
+      <VoiceAssistant onNav={onNav} openProperty={openProperty} />
+    </>
+  )
 }

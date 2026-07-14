@@ -134,6 +134,13 @@ KS_FAVICON_HTML = """<!-- KS favicon -->
 
 FOOTER_CSS = '<link rel="stylesheet" href="/ks-microsite-footer.css" id="ks-microsite-footer-css">'
 
+VOICE_ASSISTANT_CSS = (
+    '<link rel="stylesheet" href="/ks-voice-assistant.css" id="ks-voice-assistant-css">'
+)
+VOICE_ASSISTANT_JS = (
+    '<script src="/ks-voice-assistant.js" defer id="ks-voice-assistant-js"></script>'
+)
+
 VENUE_BY_PREFIX = {
     "/rickey": ("The Rickey", "/rickey/"),
     "/fishbowl": ("Fishbowl", "/fishbowl/"),
@@ -751,6 +758,34 @@ def inject_footer_css(html: str) -> str:
     return html[:insert_at] + f"  {FOOTER_CSS}\n" + html[insert_at:]
 
 
+def inject_voice_assistant(html: str) -> str:
+    """Add venue-specific voice assistant assets to Fishbowl / Rickey pages."""
+    if "ks-voice-assistant.js" in html:
+        return html
+
+    prefix = detect_microsite_prefix(html)
+    if prefix not in ("/fishbowl", "/rickey"):
+        if "postid-2928" in html or "/fishbowl/" in html:
+            prefix = "/fishbowl"
+        elif "postid-2988" in html or "/rickey/" in html:
+            prefix = "/rickey"
+        else:
+            return html
+
+    if "ks-voice-assistant.css" not in html:
+        head = re.search(r"</head>", html, re.IGNORECASE)
+        if head:
+            html = html[: head.start()] + f"  {VOICE_ASSISTANT_CSS}\n" + html[head.start() :]
+
+    # Cloned Tao pages often omit </body>; fall back to </html>.
+    insert = re.search(r"</body\s*>", html, re.IGNORECASE) or re.search(
+        r"</html\s*>", html, re.IGNORECASE
+    )
+    if not insert:
+        return html
+    return html[: insert.start()] + f"  {VOICE_ASSISTANT_JS}\n" + html[insert.start() :]
+
+
 def remove_rewards_content(html: str) -> str:
     html = REWARDS_BANNER_SECTION_RE.sub("", html)
     html = REWARDS_MENU_CTA_RE.sub("", html)
@@ -953,4 +988,5 @@ def patch_microsite_html(html: str) -> str:
     html = patch_special_events_page(html)
     html = patch_book_special_event_links(html)
     html = patch_venue_featured_locations(html)
-    return replace_tao_footer(html)
+    html = replace_tao_footer(html)
+    return inject_voice_assistant(html)
