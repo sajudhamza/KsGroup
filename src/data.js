@@ -297,6 +297,22 @@ export const KS_DATA = {
       ],
     },
     {
+      id: 'the-maine-grill',
+      name: 'The Maine Grill',
+      cat: 'Lounge', catSlug: 'lounges',
+      loc: 'Lewiston, ME',
+      url: '/maine-grill/',
+      img: '/img/Lounges/Maine Grill/1.png',
+      logo: '/img/Lounges/Maine Grill/logo.png',
+      kind: 'photo',
+      blurb:
+        'Fresh seafood, prime steaks, and craft cocktails — timeless hospitality at Clarion Lewiston.',
+      description: [
+        'The Maine Grill brings together the freshest local ingredients, classic preparation, and a commitment to genuine hospitality in Lewiston, Maine.',
+        'Located at 490 Pleasant Street within the Clarion Hotel & Conference Center, The Maine Grill serves fresh seafood, prime steaks, and craft cocktails in a refined coastal setting — ideal for dinners, celebrations, and private events.',
+      ],
+    },
+    {
       id: 'lic-manhattan-view',
       name: 'LIC Manhattan View Hotel',
       cat: 'Hotel', catSlug: 'hotels',

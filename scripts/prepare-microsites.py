@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ("prepare-fishbowl.py", "prepare-rickey.py")
+SCRIPTS = ("prepare-fishbowl.py", "prepare-rickey.py", "prepare-maine-grill.py")
 
 
 def main() -> None:

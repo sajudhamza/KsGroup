@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const MICROSITES = ['fishbowl', 'rickey']
+const MICROSITES = ['fishbowl', 'rickey', 'maine-grill']
 
 /** Vite dev/preview do not map /rickey/ → /rickey/index.html; rewrite those requests. */
 function micrositeIndexPlugin() {
@@ -11,6 +11,15 @@ function micrositeIndexPlugin() {
     for (const site of MICROSITES) {
       if (pathname === `/${site}` || pathname === `/${site}/`) {
         req.url = `/${site}/index.html${query}`
+        break
+      }
+      // SPA fallback for React microsites (client-side routes)
+      if (site === 'maine-grill' && pathname.startsWith(`/${site}/`)) {
+        const rest = pathname.slice(`/${site}/`.length)
+        const looksLikeAsset = /\.[a-zA-Z0-9]+$/.test(rest)
+        if (!looksLikeAsset) {
+          req.url = `/${site}/index.html${query}`
+        }
         break
       }
     }

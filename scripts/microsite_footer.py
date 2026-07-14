@@ -71,7 +71,7 @@ CONTACT_FORM_REGION_OPTIONS = """<option value="Select a Contact">Select a Conta
 CONTACT_FORM_NY_LOCATIONS_SHORTCODE = (
     '[select* newyork-locations first_as_label class:form-control '
     '"Select A Location" "Elsie Rooftop" "Elsie Penthouse" "Rosehill Rooftop" '
-    '"Stone & Soil" "Skewr" "Brewr" "Casa CeCe" "The Rickey" "Fishbowl" '
+    '"Stone & Soil" "Skewr" "Brewr" "Casa CeCe" "The Rickey" "Fishbowl" "The Maine Grill" '
     '"LIC Manhattan View Hotel"]'
 )
 
@@ -137,6 +137,7 @@ FOOTER_CSS = '<link rel="stylesheet" href="/ks-microsite-footer.css" id="ks-micr
 VENUE_BY_PREFIX = {
     "/rickey": ("The Rickey", "/rickey/"),
     "/fishbowl": ("Fishbowl", "/fishbowl/"),
+    "/maine-grill": ("The Maine Grill", "/maine-grill/"),
 }
 
 KS_VENUE_CATEGORIES = (
@@ -158,6 +159,7 @@ KS_VENUE_CATEGORIES = (
             ("Premiere Park City", "http://www.premiereparkcity.com", "Park City, UT"),
             ("The Rickey", "/rickey/", "Dream Midtown, NY"),
             ("Fishbowl", "/fishbowl/", "Dream Midtown, NY"),
+            ("The Maine Grill", "/maine-grill/", "Lewiston, ME"),
         ),
     },
     {
@@ -219,6 +221,12 @@ FISHBOWL_FEATURED_LOCATIONS = (
         "img": "/img/Lounges/Rickey/1.jpg",
         "fallback_img": "/fishbowl/wp-content/uploads/2019/09/NYC-TheRickey.jpg",
     },
+    {
+        "name": "The Maine Grill",
+        "location": "Lewiston, ME",
+        "href": "/maine-grill/",
+        "img": "/img/Lounges/Maine Grill/1.png",
+    },
     *KS_SHARED_FEATURED_LOCATIONS,
 )
 
@@ -229,6 +237,12 @@ RICKEY_FEATURED_LOCATIONS = (
         "href": "/fishbowl/",
         "img": "/img/Lounges/Fishbowl/1.jpg",
         "fallback_img": "/rickey/wp-content/uploads/2019/09/NYC-Fishbowl.jpg",
+    },
+    {
+        "name": "The Maine Grill",
+        "location": "Lewiston, ME",
+        "href": "/maine-grill/",
+        "img": "/img/Lounges/Maine Grill/1.png",
     },
     *KS_SHARED_FEATURED_LOCATIONS,
 )
@@ -482,6 +496,8 @@ def detect_microsite_prefix(html: str) -> str:
         return "/fishbowl"
     if '"/rickey/' in html or "'/rickey/" in html or 'href="/rickey"' in html:
         return "/rickey"
+    if '"/maine-grill/' in html or "'/maine-grill/" in html or 'href="/maine-grill"' in html:
+        return "/maine-grill"
     return ""
 
 
