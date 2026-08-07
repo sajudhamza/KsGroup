@@ -120,7 +120,7 @@
 .ks .tag-active { border-color: var(--cream); color: var(--cream); background: rgba(237,230,216,0.06); }
 .ks .tag-accent { border-color: var(--accent-2); color: var(--accent-2); }
 
-/* Kicker (mono with hairlines on either side) */
+/* Kicker (mono uppercase label) */
 .ks .kicker {
   display: inline-flex;
   align-items: center;
@@ -130,12 +130,6 @@
   font-size: 10px;
   letter-spacing: 0.22em;
   color: var(--cream-3);
-}
-.ks .kicker::before {
-  content: "";
-  width: 24px;
-  height: 1px;
-  background: var(--cream-3);
 }
 
 .ks .img-logocard {

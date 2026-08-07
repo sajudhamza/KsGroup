@@ -99,7 +99,7 @@ export const HiFiAbout = ({ onNav }) => {
             <blockquote className="body-l ital" style={{ marginTop: 40, paddingLeft: 24, borderLeft: '2px solid var(--accent)', color: 'var(--cream)' }}>
               &ldquo;{D.quote.text}&rdquo;
               <footer className="mono" style={{ marginTop: 16, fontStyle: 'normal', fontSize: 11 }}>
-                — {D.quote.author}, {D.quote.role}
+                - {D.quote.author}, {D.quote.role}
               </footer>
             </blockquote>
           </div>
@@ -107,6 +107,38 @@ export const HiFiAbout = ({ onNav }) => {
       </section>
 
       <section style={{ padding: '120px 56px' }}>
+        <div className="container">
+          <Kicker>The KS Standard</Kicker>
+          <h2 className="display-m" style={{ marginTop: 16, maxWidth: 720 }}>
+            How we build places that <span className="ital">last.</span>
+          </h2>
+          <p className="body-l" style={{ marginTop: 24, maxWidth: 640 }}>
+            {D.missionShort}
+          </p>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 0,
+            marginTop: 64,
+            border: '1px solid var(--line)',
+          }}>
+            {(D.ksStandard || []).map((s, i) => (
+              <div key={s.label} style={{
+                padding: 40,
+                borderRight: i % 2 === 0 ? '1px solid var(--line)' : 'none',
+                borderBottom: i < (D.ksStandard?.length || 0) - 2 ? '1px solid var(--line)' : 'none',
+              }}>
+                <div className="mono accent">{s.numeral}</div>
+                <div className="title-m" style={{ marginTop: 16 }}>{s.label}</div>
+                <p className="body" style={{ marginTop: 12 }}>{s.line}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: '120px 56px', borderTop: '1px solid var(--line)' }}>
         <div className="container">
           <Kicker>Our Strengths</Kicker>
           <h2 className="display-m" style={{ marginTop: 16, maxWidth: 720 }}>
@@ -135,7 +167,7 @@ export const HiFiAbout = ({ onNav }) => {
             Connections that <span className="ital">move the needle.</span>
           </h2>
           <p className="body-l" style={{ marginTop: 24, maxWidth: 720 }}>
-            With a curated mailing list of 60,000, an exclusive membership community of 2,500+, and established brand partnerships, we connect properties to the right people — corporate clients, tastemakers, planners, bookers, and industry decision-makers.
+            With 60,000+ subscribers, a 2,500+ member community, 100k+ social following, and established brand partnerships, we connect properties to the right people: corporate clients, tastemakers, planners, bookers, and industry decision-makers.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, marginTop: 64, border: '1px solid var(--line)' }}>
@@ -192,8 +224,8 @@ export const HiFiTeam = ({ onNav }) => {
             Operators behind<br/><span className="ital">every detail</span>.
           </h1>
           <p className="body-l" style={{ marginTop: 28, maxWidth: 620 }}>
-            The team behind NYC&apos;s favorite venues — hospitality veterans with deep expertise
-            across hotels, restaurants, and bars.
+            {D.brand.tagline} Hospitality veterans with deep expertise across hotels, rooftops,
+            restaurants, and experiences.
           </p>
         </div>
       </section>
@@ -208,6 +240,9 @@ export const HiFiTeam = ({ onNav }) => {
                   <div className="mono accent">{String(i + 1).padStart(2, '0')} / {String(D.team.length).padStart(2, '0')}</div>
                   <div className="display-s" style={{ marginTop: 14 }}>{m.name}</div>
                   <div className="mono" style={{ marginTop: 10 }}>{m.role}</div>
+                  {m.tagline ? (
+                    <p className="body-s ital" style={{ marginTop: 12, color: 'var(--cream-2)' }}>{m.tagline}</p>
+                  ) : null}
                   <p className="body" style={{ marginTop: 20 }}>{m.bio}</p>
                 </div>
               </div>
@@ -349,7 +384,7 @@ export const HiFiContact = ({ onNav }) => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--line)' }}>
             {[
               ['I', 'General', D.contact.email, 'Reservations, partnerships, events.', false],
-              ['II', 'Phone', D.contact.phone, 'Available business hours, Mon–Fri.', true],
+              ['II', 'Phone', D.contact.phone, 'Available business hours, Mon-Fri.', true],
               ['III', 'Careers', D.contact.careersEmail, 'Operators, chefs, FOH talent.', false],
             ].map(([n, k, val, d, hl], i) => (
               <div key={k} style={{

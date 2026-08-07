@@ -3,7 +3,7 @@ import { KS_DATA } from '../data.js'
 import { TopNav, Photo, PropertyCard, Kicker, Footer } from '../components/Parts.jsx'
 import { propertyLinkProps } from '../utils/propertyLink.js'
 
-// Hi-fi homepage — Cinematic Full-Bleed direction.
+// Hi-fi homepage, Cinematic Full-Bleed direction.
 // Dark, moody, big imagery, hairline rules, oxblood accents.
 export default function HiFiHome({ onNav }) {
   const D = KS_DATA
@@ -15,7 +15,7 @@ export default function HiFiHome({ onNav }) {
     <div className="ks">
       <TopNav active="" onNav={onNav}/>
 
-      {/* HERO — full-bleed photo, type lockup bottom-left */}
+      {/* HERO, full-bleed photo, type lockup bottom-left */}
       <section style={{ position: 'relative', height: 'calc(100vh - 71px)', minHeight: 720, overflow: 'hidden' }}>
         <Photo
           src={D.heroImage}
@@ -26,16 +26,17 @@ export default function HiFiHome({ onNav }) {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,13,11,0.45) 0%, rgba(14,13,11,0.1) 35%, rgba(14,13,11,0.2) 55%, rgba(14,13,11,0.95) 100%)' }}/>
 
         <div className="reveal-fade" style={{ position: 'absolute', top: 32, right: 56, textAlign: 'right' }}>
-          <div className="mono mono-on">SPRING 2026</div>
+          <div className="mono mono-on">{D.brand.season || 'SUMMER 2026'}</div>
           <div className="mono" style={{ marginTop: 4 }}>NEW YORK · HAMPTONS · MAINE · UTAH</div>
         </div>
 
         <div className="reveal" style={{ position: 'absolute', left: 56, right: 56, bottom: 64, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 48, flexWrap: 'wrap' }}>
           <div style={{ maxWidth: 980 }}>
-            <Kicker>Hospitality · Food &amp; Beverage · Real Estate</Kicker>
+            <Kicker>{D.brand.categoriesLine || 'Hotels · Rooftops · Restaurants · Experiences'}</Kicker>
             <h1 className="display-xl" style={{ marginTop: 18, color: 'var(--cream)' }}>
-              We don&apos;t just build brands.<br/>
-              <span className="ital" style={{ color: 'var(--cream-2)' }}>We give them life.</span>
+              Exceptional hospitality.<br/>
+              Iconic places.<br/>
+              <span className="ital" style={{ color: 'var(--cream-2)' }}>Lasting impact.</span>
             </h1>
             <p className="body-l" style={{ marginTop: 24, maxWidth: 620, color: 'var(--cream-2)' }}>
               {D.brand.tagline} Concepted, built and operated by KS Hospitality Group.
@@ -62,7 +63,7 @@ export default function HiFiHome({ onNav }) {
         </div>
       </section>
 
-      {/* MARQUEE — italics murmur of property names */}
+      {/* MARQUEE, italics murmur of property names */}
       <div className="marquee-wrap">
         <div className="marquee">
           {[...Array(2)].map((_, r) => (
@@ -88,8 +89,8 @@ export default function HiFiHome({ onNav }) {
           </div>
           <div>
             <h2 className="display-l" style={{ color: 'var(--cream)' }}>
-              Unforgettable F&amp;B and<br/>
-              <span className="ital">hospitality experiences</span>.
+              Curated spaces.<br/>
+              <span className="ital">Unforgettable experiences.</span>
             </h2>
 
             {D.mission.map((p, i) => (
@@ -126,7 +127,7 @@ export default function HiFiHome({ onNav }) {
         </div>
       </section>
 
-      {/* PORTFOLIO — asymmetric grid using real properties */}
+      {/* PORTFOLIO, asymmetric grid using real properties */}
       <section id="portfolio" style={{ padding: '140px 0 100px' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, flexWrap: 'wrap', gap: 24 }}>
@@ -205,7 +206,7 @@ export default function HiFiHome({ onNav }) {
         </div>
       </section>
 
-      {/* CATEGORIES — four large links */}
+      {/* CATEGORIES, four large links */}
       <section style={{ padding: '120px 0' }}>
         <div className="container">
           <Kicker>Explore by category</Kicker>

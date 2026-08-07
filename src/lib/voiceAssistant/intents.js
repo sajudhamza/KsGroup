@@ -78,11 +78,11 @@ function matchTeam(text) {
   if (includesAny(text, ['cfo', 'financial', 'pankaj'])) {
     return team.find((m) => m.name === 'Pankaj Chauhan')
   }
-  if (includesAny(text, ['events director', 'maggie', 'director of events'])) {
-    return team.find((m) => m.name === 'Maggie Zwolak')
+  if (includesAny(text, ['events director', 'fatima', 'director of events'])) {
+    return team.find((m) => m.name === 'Fatima Hanine')
   }
-  if (includesAny(text, ['f&b', 'food and beverage', 'gabriel'])) {
-    return team.find((m) => m.name === 'Gabriel Solano')
+  if (includesAny(text, ['brand experience', 'rebecca', 'activations'])) {
+    return team.find((m) => m.name === 'Rebecca Morris')
   }
   if (includesAny(text, ['vp of operations', 'christian', 'operations'])) {
     if (includesAny(text, ['christian', 'vp of operations', 'large scale'])) {
@@ -131,7 +131,7 @@ export function resolveIntent(rawInput) {
 
   if (includesAny(text, ['hello', 'hi there', 'hey', 'good morning', 'good afternoon', 'good evening'])) {
     return {
-      message: `Hello! I'm the voice guide for ${brand.name}. I can tell you about our restaurants, rooftops, hotels, and team — or take you to the right page. What would you like to explore?`,
+      message: `Hello! I'm the voice guide for ${brand.name}. I can tell you about our restaurants, rooftops, hotels, and team, or take you to the right page. What would you like to explore?`,
       actions: [],
     }
   }
@@ -167,7 +167,7 @@ export function resolveIntent(rawInput) {
 
   if (includesAny(text, ['contact', 'get in touch', 'reach out', 'inquire', 'enquiry'])) {
     return {
-      message: `Let's connect — email ${contact.email} or call ${contact.phone}. I'm taking you to Contact.`,
+      message: `Let's connect. Email ${contact.email} or call ${contact.phone}. I'm taking you to Contact.`,
       actions: [{ type: 'navigate', page: 'contact' }],
     }
   }
@@ -323,7 +323,7 @@ export function resolveIntent(rawInput) {
   if (includesAny(text, ['maine', 'lewiston'])) {
     return {
       message:
-        'In Maine we have Clarion Lewiston and The Maine Grill — fresh seafood, prime steaks, and craft cocktails at 490 Pleasant Street. I can open either venue\'s detail page. Try "Tell me about The Maine Grill."',
+        'In Maine we have Clarion Lewiston and The Maine Grill: fresh seafood, prime steaks, and craft cocktails at 490 Pleasant Street. I can open either venue\'s detail page. Try "Tell me about The Maine Grill."',
       actions: [{ type: 'navigate', page: 'portfolio' }],
     }
   }
@@ -359,4 +359,4 @@ export const quickPrompts = [
   'Contact us',
 ]
 
-export const WELCOME_MESSAGE = `Welcome to ${brand.name}. I'm your voice guide — ask about our restaurants, rooftops, hotels, team, or say "show portfolio" to explore.`
+export const WELCOME_MESSAGE = `Welcome to ${brand.name}. I'm your voice guide. Ask about our restaurants, rooftops, hotels, team, or say "show portfolio" to explore.`
