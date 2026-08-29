@@ -2,7 +2,7 @@
 """
 Build The Maine Grill React site and copy it into
 KsGroup/public/maine-grill/ for hosting at /maine-grill/
-(same pattern as /fishbowl/ and /rickey/).
+(served under /maine-grill/ on the main domain).
 """
 
 from __future__ import annotations

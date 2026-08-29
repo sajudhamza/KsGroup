@@ -196,7 +196,7 @@ export const KS_DATA = {
       cat: 'Lounge',
       catSlug: 'lounges',
       loc: 'Midtown, NY',
-      url: '#',
+      url: 'https://casacecenyc.com',
       img: '/img/Lounges/Casa CeCe/1.jpg',
       kind: 'photo',
       blurb:
@@ -235,7 +235,7 @@ export const KS_DATA = {
       cat: 'Lounge',
       catSlug: 'lounges',
       loc: 'Rose Hill, NY',
-      url: '#',
+      url: 'https://www.skewr.nyc',
       img: '/img/Lounges/Skewr/1.jpg',
       kind: 'photo',
       blurb:
@@ -253,7 +253,7 @@ export const KS_DATA = {
       cat: 'Lounge',
       catSlug: 'lounges',
       loc: 'Rose Hill, NY',
-      url: '#',
+      url: 'https://www.brewr.us',
       img: '/img/Lounges/Brewr/1.jpg',
       kind: 'photo',
       blurb:
@@ -269,7 +269,7 @@ export const KS_DATA = {
       cat: 'Lounge',
       catSlug: 'lounges',
       loc: 'Rose Hill, NY',
-      url: '#',
+      url: 'https://stoneandsoil.nyc',
       img: '/img/Lounges/Stone and Soil/1.jpg',
       kind: 'photo',
       blurb:
@@ -376,7 +376,7 @@ export const KS_DATA = {
       cat: 'Hotel',
       catSlug: 'hotels',
       loc: 'Lewiston, ME',
-      url: '#',
+      url: 'https://www.clarionhotellewiston.com',
       img: '/img/Hotels/Clarion Lewiston Maine/01190_exterior_view_3.jpg',
       kind: 'photo',
       blurb:
@@ -389,45 +389,12 @@ export const KS_DATA = {
     },
     // Additional operated venues (beyond Summer 2026 logo wall)
     {
-      id: 'the-rickey',
-      name: 'The Rickey',
-      cat: 'Lounge',
-      catSlug: 'lounges',
-      loc: 'Dream Midtown, NY',
-      url: '/rickey/',
-      img: '/img/Lounges/Rickey/1.jpg',
-      logo: '/img/Lounges/Rickey/logo.png',
-      kind: 'photo',
-      blurb:
-        'A cocktail lounge at Dream Midtown with craft drinks, happy hour, and skyline views above Manhattan.',
-      description: [
-        'The Rickey is a cocktail lounge at Dream Midtown in New York City, offering craft cocktails, a curated menu, and happy hour in an elevated lounge setting high above Manhattan.',
-        'From intimate evenings to group gatherings, The Rickey is part of the KS Hospitality Group portfolio at Dream Hotels, where hospitality, design, and nightlife come together.',
-      ],
-    },
-    {
-      id: 'fishbowl',
-      name: 'Fishbowl',
-      cat: 'Lounge',
-      catSlug: 'lounges',
-      loc: 'Dream Midtown, NY',
-      url: '/fishbowl/',
-      img: '/img/Lounges/Fishbowl/1.jpg',
-      kind: 'photo',
-      blurb:
-        'Midtown\'s upscale game room lounge with bowling, arcade games, and cocktails high above Manhattan.',
-      description: [
-        'Fishbowl is where Midtown Manhattan meets upscale game room. Located at Dream Midtown, this bar lounge and game room pairs craft cocktails with bowling lanes, arcade games, and private event spaces overlooking the city.',
-        'Available for special events, corporate gatherings, and nights out with friends, Fishbowl is one of the signature F&B destinations in the KS Hospitality Group portfolio at Dream Hotels.',
-      ],
-    },
-    {
       id: 'lic-manhattan-view',
       name: 'LIC Manhattan View Hotel',
       cat: 'Hotel',
       catSlug: 'hotels',
       loc: 'Long Island City, NY',
-      url: '#',
+      url: 'https://licmanhattanviewhotel.com',
       img: '/img/Hotels/LIC Manhattan View Hotel/1.png',
       kind: 'photo',
       blurb: 'A strategically located LIC hotel, 15 minutes from Midtown by subway.',

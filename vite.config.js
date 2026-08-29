@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const MICROSITES = ['fishbowl', 'rickey', 'maine-grill']
+const MICROSITES = ['maine-grill']
 
-/** Vite dev/preview do not map /rickey/ → /rickey/index.html; rewrite those requests. */
+/** Vite dev/preview do not map /maine-grill/ → /maine-grill/index.html; rewrite those requests. */
 function micrositeIndexPlugin() {
   const rewrite = (req, _res, next) => {
     const [pathname, search = ''] = (req.url || '').split('?')

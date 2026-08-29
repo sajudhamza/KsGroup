@@ -24,8 +24,6 @@ const venueMatchers = properties.map((property) => {
     ...(nameLower.includes('brewr') ? ['brew', 'espresso martini cafe'] : []),
     ...(nameLower.includes('premiere') ? ['premiere', 'sundance', 'park city'] : []),
     ...(nameLower.includes('casa') ? ['casa cece', 'supper club', 'diamond moon'] : []),
-    ...(nameLower.includes('rickey') ? ['the rickey', 'rickey'] : []),
-    ...(nameLower.includes('fishbowl') ? ['fish bowl', 'bowling'] : []),
     ...(nameLower.includes('maine grill') ? ['maine grill', 'main grill', 'maine grille'] : []),
     ...(nameLower.includes('clarion') ? ['clarion', 'lewiston hotel', 'lewiston maine'] : []),
     ...(nameLower.includes('lic') ? ['manhattan view', 'long island city hotel', 'lic hotel'] : []),
@@ -139,7 +137,7 @@ export function resolveIntent(rawInput) {
   if (includesAny(text, ['help', 'what can you do', 'what do you do', 'how can you help'])) {
     return {
       message:
-        'I can answer questions about KS venues like Elsie Rooftop, Stone & Soil, Fishbowl, The Maine Grill, Clarion Lewiston, and more. I can also open Portfolio, About, Team, or Contact, and send you to a venue\'s detail page. Try "Tell me about Elsie Rooftop" or "Show me lounges."',
+        'I can answer questions about KS venues like Elsie Rooftop, Stone & Soil, The Maine Grill, Clarion Lewiston, and more. I can also open Portfolio, About, Team, or Contact, and send you to a venue\'s detail page. Try "Tell me about Elsie Rooftop" or "Show me lounges."',
       actions: [],
     }
   }
@@ -345,7 +343,7 @@ export function resolveIntent(rawInput) {
   }
 
   return {
-    message: `I'm not sure about that one. Ask about a venue like Elsie Rooftop or Fishbowl, our team, or say "show portfolio." You can also email ${contact.email}.`,
+    message: `I'm not sure about that one. Ask about a venue like Elsie Rooftop or Stone & Soil, our team, or say "show portfolio." You can also email ${contact.email}.`,
     actions: [],
   }
 }

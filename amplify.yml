@@ -15,12 +15,6 @@ frontend:
     paths:
       - node_modules/**/*
   customRedirects:
-    - source: '/fishbowl'
-      target: '/fishbowl/'
-      status: '302'
-    - source: '/rickey'
-      target: '/rickey/'
-      status: '302'
     - source: '/maine-grill'
       target: '/maine-grill/'
       status: '302'

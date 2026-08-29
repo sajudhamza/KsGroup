@@ -13,30 +13,26 @@ Then open `http://localhost:5174` in your browser.
 
 The dev server also prints a **Network** URL (e.g. `http://192.168.1.x:5174`). Visit that from your phone on the same Wi-Fi to test mobile.
 
-### Venue microsites (`/fishbowl`, `/rickey`, `/maine-grill`)
+### Venue microsites (`/maine-grill`)
 
-Fishbowl, The Rickey, and The Maine Grill are bundled on the same domain:
+The Maine Grill is bundled on the same domain:
 
 | URL | Venue |
 |-----|--------|
-| `www.kshospitalitygroup.com/fishbowl/` | Fishbowl bar & game room |
-| `www.kshospitalitygroup.com/rickey/` | The Rickey cocktail lounge |
 | `www.kshospitalitygroup.com/maine-grill/` | The Maine Grill (Lewiston, ME) |
 
 | Command | What it does |
 |---|---|
-| `npm run prepare-microsites` | Prepares Fishbowl, The Rickey, and The Maine Grill into `public/` |
-| `npm run prepare-fishbowl` | Fishbowl only |
-| `npm run prepare-rickey` | The Rickey only |
+| `npm run prepare-microsites` | Prepares The Maine Grill into `public/` |
 | `npm run prepare-maine-grill` | Builds `../The-Maine-Grill` into `public/maine-grill/` |
-| `npm run dev` | Prepares microsites, then starts KS Group — try `/fishbowl/`, `/rickey/`, or `/maine-grill/` |
+| `npm run dev` | Prepares microsites, then starts KS Group — try `/maine-grill/` |
 | `npm run build` | Prepares microsites and builds `dist/` |
 
-**Source files:** Fishbowl/Rickey scripts read from `<name>-mirror/` or fall back to `../The fishbowl` / `../The rickey`. Maine Grill builds from `../The-Maine-Grill`. If a source is missing but `public/<name>/` exists, the build keeps the existing copy (for CI/deploy).
+**Source files:** Maine Grill builds from `../The-Maine-Grill`. If the source is missing but `public/maine-grill/` exists, the build keeps the existing copy (for CI/deploy).
 
 **After deploy:** AWS Amplify uses `amplify.yml` (trailing-slash redirects + SPA fallback for `/maine-grill/*`).
 
-**Local dev:** KS Group runs on **port 5174** (`http://localhost:5174/`). Clarion and other Vite apps may use 5173 — use the KsGroup terminal. Open microsites at `/rickey/`, `/fishbowl/`, or `/maine-grill/` (restart `npm run dev` after pulling if those paths show the main KS site instead).
+**Local dev:** KS Group runs on **port 5174** (`http://localhost:5174/`). Clarion and other Vite apps may use 5173 — use the KsGroup terminal. Open the microsite at `/maine-grill/` (restart `npm run dev` after pulling if that path shows the main KS site instead).
 
 
 ## File structure
