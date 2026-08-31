@@ -6,6 +6,7 @@ import {
   HiFiTeam,
   HiFiProperty,
   HiFiContact,
+  HiFiPress,
 } from './pages/Pages.jsx'
 import VoiceAssistant from './components/VoiceAssistant.jsx'
 
@@ -13,7 +14,7 @@ export default function App() {
   const [page, setPage] = useState(() => {
     const params = new URLSearchParams(window.location.search)
     const p = params.get('page')
-    const allowed = ['portfolio', 'about', 'team', 'contact', 'property']
+    const allowed = ['portfolio', 'about', 'team', 'press', 'contact', 'property']
     return allowed.includes(p) ? p : 'home'
   })
   const [propertyId, setPropertyId] = useState(null)
@@ -47,6 +48,9 @@ export default function App() {
           openProperty={openProperty}
         />
       )
+      break
+    case 'press':
+      content = <HiFiPress onNav={onNav} openProperty={openProperty} />
       break
     case 'contact':
       content = <HiFiContact onNav={onNav} />

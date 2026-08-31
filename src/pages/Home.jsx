@@ -80,40 +80,17 @@ export default function HiFiHome({ onNav }) {
       <section style={{ padding: '140px 56px', background: 'var(--bg-2)', position: 'relative' }}>
         <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 96, alignItems: 'start' }}>
           <div style={{ position: 'sticky', top: 100 }}>
-            <Kicker>Our Mission</Kicker>
-            <div className="serif ital" style={{ marginTop: 56, fontSize: 36, color: 'var(--accent-2)', lineHeight: 1 }}>I.</div>
-            <div style={{ marginTop: 20, height: 1, width: 56, background: 'var(--cream-3)' }}/>
-            <p className="mono" style={{ marginTop: 20, maxWidth: 220 }}>
-              {D.brand.tagline}
-            </p>
+            {/* Placeholder visual — swap src when the mission image arrives */}
+            <Photo src={D.missionImage} label="Our Mission" style={{ height: 480 }}/>
           </div>
           <div>
             <h2 className="display-l" style={{ color: 'var(--cream)' }}>
-              Curated spaces.<br/>
-              <span className="ital">Unforgettable experiences.</span>
+              Our <span className="ital">Mission</span>.
             </h2>
 
             {D.mission.map((p, i) => (
               <p key={i} className="body-l" style={{ marginTop: i === 0 ? 36 : 18, maxWidth: 640 }}>{p}</p>
             ))}
-
-            <div style={{
-              marginTop: 56,
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 24,
-              padding: '40px 0',
-              borderTop: '1px solid var(--line)',
-              borderBottom: '1px solid var(--line)',
-            }}>
-              {D.values.map(v => (
-                <div key={v.label}>
-                  <div className="mono accent">{v.numeral}</div>
-                  <div className="title-l" style={{ marginTop: 14 }}>{v.label}</div>
-                  <p className="body-s" style={{ marginTop: 10, maxWidth: 220 }}>{v.line}</p>
-                </div>
-              ))}
-            </div>
 
             <p className="display-s ital" style={{ marginTop: 56, color: 'var(--cream)', maxWidth: 720, lineHeight: 1.2 }}>
               {D.missionShort}
@@ -227,36 +204,6 @@ export default function HiFiHome({ onNav }) {
               </a>
             )
           })}
-        </div>
-      </section>
-
-      {/* CONTACT TEASE */}
-      <section style={{ padding: '120px 56px', borderTop: '1px solid var(--line)', background: 'var(--bg)' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 96, alignItems: 'center' }}>
-          <div>
-            <Kicker>Next step</Kicker>
-            <h2 className="display-l" style={{ marginTop: 16 }}>
-              Let&apos;s talk about<br/><span className="ital" style={{ color: 'var(--cream-2)' }}>the next house.</span>
-            </h2>
-            <p className="body-l" style={{ marginTop: 24, maxWidth: 520 }}>
-              Reservations, partnerships, press, careers. Every message reaches a real person.
-            </p>
-            <a href="#" onClick={(e) => go(e, 'contact')} className="btn btn-fill" style={{ marginTop: 32 }}>Get in touch →</a>
-          </div>
-          <div>
-            <div className="meta-row">
-              <div className="mono" style={{ width: 100 }}>Email</div>
-              <div className="title-m" style={{ flex: 1, wordBreak: 'break-all' }}>{D.contact.email}</div>
-            </div>
-            <div className="meta-row">
-              <div className="mono" style={{ width: 100 }}>Phone</div>
-              <div className="title-m" style={{ flex: 1 }}>{D.contact.phone}</div>
-            </div>
-            <div className="meta-row">
-              <div className="mono" style={{ width: 100 }}>Instagram</div>
-              <a href={D.contact.instagram} target="_blank" rel="noopener noreferrer" className="title-m" style={{ flex: 1, color: 'inherit', textDecoration: 'none' }}>@kshospitalitygroup ↗</a>
-            </div>
-          </div>
         </div>
       </section>
 

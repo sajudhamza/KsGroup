@@ -275,7 +275,7 @@ export const HiFiProperty = ({ onNav, propertyId, openProperty }) => {
   const D = KS_DATA
   const p = D.properties.find(x => x.id === propertyId) || D.properties[0]
   const related = D.properties.filter(x => x.catSlug === p.catSlug && x.id !== p.id).slice(0, 3)
-  const fallback = D.properties.filter(x => x.id !== p.id).slice(0, 3)
+  const fallback = D.properties.filter(x => x.id !== p.id && !related.some(r => r.id === x.id)).slice(0, 3)
   const rel = related.length >= 3 ? related : [...related, ...fallback].slice(0, 3)
 
   return (
@@ -297,7 +297,17 @@ export const HiFiProperty = ({ onNav, propertyId, openProperty }) => {
         <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 96 }}>
           <div>
             <Kicker>{p.cat} · {p.loc}</Kicker>
-            <h1 className="display-l" style={{ marginTop: 18 }}>{p.name}</h1>
+            {p.logo ? (
+              <h1 style={{ marginTop: 26, marginBottom: 0 }}>
+                <img
+                  src={p.logo}
+                  alt={p.name}
+                  style={{ maxHeight: 120, maxWidth: 'min(420px, 100%)', objectFit: 'contain', objectPosition: 'left center', display: 'block' }}
+                />
+              </h1>
+            ) : (
+              <h1 className="display-l" style={{ marginTop: 18 }}>{p.name}</h1>
+            )}
             <p className="title-l ital" style={{ marginTop: 32, color: 'var(--cream-2)', maxWidth: 620 }}>
               {p.blurb}
             </p>
@@ -362,6 +372,7 @@ export const HiFiProperty = ({ onNav, propertyId, openProperty }) => {
 
 export const HiFiContact = ({ onNav }) => {
   const D = KS_DATA
+  const [reason, setReason] = useState('Reservations')
   return (
     <div className="ks">
       <TopNav active="Contact" onNav={onNav}/>
@@ -445,8 +456,16 @@ export const HiFiContact = ({ onNav }) => {
             <label style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 12 }}>
               <span className="mono">Reason</span>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {['Reservations', 'Partnership', 'Press', 'Careers', 'Other'].map((t, i) => (
-                  <span key={t} className={`tag ${i === 0 ? 'tag-active' : ''}`} style={{ cursor: 'pointer' }}>{t}</span>
+                {['Reservations', 'Partnership', 'Press', 'Careers', 'Other'].map((t) => (
+                  <button
+                    type="button"
+                    key={t}
+                    onClick={() => setReason(t)}
+                    className={`tag ${reason === t ? 'tag-active' : ''}`}
+                    style={{ background: 'transparent', cursor: 'pointer', fontFamily: 'var(--mono)' }}
+                  >
+                    {t}
+                  </button>
                 ))}
               </div>
             </label>
@@ -460,6 +479,73 @@ export const HiFiContact = ({ onNav }) => {
               <button type="submit" className="btn btn-fill">Send →</button>
             </div>
           </form>
+        </div>
+      </section>
+
+      <Footer onNav={onNav}/>
+    </div>
+  )
+}
+
+export const HiFiPress = ({ onNav, openProperty }) => {
+  const D = KS_DATA
+  const covered = D.properties.filter(p => p.press)
+  return (
+    <div className="ks">
+      <TopNav active="Press" onNav={onNav}/>
+
+      <section style={{ padding: '100px 56px 60px' }}>
+        <div className="container">
+          <Kicker>Press</Kicker>
+          <h1 className="display-xl" style={{ marginTop: 24, maxWidth: 1000 }}>
+            In the <span className="ital">press</span>.
+          </h1>
+          <p className="body-l" style={{ marginTop: 28, maxWidth: 640 }}>
+            Coverage of KS Hospitality Group and its houses, from The New York Times to Time Out New York.
+          </p>
+        </div>
+      </section>
+
+      <section style={{ padding: '20px 56px 100px' }}>
+        <div className="container">
+          {covered.map((p, i) => (
+            <a
+              key={p.id}
+              href="#"
+              onClick={(e) => { e.preventDefault(); openProperty && openProperty(p.id) }}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '280px 1fr auto',
+                gap: 48,
+                alignItems: 'start',
+                padding: '40px 0',
+                borderTop: '1px solid var(--line)',
+                borderBottom: i === covered.length - 1 ? '1px solid var(--line)' : 'none',
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
+            >
+              <div>
+                <div className="title-l">{p.name}</div>
+                <div className="mono" style={{ marginTop: 8 }}>{p.cat} · {p.loc}</div>
+              </div>
+              <p className="body-l ital" style={{ color: 'var(--cream-2)', maxWidth: 720 }}>{p.press}</p>
+              <span className="mono">→</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ padding: '80px 56px 120px', borderTop: '1px solid var(--line)' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
+          <div>
+            <Kicker>Press inquiries</Kicker>
+            <h2 className="display-m" style={{ marginTop: 16 }}>Working on a story?</h2>
+            <p className="body-l" style={{ marginTop: 16, maxWidth: 520 }}>
+              For interviews, imagery, and background on any KS property, reach out and we&apos;ll connect you with the right person.
+            </p>
+          </div>
+          <a href={`mailto:${D.contact.email}`} className="btn btn-fill">{D.contact.email} →</a>
         </div>
       </section>
 

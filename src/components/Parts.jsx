@@ -31,8 +31,8 @@ export const LogoMark = ({ size = 44, color = 'var(--cream)' }) => (
 
 // Top nav (sticky) — desktop links inline, mobile collapses to a hamburger
 export const TopNav = ({ active = 'Portfolio', onNav }) => {
-  const items = ['Portfolio', 'The Group', 'Team', 'Contact']
-  const map = { 'Portfolio': 'portfolio', 'The Group': 'about', 'Team': 'team', 'Contact': 'contact' }
+  const items = ['Portfolio', 'The Group', 'Team', 'Press', 'Contact']
+  const map = { 'Portfolio': 'portfolio', 'The Group': 'about', 'Team': 'team', 'Press': 'press', 'Contact': 'contact' }
   const [open, setOpen] = useState(false)
 
   const go = (e, page) => {
@@ -68,9 +68,6 @@ export const TopNav = ({ active = 'Portfolio', onNav }) => {
             <a key={i} href="#" onClick={(e) => go(e, map[i])} className={i === active ? 'active' : ''}>{i}</a>
           ))}
         </div>
-        <a href="#" onClick={(e) => go(e, 'contact')} className="btn btn-accent ks-nav-cta" style={{ padding: '10px 16px' }}>
-          Get in touch <span>→</span>
-        </a>
         <button
           type="button"
           className="ks-nav-toggle"
@@ -130,15 +127,7 @@ export const PropertyCard = ({ p, height, kenBurns = false, big = false }) => {
       </div>
     )
   }
-  return (
-    <Photo src={p.img} label={p.name} style={{ height, width: '100%' }} kenBurns={kenBurns}>
-      {p.logo && (
-        <div className="property-logo-chip" aria-hidden="true">
-          <img src={p.logo} alt="" />
-        </div>
-      )}
-    </Photo>
-  )
+  return <Photo src={p.img} label={p.name} style={{ height, width: '100%' }} kenBurns={kenBurns}/>
 }
 
 // Photo. If `src` is provided, renders the real image; otherwise a labeled placeholder.
@@ -189,7 +178,7 @@ export const Footer = ({ onNav }) => {
         </div>
         <div>
           <div className="mono" style={{ marginBottom: 16 }}>Navigate</div>
-          {[['Portfolio','portfolio'],['The Group','about'],['Team','team'],['Contact','contact']].map(([l,p]) => (
+          {[['Portfolio','portfolio'],['The Group','about'],['Team','team'],['Press','press'],['Contact','contact']].map(([l,p]) => (
             <a key={l} href="#" onClick={(e) => go(e, p)} className="body" style={{ padding: '6px 0', display: 'block', color: 'inherit', textDecoration: 'none' }}>{l}</a>
           ))}
         </div>
@@ -202,12 +191,14 @@ export const Footer = ({ onNav }) => {
         <div>
           <div className="mono" style={{ marginBottom: 16 }}>Follow</div>
           <a href={D.contact.instagram} target="_blank" rel="noopener noreferrer" className="body" style={{ padding: '6px 0', display: 'block', color: 'inherit', textDecoration: 'none' }}>Instagram →</a>
+          <a href={D.contact.tiktok} target="_blank" rel="noopener noreferrer" className="body" style={{ padding: '6px 0', display: 'block', color: 'inherit', textDecoration: 'none' }}>TikTok →</a>
+          <a href={D.contact.linkedin} target="_blank" rel="noopener noreferrer" className="body" style={{ padding: '6px 0', display: 'block', color: 'inherit', textDecoration: 'none' }}>LinkedIn →</a>
           <a href={`mailto:${D.contact.careersEmail}`} className="body" style={{ padding: '6px 0', display: 'block', color: 'inherit', textDecoration: 'none' }}>Careers →</a>
         </div>
       </div>
       <div className="rule" style={{ margin: '48px 0 24px' }}/>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <div className="mono">© 2024 · KS Hospitality Group</div>
+        <div className="mono">© 2026 KS Hospitality Group</div>
         <div className="mono">New York · Hamptons · Lewiston · Park City</div>
         <div className="mono">All rights reserved</div>
       </div>

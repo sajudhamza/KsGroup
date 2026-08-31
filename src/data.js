@@ -18,6 +18,8 @@ export const KS_DATA = {
     careersEmail: 'careers@kshospitalitygroup.com',
     phone: '646-423-8278',
     instagram: 'https://www.instagram.com/kshospitalitygroup/',
+    tiktok: 'https://www.tiktok.com/@kshospitalitygroup',
+    linkedin: 'https://www.linkedin.com/company/ks-hospitality-group/',
   },
 
   about: [
@@ -148,6 +150,9 @@ export const KS_DATA = {
   heroImage: '/img/Lounges/Stone and Soil/1.jpg',
   heroLabel: 'Stone & Soil',
 
+  // Homepage "Our Mission" visual — stand-in until the final image is provided.
+  missionImage: '/img/Rooftops/Rosehill Rooftop/1.jpg',
+
   // Properties, Summer 2026 deck logo order, then additional operated venues.
   // Homepage layout: index 0 = featured big card; 1-2 = stack to the right; 3-5 = row of three.
   properties: [
@@ -179,7 +184,7 @@ export const KS_DATA = {
       loc: 'Midtown, NY',
       url: 'http://www.elsiepenthouse.com',
       img: '/img/Lounges/Elsie Penthouse/1.jpg',
-      logo: '/img/Lounges/Elsie Penthouse/logo.png',
+      logo: '/img/Lounges/Elsie Penthouse/logo-white.png',
       kind: 'photo',
       blurb:
         'A private penthouse for cocktail receptions, celebrations, and brand events with warm light, signature cocktails, and skyline views.',
@@ -198,6 +203,7 @@ export const KS_DATA = {
       loc: 'Midtown, NY',
       url: 'https://casacecenyc.com',
       img: '/img/Lounges/Casa CeCe/1.jpg',
+      logo: '/img/Lounges/Casa CeCe/logo.png',
       kind: 'photo',
       blurb:
         'Midtown’s ultimate supper club experience where you can expect the unexpected.',
@@ -217,7 +223,7 @@ export const KS_DATA = {
       loc: 'Rose Hill, NY',
       url: 'http://www.rosehillrooftop.com',
       img: '/img/Rooftops/Rosehill Rooftop/1.jpg',
-      logo: '/img/Rooftops/Rosehill Rooftop/logo.avif',
+      logo: '/img/Rooftops/Rosehill Rooftop/logo-white.png',
       kind: 'photo',
       blurb:
         'A multi-level NoMad rooftop with chef-driven cuisine, handcrafted cocktails, and panoramic skyline views.',
@@ -232,11 +238,12 @@ export const KS_DATA = {
     {
       id: 'skewr',
       name: 'Skewr',
-      cat: 'Lounge',
-      catSlug: 'lounges',
-      loc: 'Rose Hill, NY',
+      cat: 'Restaurant',
+      catSlug: 'restaurants',
+      loc: 'NoMad, NY',
       url: 'https://www.skewr.nyc',
       img: '/img/Lounges/Skewr/1.jpg',
+      logo: '/img/Lounges/Skewr/logo.svg',
       kind: 'photo',
       blurb:
         'Eastern Mediterranean dining built for sharing: signature skewers, bold mezze, and catering in NoMad.',
@@ -252,9 +259,10 @@ export const KS_DATA = {
       name: 'Brewr',
       cat: 'Lounge',
       catSlug: 'lounges',
-      loc: 'Rose Hill, NY',
+      loc: 'NoMad, NY',
       url: 'https://www.brewr.us',
       img: '/img/Lounges/Brewr/1.jpg',
+      logo: '/img/Lounges/Brewr/logo.png',
       kind: 'photo',
       blurb:
         'An all-day café that becomes an evening coffee lounge with handcrafted coffee, pastries, and espresso martinis.',
@@ -271,6 +279,7 @@ export const KS_DATA = {
       loc: 'Rose Hill, NY',
       url: 'https://stoneandsoil.nyc',
       img: '/img/Lounges/Stone and Soil/1.jpg',
+      logo: '/img/Lounges/Stone and Soil/logo.png',
       kind: 'photo',
       blurb:
         'A refined Japanese cocktail bar and dining destination in NoMad: precision, craft, and design-forward hospitality.',
@@ -284,8 +293,8 @@ export const KS_DATA = {
     {
       id: 'the-maine-grill',
       name: 'The Maine Grill',
-      cat: 'Lounge',
-      catSlug: 'lounges',
+      cat: 'Restaurant',
+      catSlug: 'restaurants',
       loc: 'Lewiston, ME',
       url: '/maine-grill/',
       img: '/img/Lounges/Maine Grill/hero-dusk.png',
@@ -307,7 +316,7 @@ export const KS_DATA = {
       loc: 'Park City, UT',
       url: 'http://www.premiereparkcity.com',
       img: '/img/Lounges/Premiere Park City/1.png',
-      logo: '/img/Lounges/Premiere Park City/logo.png',
+      logo: '/img/Lounges/Premiere Park City/logo-white.png',
       kind: 'photo',
       blurb:
         'A luxury cocktail lounge and nightlife destination on Main Street with live entertainment and private events.',
@@ -327,7 +336,7 @@ export const KS_DATA = {
       loc: 'Eastport, NY',
       url: 'http://www.thelandmarkhamptons.com',
       img: '/img/Real-Estate/The Landmark Hamptons/1.jpg',
-      logo: '/img/Real-Estate/The Landmark Hamptons/logo.png',
+      logo: '/img/Real-Estate/The Landmark Hamptons/logo-white.png',
       kind: 'photo',
       blurb:
         'Part of The Hamptons Private Estate Collection: luxury residences for buyouts, retreats, and extended stays.',
@@ -344,7 +353,7 @@ export const KS_DATA = {
       loc: 'Eastport, NY',
       url: 'http://www.thebenchmarkhamptons.com',
       img: '/img/Real-Estate/The Benchmark Hamptons/1.jpg',
-      logo: '/img/Real-Estate/The Benchmark Hamptons/logo.png',
+      logo: '/img/Real-Estate/The Benchmark Hamptons/logo-white.png',
       kind: 'photo',
       blurb:
         'Part of The Hamptons Private Estate Collection: three distinct residences, one exclusive hospitality experience.',
@@ -361,7 +370,7 @@ export const KS_DATA = {
       loc: 'Eastport, NY',
       url: 'http://www.thewatermarkhamptons.com',
       img: '/img/Real-Estate/The Watermark Hamptons/1.png',
-      logo: '/img/Real-Estate/The Watermark Hamptons/logo.png',
+      logo: '/img/Real-Estate/The Watermark Hamptons/logo-white.png',
       kind: 'photo',
       blurb:
         'Part of The Hamptons Private Estate Collection: ~24 luxury suites across Watermark, Landmark, and Benchmark.',
@@ -377,7 +386,8 @@ export const KS_DATA = {
       catSlug: 'hotels',
       loc: 'Lewiston, ME',
       url: 'https://www.clarionhotellewiston.com',
-      img: '/img/Hotels/Clarion Lewiston Maine/01190_exterior_view_3.jpg',
+      img: '/img/Hotels/Clarion Lewiston Maine/1.jpg',
+      logo: '/img/Hotels/Clarion Lewiston Maine/logo.png',
       kind: 'photo',
       blurb:
         'Central Maine’s premier hospitality destination: 117 keys, restaurant & lounge, events, and conference facilities.',
@@ -396,6 +406,8 @@ export const KS_DATA = {
       loc: 'Long Island City, NY',
       url: 'https://licmanhattanviewhotel.com',
       img: '/img/Hotels/LIC Manhattan View Hotel/1.png',
+      logo: '/img/Hotels/LIC Manhattan View Hotel/logo.png',
+      logoRaw: true, // solid-background logo — don't white-ify in the card chip
       kind: 'photo',
       blurb: 'A strategically located LIC hotel, 15 minutes from Midtown by subway.',
       description: [
@@ -406,18 +418,19 @@ export const KS_DATA = {
     },
   ],
 
+  // Alphabetical order (homepage "Pick your atmosphere" + portfolio filters).
   categories: [
     {
-      name: 'Rooftops',
-      slug: 'rooftops',
-      img: '/img/Rooftops/Elsie Rooftop/1.jpg',
-      blurb: 'Open-air bars built for the long evening, from Midtown skylines to NoMad terraces.',
+      name: 'Hotels',
+      slug: 'hotels',
+      img: '/img/Hotels/LIC Manhattan View Hotel/1.png',
+      blurb: 'Boutique to flag. Operated, never franchised.',
     },
     {
       name: 'Lounges',
       slug: 'lounges',
-      img: '/img/Lounges/Maine Grill/hero-dusk.png',
-      blurb: 'Restaurants, cocktail bars, and supper clubs concepted, built and operated by KS.',
+      img: '/img/Lounges/Casa CeCe/1.jpg',
+      blurb: 'Cocktail bars, coffee lounges, and supper clubs concepted, built and operated by KS.',
     },
     {
       name: 'Real Estate',
@@ -426,10 +439,16 @@ export const KS_DATA = {
       blurb: 'The Hamptons Private Estate Collection: buyouts, retreats, and luxury stays.',
     },
     {
-      name: 'Hotels',
-      slug: 'hotels',
-      img: '/img/Hotels/Clarion Lewiston Maine/01190_exterior_view_3.jpg',
-      blurb: 'Boutique to flag. Operated, never franchised.',
+      name: 'Restaurants',
+      slug: 'restaurants',
+      img: '/img/Lounges/Maine Grill/hero-dusk.png',
+      blurb: 'Chef-driven dining rooms and neighborhood destinations, from NoMad to Lewiston.',
+    },
+    {
+      name: 'Rooftops',
+      slug: 'rooftops',
+      img: '/img/Rooftops/Elsie Rooftop/1.jpg',
+      blurb: 'Open-air bars built for the long evening, from Midtown skylines to NoMad terraces.',
     },
   ],
 
