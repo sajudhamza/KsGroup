@@ -11,9 +11,11 @@ export const LogoPlate = ({ size = 'md', color = 'var(--cream)' }) => {
   const s = sizes[size] || sizes.md
   return (
     <div className="ks-plate">
-      <div className="ks-plate-mark" style={{ width: s.box, height: s.box, borderColor: color }}>
-        <span style={{ fontSize: s.font, color }}>KS</span>
-      </div>
+      <img
+        src="/img/Brand/ks-monogram-gold.png"
+        alt=""
+        style={{ height: s.box, width: 'auto', display: 'block' }}
+      />
       <div className="ks-plate-text">
         <span className="name" style={{ fontSize: s.font * 0.78, color }}>{KS_DATA.brand.name}</span>
         <span className="sub" style={{ fontSize: s.sub }}>{KS_DATA.brand.sub}</span>
@@ -22,11 +24,9 @@ export const LogoPlate = ({ size = 'md', color = 'var(--cream)' }) => {
   )
 }
 
-// LOGO MARK ONLY (square plate, no text) — for tight spots
-export const LogoMark = ({ size = 44, color = 'var(--cream)' }) => (
-  <div className="ks-plate-mark" style={{ width: size, height: size, borderColor: color }}>
-    <span style={{ fontSize: size * 0.5, color }}>KS</span>
-  </div>
+// LOGO MARK ONLY (monogram, no text) — for tight spots
+export const LogoMark = ({ size = 44 }) => (
+  <img src="/img/Brand/ks-monogram-gold.png" alt="KS" style={{ height: size, width: 'auto', display: 'block' }}/>
 )
 
 // Top nav (sticky) — desktop links inline, mobile collapses to a hamburger
