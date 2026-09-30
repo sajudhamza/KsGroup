@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { TopNav, Kicker, Footer } from '../components/Parts.jsx'
 import {
   MARKETS, fetchHotels, fetchHeatmap, fetchLiveRates, fetchLiteRates, nightsBetween, computeRecommendation, fmt,
-  getRapidApiKey, setRapidApiKey, getLiteApiKey, setLiteApiKey, liteConnected,
+  getRapidApiKey, setRapidApiKey, getLiteApiKey, setLiteApiKey, liteConnected, LIVE_SERVER_MODE,
 } from '../lib/rateIntel.js'
 
 // RateIQ — KS Intelligence: competitive rate recommendations for any hotel.
@@ -242,7 +242,11 @@ export const HiFiRateIntel = ({ onNav }) => {
               </div>
 
               <div style={{ marginTop: 24 }}>
-                {!showKeyField ? (
+                {LIVE_SERVER_MODE ? (
+                  <div className="mono" style={{ fontSize: 9, color: 'var(--cream-3)' }}>
+                    LIVE RATE FEED IS SERVER-CONNECTED FOR ALL VISITORS.
+                  </div>
+                ) : !showKeyField ? (
                   <button onClick={() => { setKeyDraft(getRapidApiKey()); setLiteDraft(getLiteApiKey()); setShowKeyField(true) }}
                     className="mono" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--cream-3)', padding: 0 }}>
                     {hasLiteKey ? '● LIVE RATES CONNECTED (LITEAPI) — MANAGE KEYS'
@@ -275,9 +279,11 @@ export const HiFiRateIntel = ({ onNav }) => {
                     </div>
                   </div>
                 )}
-                <div className="mono" style={{ marginTop: 8, fontSize: 9 }}>
-                  KEYS ARE STORED ONLY IN THIS BROWSER — NEVER PUBLISHED WITH THE SITE. GET A FREE KEY AT LITEAPI.TRAVEL.
-                </div>
+                {!LIVE_SERVER_MODE && (
+                  <div className="mono" style={{ marginTop: 8, fontSize: 9 }}>
+                    KEYS ARE STORED ONLY IN THIS BROWSER — NEVER PUBLISHED WITH THE SITE. GET A FREE KEY AT LITEAPI.TRAVEL.
+                  </div>
+                )}
               </div>
             </div>
           </section>

@@ -22,9 +22,10 @@ const LITE_BASE = '/api/liteapi' // same-origin proxy → https://api.liteapi.tr
  *  When set, the liteAPI key lives ONLY on that server — every visitor gets
  *  live rates by default and no key ever reaches a browser. When empty, the
  *  per-browser localStorage key (Connect live rates panel) is used instead. */
-const LITE_PROXY_URL = ''
+const LITE_PROXY_URL = 'https://rateiq-proxy.sajudhamza.workers.dev'
 
 const liteServerMode = () => !!LITE_PROXY_URL
+export const LIVE_SERVER_MODE = !!LITE_PROXY_URL
 export const liteConnected = () => liteServerMode() || !!getLiteApiKey()
 const liteBase = () => (liteServerMode() ? LITE_PROXY_URL : LITE_BASE)
 const liteHeaders = (extra = {}) =>
