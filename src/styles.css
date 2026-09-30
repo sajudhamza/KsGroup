@@ -726,6 +726,32 @@
   .ks [style*="gap: 80px"] { gap: 44px !important; }
 }
 
+/* Press coverage tiles (Press page) */
+.ks .press-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--line);
+  padding: 28px 24px;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  transition: border-color 0.3s, transform 0.3s, background 0.3s;
+}
+.ks .press-tile:hover {
+  border-color: var(--accent-2);
+  transform: translateY(-4px);
+  background: rgba(237, 230, 216, 0.03);
+}
+.ks .press-tile .press-arrow {
+  transition: transform 0.3s, color 0.3s;
+  color: var(--cream-3);
+}
+.ks .press-tile:hover .press-arrow {
+  transform: translate(3px, -3px);
+  color: var(--accent-2);
+}
+
 /* ==========================================================================
    SMALL PHONE — 480px and below
    One more typography step down + tighter padding.

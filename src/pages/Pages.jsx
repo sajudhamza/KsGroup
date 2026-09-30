@@ -490,6 +490,11 @@ export const HiFiContact = ({ onNav }) => {
 export const HiFiPress = ({ onNav, openProperty }) => {
   const D = KS_DATA
   const covered = D.properties.filter(p => p.press)
+  const [pressFilter, setPressFilter] = useState('All')
+  const articles = D.pressArticles || []
+  const venues = ['All', ...new Set(articles.map(a => a.venue))]
+  const countFor = (v) => v === 'All' ? articles.length : articles.filter(a => a.venue === v).length
+  const shown = pressFilter === 'All' ? articles : articles.filter(a => a.venue === pressFilter)
   return (
     <div className="ks">
       <TopNav active="Press" onNav={onNav}/>
@@ -506,8 +511,43 @@ export const HiFiPress = ({ onNav, openProperty }) => {
         </div>
       </section>
 
-      <section style={{ padding: '20px 56px 100px' }}>
+      {/* FEATURED COVERAGE — clipping wall */}
+      <section style={{ padding: '20px 56px 80px' }}>
         <div className="container">
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
+            {venues.map(v => (
+              <button key={v} onClick={() => setPressFilter(v)}
+                className={`tag ${pressFilter === v ? 'tag-active' : ''}`}
+                style={{ background: 'transparent', cursor: 'pointer', fontFamily: 'var(--mono)' }}>
+                {v} <span style={{ opacity: 0.5, marginLeft: 4 }}>{countFor(v)}</span>
+              </button>
+            ))}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+            {shown.map(a => (
+              <a key={a.url + a.venue} href={a.url} target="_blank" rel="noopener noreferrer" className="press-tile">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
+                  <span className="mono accent" style={{ letterSpacing: '0.14em' }}>{a.outlet.toUpperCase()}</span>
+                  <span className="mono press-arrow">↗</span>
+                </div>
+                <div className="serif" style={{ fontSize: 21, lineHeight: 1.3, color: 'var(--cream)', flex: 1 }}>
+                  “{a.title}”
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, borderTop: '1px solid var(--line)', paddingTop: 14 }}>
+                  <span className="mono"><span className="accent-dot" style={{ marginRight: 8 }}></span>{a.venue}</span>
+                  <span className="mono" style={{ fontSize: 9 }}>READ THE STORY</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* IN THEIR WORDS — venue press quotes */}
+      <section style={{ padding: '40px 56px 100px', borderTop: '1px solid var(--line)' }}>
+        <div className="container">
+          <Kicker>In their words</Kicker>
+          <h2 className="display-m" style={{ margin: '16px 0 24px' }}>What they&apos;re <span className="ital">saying</span>.</h2>
           {covered.map((p, i) => (
             <a
               key={p.id}

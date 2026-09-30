@@ -419,6 +419,33 @@ export const KS_DATA = {
   ],
 
   // Alphabetical order (homepage "Pick your atmosphere" + portfolio filters).
+  // Press coverage wall (Press page tiles). Titles are the outlets' own headlines.
+  pressArticles: [
+    { venue: 'The Maine Grill', outlet: 'Sun Journal', title: 'Lewiston’s former Ramada Inn to become Clarion Hotel with new restaurant', url: 'https://www.sunjournal.com/2026/05/28/lewistons-former-ramada-inn-to-become-clarion-hotel-with-new-restaurant/' },
+    { venue: 'The Maine Grill', outlet: '94.9 WHOM', title: 'Clarion Hotel & Conference Center revives Lewiston’s Ramada Inn with fresh renovations', url: 'https://949whom.com/clarion-hotel-lewiston-maine/' },
+    { venue: 'The Maine Grill', outlet: '92 Moose', title: 'Have you tried the new Lewiston, Maine, restaurant hidden inside this Clarion Hotel?', url: 'https://92moose.fm/maine-grill-clarion-hotel-lewiston-maine/' },
+    { venue: 'Elsie Rooftop', outlet: 'Time Out New York', title: 'This new luxe members-only club just opened near Bryant Park', url: 'https://www.timeout.com/newyork/news/this-new-luxe-members-only-club-just-opened-near-bryant-park-011325' },
+    { venue: 'Elsie Rooftop', outlet: 'Metropolis', title: 'This New York rooftop bar, inspired by design legend Elsie de Wolfe, packs in Prohibition-era flair', url: 'https://metropolismag.com/projects/elsie-rooftop-new-york-design/' },
+    { venue: 'Elsie Rooftop', outlet: 'Business of Home', title: 'World’s first interior designer Elsie de Wolfe gets her own bar', url: 'https://businessofhome.com/articles/world-s-first-interior-designer-elsie-de-wolfe-gets-her-own-bar' },
+    { venue: 'Casa CeCe', outlet: 'Eater NY', title: 'NYC restaurant openings to know in November 2025', url: 'https://ny.eater.com/news/406308/nyc-new-restaurant-openings-november-2025' },
+    { venue: 'Casa CeCe', outlet: 'amNewYork', title: 'Casa CeCe: Midtown’s ultimate supper club experience where you can expect the unexpected', url: 'https://www.amny.com/lifestyle/eat-and-drink/casa-cece-midtowns-ultimate-supper-club-experience/' },
+    { venue: 'Casa CeCe', outlet: 'Downtown Magazine', title: 'Casa CeCe: Midtown’s new supper club', url: 'https://downtownmagazinenyc.com/2025/11/casa-cece-supper-club/' },
+    { venue: 'Clarion Hotel Lewiston', outlet: 'WGME', title: 'Former Lewiston Ramada Inn to reopen as Clarion Hotel after major renovation', url: 'https://wgme.com/news/local/former-lewiston-ramada-inn-to-reopen-as-clarion-hotel-after-major-renovation' },
+    { venue: 'Clarion Hotel Lewiston', outlet: 'WCYY', title: 'After more than 50 years, the Ramada Inn in Lewiston, Maine is no more', url: 'https://wcyy.com/ramada-inn-lewiston-maine-closed-clarion/' },
+    { venue: 'Premiere Park City', outlet: 'The Park Record', title: 'Cocktail lounge Premiere debuts today on Main Street', url: 'https://www.parkrecord.com/2024/04/29/cocktail-lounge-premiere-debuts-today-on-main-street/' },
+    { venue: 'Premiere Park City', outlet: 'FOX 13', title: 'Utah has a swanky new underground cocktail lounge', url: 'https://www.fox13now.com/the-place/utah-has-a-swanky-new-underground-cocktail-lounge' },
+    { venue: 'Premiere Park City', outlet: 'ABC4', title: 'Grand opening of Premiere, Park City’s gourmet dinner experience', url: 'https://www.abc4.com/gtu/grand-opening-of-premiere-park-citys-gourmet-dinner-experience/' },
+    { venue: 'Skewr & Brewr', outlet: 'Forbes', title: 'Why Skëwr is the hotel restaurant turning Park South into a dining destination', url: 'https://www.forbes.com/sites/shivanivora/2026/01/30/why-skwr-is-the-hotel-restaurant-turning-park-south-into-a-dining-destination/' },
+    { venue: 'Skewr & Brewr', outlet: 'Time Out New York', title: 'One of the founders behind Bungalow opened a skewer-heavy Mediterranean restaurant in NoMad', url: 'https://www.timeout.com/newyork/news/you-can-get-17-types-of-char-grilled-skewers-at-this-mediterranean-restaurant-in-nomad-030326' },
+    { venue: 'Skewr & Brewr', outlet: 'Eater NY', title: 'NYC restaurant openings to know in February 2026', url: 'https://ny.eater.com/news/409076/nyc-new-restaurant-openings-february-2026' },
+    { venue: 'Stone & Soil', outlet: 'Time Out New York', title: 'A new NoMad hotel bar is obsessed with Japanese bartending', url: 'https://www.timeout.com/newyork/news/this-new-hotel-bar-serves-a-20-drink-menu-focusing-on-japanese-bartending-techniques-013026' },
+    { venue: 'Stone & Soil', outlet: 'Resy', title: 'Five essential dishes and drinks to order at Stone & Soil', url: 'https://blog.resy.com/2026/03/stone-soil-nyc/' },
+    { venue: 'Stone & Soil', outlet: 'Hospitality Design', title: 'Stone & Soil, New York', url: 'https://hospitalitydesign.com/news/stone-soil-new-york/187598/' },
+    { venue: 'Rosehill Rooftop', outlet: 'Supper Magazine', title: 'KS Hospitality Group and Bungalow founder launch rooftop venue at Park South Hotel', url: 'https://www.suppermag.com/stories/projects/ks-hospitality-group-and-bungalow-founder-launch-rooftop-venue-at-park-south-hotel/' },
+    { venue: 'Rosehill Rooftop', outlet: 'Cititour', title: 'Rosehill Rooftop opens with a standing-room-only bash in NYC', url: 'https://cititour.com/NYC_News/Rosehill-Rooftop-Opens-with-a-Standing-Room-Only-Bash-in-NYC/9805' },
+    { venue: 'Rosehill Rooftop', outlet: 'The Knockturnal', title: 'Skyline soirée: Rosehill Rooftop debuts with style in Midtown Manhattan', url: 'https://theknockturnal.com/skyline-soiree-rosehill-rooftop-debuts-with-style-in-midtown-manhattan/' },
+  ],
+
   categories: [
     {
       name: 'Hotels',
