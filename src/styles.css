@@ -708,6 +708,22 @@
 
   /* --- iOS no-zoom on input focus --- */
   html { -webkit-text-size-adjust: 100%; }
+
+  /* --- Form controls never wider than the screen (long <option> names) --- */
+  .ks select.ks-input,
+  .ks input.ks-input,
+  .ks textarea.ks-input {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+  }
+  .ks label { min-width: 0; }
+
+  /* --- Collapsed two-column layouts: shrink the huge desktop gutters --- */
+  .ks [style*="gap: 96px"] { gap: 48px !important; }
+  .ks [style*="gap: 80px"] { gap: 44px !important; }
 }
 
 /* ==========================================================================

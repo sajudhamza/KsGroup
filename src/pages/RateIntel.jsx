@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { TopNav, Kicker, Footer } from '../components/Parts.jsx'
 import {
   MARKETS, fetchHotels, fetchHeatmap, fetchLiveRates, fetchLiteRates, nightsBetween, computeRecommendation, fmt,
-  getRapidApiKey, setRapidApiKey, getLiteApiKey, setLiteApiKey,
+  getRapidApiKey, setRapidApiKey, getLiteApiKey, setLiteApiKey, liteConnected,
 } from '../lib/rateIntel.js'
 
 // RateIQ — KS Intelligence: competitive rate recommendations for any hotel.
@@ -27,7 +27,7 @@ function adoptKeyFromUrl() {
       window.history.replaceState({}, '', window.location.pathname + (q ? `?${q}` : ''))
     }
   } catch { /* no-op */ }
-  return !!getLiteApiKey()
+  return liteConnected()
 }
 
 export const HiFiRateIntel = ({ onNav }) => {

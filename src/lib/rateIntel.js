@@ -18,6 +18,18 @@ const LITE_KEY_STORAGE = 'ks_rateiq_liteapi_key'
 const LITE_ID_CACHE = 'ks_rateiq_liteapi_ids'
 const LITE_BASE = '/api/liteapi' // same-origin proxy → https://api.liteapi.travel/v3.0
 
+/** Server-side key mode: URL of the deployed workers/liteapi-proxy.js worker.
+ *  When set, the liteAPI key lives ONLY on that server — every visitor gets
+ *  live rates by default and no key ever reaches a browser. When empty, the
+ *  per-browser localStorage key (Connect live rates panel) is used instead. */
+const LITE_PROXY_URL = ''
+
+const liteServerMode = () => !!LITE_PROXY_URL
+export const liteConnected = () => liteServerMode() || !!getLiteApiKey()
+const liteBase = () => (liteServerMode() ? LITE_PROXY_URL : LITE_BASE)
+const liteHeaders = (extra = {}) =>
+  liteServerMode() ? extra : { 'X-API-Key': getLiteApiKey(), ...extra }
+
 const storageGet = (k) => { try { return localStorage.getItem(k) || '' } catch { return '' } }
 const storageSet = (k, v) => {
   try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k) } catch { /* private browsing */ }
@@ -110,14 +122,14 @@ export async function fetchHeatmap(hotelKey, chkOut) {
 const tokens = (s) => s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 || /^\d+$/.test(w))
 
 /** Resolve a TripAdvisor-named hotel to a liteAPI hotel id (cached per browser). */
-async function resolveLiteHotelId(hotel, market, key) {
+async function resolveLiteHotelId(hotel, market) {
   let cache = {}
   try { cache = JSON.parse(storageGet(LITE_ID_CACHE) || '{}') } catch { /* rebuild */ }
   if (hotel.key in cache) return cache[hotel.key] // may be null = known unmatched
 
   const search = async (nameQuery) => {
-    const url = `${LITE_BASE}/data/hotels?countryCode=${market.country}&cityName=${encodeURIComponent(market.city)}&hotelName=${encodeURIComponent(nameQuery)}&limit=10`
-    const res = await fetch(url, { headers: { 'X-API-Key': key } })
+    const url = `${liteBase()}/data/hotels?countryCode=${market.country}&cityName=${encodeURIComponent(market.city)}&hotelName=${encodeURIComponent(nameQuery)}&limit=10`
+    const res = await fetch(url, { headers: liteHeaders() })
     if (!res.ok) throw new Error(`liteAPI ${res.status}`)
     return (await res.json()).data || []
   }
@@ -141,20 +153,19 @@ async function resolveLiteHotelId(hotel, market, key) {
 /** Live rates for the whole comparison set in ONE liteAPI call.
  *  Returns {taHotelKey: {ota, nightly}} for every hotel it could match & price. */
 export async function fetchLiteRates(hotels, market, chkIn, chkOut, nightCount) {
-  const key = getLiteApiKey()
-  if (!key || !market?.city || !nightCount) return {}
+  if (!liteConnected() || !market?.city || !nightCount) return {}
 
   const idByTaKey = {}
   await Promise.all(hotels.map(async h => {
-    try { idByTaKey[h.key] = await resolveLiteHotelId(h, market, key) } catch { idByTaKey[h.key] = null }
+    try { idByTaKey[h.key] = await resolveLiteHotelId(h, market) } catch { idByTaKey[h.key] = null }
   }))
   const ids = Object.values(idByTaKey).filter(Boolean)
   if (!ids.length) return {}
 
   const postRates = async (hotelIds) => {
-    const res = await fetch(`${LITE_BASE}/hotels/rates`, {
+    const res = await fetch(`${liteBase()}/hotels/rates`, {
       method: 'POST',
-      headers: { 'X-API-Key': key, 'Content-Type': 'application/json' },
+      headers: liteHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         hotelIds,
         checkin: chkIn,
