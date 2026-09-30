@@ -15,6 +15,12 @@ frontend:
     paths:
       - node_modules/**/*
   customRedirects:
+    - source: '/api/xotelo/<*>'
+      target: 'https://data.xotelo.com/api/<*>'
+      status: '200'
+    - source: '/api/liteapi/<*>'
+      target: 'https://api.liteapi.travel/v3.0/<*>'
+      status: '200'
     - source: '/maine-grill'
       target: '/maine-grill/'
       status: '302'

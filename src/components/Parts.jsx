@@ -31,8 +31,8 @@ export const LogoMark = ({ size = 44 }) => (
 
 // Top nav (sticky) — desktop links inline, mobile collapses to a hamburger
 export const TopNav = ({ active = 'Portfolio', onNav }) => {
-  const items = ['Portfolio', 'The Group', 'Team', 'Press', 'Contact']
-  const map = { 'Portfolio': 'portfolio', 'The Group': 'about', 'Team': 'team', 'Press': 'press', 'Contact': 'contact' }
+  const items = ['Portfolio', 'The Group', 'Team', 'Press', 'Technology', 'Contact']
+  const map = { 'Portfolio': 'portfolio', 'The Group': 'about', 'Team': 'team', 'Press': 'press', 'Technology': 'intelligence', 'Contact': 'contact' }
   const [open, setOpen] = useState(false)
 
   const go = (e, page) => {
@@ -178,7 +178,7 @@ export const Footer = ({ onNav }) => {
         </div>
         <div>
           <div className="mono" style={{ marginBottom: 16 }}>Navigate</div>
-          {[['Portfolio','portfolio'],['The Group','about'],['Team','team'],['Press','press'],['Contact','contact']].map(([l,p]) => (
+          {[['Portfolio','portfolio'],['The Group','about'],['Team','team'],['Press','press'],['Technology','intelligence'],['Contact','contact']].map(([l,p]) => (
             <a key={l} href="#" onClick={(e) => go(e, p)} className="body" style={{ padding: '6px 0', display: 'block', color: 'inherit', textDecoration: 'none' }}>{l}</a>
           ))}
         </div>
