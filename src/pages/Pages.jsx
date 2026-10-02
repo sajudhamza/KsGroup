@@ -491,7 +491,13 @@ export const HiFiPress = ({ onNav, openProperty }) => {
   const D = KS_DATA
   const covered = D.properties.filter(p => p.press)
   const [pressFilter, setPressFilter] = useState('All')
-  const articles = D.pressArticles || []
+  // Tiles and filter chips follow the homepage venue order; coverage that isn't
+  // tied to a venue (founder profiles) comes after the houses.
+  const venueRank = (venue) => {
+    const i = D.properties.findIndex(p => venue.includes(p.name))
+    return i === -1 ? D.properties.length : i
+  }
+  const articles = [...(D.pressArticles || [])].sort((a, b) => venueRank(a.venue) - venueRank(b.venue))
   const venues = ['All', ...new Set(articles.map(a => a.venue))]
   const countFor = (v) => v === 'All' ? articles.length : articles.filter(a => a.venue === v).length
   const shown = pressFilter === 'All' ? articles : articles.filter(a => a.venue === pressFilter)

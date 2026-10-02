@@ -444,6 +444,9 @@ export const KS_DATA = {
     { venue: 'Rosehill Rooftop', outlet: 'Supper Magazine', title: 'KS Hospitality Group and Bungalow founder launch rooftop venue at Park South Hotel', url: 'https://www.suppermag.com/stories/projects/ks-hospitality-group-and-bungalow-founder-launch-rooftop-venue-at-park-south-hotel/' },
     { venue: 'Rosehill Rooftop', outlet: 'Cititour', title: 'Rosehill Rooftop opens with a standing-room-only bash in NYC', url: 'https://cititour.com/NYC_News/Rosehill-Rooftop-Opens-with-a-Standing-Room-Only-Bash-in-NYC/9805' },
     { venue: 'Rosehill Rooftop', outlet: 'The Knockturnal', title: 'Skyline soirée: Rosehill Rooftop debuts with style in Midtown Manhattan', url: 'https://theknockturnal.com/skyline-soiree-rosehill-rooftop-debuts-with-style-in-midtown-manhattan/' },
+    { venue: 'Kanvar Singh', outlet: 'HuffPost', title: 'How This Executive Got His Start In The Hospitality Industry', url: 'https://www.huffpost.com/entry/how-this-executive-got-his-start-in-the-hospitality_b_5a4d6bc3e4b0df0de8b06f54/amp' },
+    { venue: 'Kanvar Singh', outlet: 'LEADERS Magazine', title: 'LEADERS Interview with Kanvar Singh, Area Managing Director, Time Hotels', url: 'https://leadersmag.com/issues/2019.2_Apr/Hospitality/LEADERS-Kanvar-Singh-Time-Hotels.html' },
+    { venue: 'Kanvar Singh', outlet: 'The Quintessential Gentleman', title: 'Kanvar Singh Talks The Time Luxury Hotel and Working in the Hospitality Industry', url: 'https://www.theqgentleman.com/post/2024-11-kanvar-singh-talks-the-time-luxury-hotel-and-working-in-the-hospitality-industry/' },
   ],
 
   categories: [
