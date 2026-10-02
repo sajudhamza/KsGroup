@@ -728,31 +728,50 @@
 
 /* RateIQ (Technology page) */
 .ks .rateiq-picked { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; min-height: 30px; }
-.ks .rateiq-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+.ks .rateiq-combo { position: relative; display: flex; flex-direction: column; gap: 8px; max-width: 560px; }
+.ks .rateiq-combo-field { position: relative; display: flex; align-items: center; }
+.ks .rateiq-combo-field .ks-input { width: 100%; padding-right: 40px; text-overflow: ellipsis; }
+.ks .rateiq-combo-field .ks-input:disabled { opacity: 0.55; cursor: not-allowed; }
+.ks .rateiq-combo-clear {
+  position: absolute;
+  right: 0;
+  padding: 8px 4px 8px 12px;
+  background: none;
+  border: none;
+  color: var(--cream-3);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
 }
-.ks .rateiq-card {
+.ks .rateiq-combo-clear:hover { color: var(--cream); }
+.ks .rateiq-combo-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  max-height: 340px;
+  overflow-y: auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+.ks .rateiq-combo-option {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-  padding: 16px;
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  background: transparent;
-  border: 1px solid var(--line);
+  gap: 5px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
 }
-.ks .rateiq-card:hover:not(:disabled) { border-color: var(--cream-3); }
-.ks .rateiq-card:disabled { opacity: 0.4; cursor: default; }
-.ks .rateiq-card.is-selected { background: var(--accent); border-color: var(--accent); }
-.ks .rateiq-card.is-selected .mono { color: var(--cream); }
-.ks .rateiq-card .mono { line-height: 1.6; overflow-wrap: anywhere; }
-.ks .rateiq-card-state { margin-top: auto; padding-top: 4px; font-size: 9px; }
+.ks .rateiq-combo-option.is-active { background: rgba(237, 230, 216, 0.08); }
+.ks .rateiq-combo-option[aria-disabled="true"] { opacity: 0.45; cursor: default; }
+.ks .rateiq-combo-name { font-family: var(--sans); font-size: 15px; line-height: 1.35; color: var(--cream); }
+.ks .rateiq-combo-option .mono { line-height: 1.6; overflow-wrap: anywhere; }
+.ks .rateiq-combo-note { padding: 12px 14px; line-height: 1.6; }
 .ks .rateiq-dates { display: grid; grid-template-columns: repeat(2, minmax(150px, 240px)); gap: 24px; }
 .ks .rateiq-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
 .ks .rateiq-big { font-size: 72px; line-height: 1; color: var(--cream); margin-top: 12px; }

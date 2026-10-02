@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { TopNav, Kicker, Footer } from '../components/Parts.jsx'
 import {
   MARKETS, MAX_COMPETITORS, MAX_NIGHTS, fetchHotels, fetchNightlyRates, nightsBetween,
@@ -8,20 +8,142 @@ import {
 // RateIQ — KS Intelligence: pick up to three competitors, see what each charges
 // night by night, and get the nightly rate that keeps your hotel competitive.
 
-const PAGE = 12
-
 const positioningLabel = (p) =>
   p === 0 ? 'Match the competitor average'
     : p < 0 ? `${Math.abs(p)}% below the competitor average`
       : `${p}% above the competitor average`
+
+const OPTION_LIMIT = 40
+
+/** Hotels whose name contains every typed word; address-only matches follow. */
+function searchHotels(hotels, query) {
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean)
+  if (!words.length) return hotels
+  const byName = []
+  const byAddress = []
+  for (const h of hotels) {
+    const name = h.name.toLowerCase()
+    if (words.every(w => name.includes(w))) byName.push(h)
+    else if (words.every(w => `${name} ${h.address.toLowerCase()}`.includes(w))) byAddress.push(h)
+  }
+  return [...byName, ...byAddress]
+}
+
+/**
+ * Type-to-search hotel picker. The list filters as you type; pick with a click
+ * or with the arrow keys and Enter.
+ * - single mode (default): shows the chosen hotel in the field, with a clear button
+ * - multi mode: each pick is handed to the parent and the field resets for the next
+ */
+const HotelSearch = ({
+  id, label, placeholder, hotels, onPick, blockedReason,
+  selected = null, onClear, multi = false, locked = false, lockedText = '',
+}) => {
+  const [query, setQuery] = useState('')
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState(0)
+  const inputRef = useRef(null)
+  const listRef = useRef(null)
+
+  const results = useMemo(() => searchHotels(hotels, query), [hotels, query])
+  const shown = results.slice(0, OPTION_LIMIT)
+  const showSelected = !multi && selected && !open
+
+  useEffect(() => { if (locked) setOpen(false) }, [locked])
+  useEffect(() => {
+    if (open) listRef.current?.querySelector('.is-active')?.scrollIntoView({ block: 'nearest' })
+  }, [active, open])
+
+  const pick = (h) => {
+    if (blockedReason(h)) return
+    onPick(h)
+    setQuery('')
+    setActive(0)
+    if (!multi) { setOpen(false); inputRef.current?.blur() }
+  }
+
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      if (!open) { setOpen(true); return }
+      if (!shown.length) return
+      setActive(i => (i + (e.key === 'ArrowDown' ? 1 : -1) + shown.length) % shown.length)
+    } else if (e.key === 'Enter') {
+      if (open && shown[active]) { e.preventDefault(); pick(shown[active]) }
+    } else if (e.key === 'Escape') {
+      setOpen(false)
+    }
+  }
+
+  return (
+    <div className="rateiq-combo">
+      <label htmlFor={id} className="mono">{label}</label>
+      <div className="rateiq-combo-field">
+        <input
+          ref={inputRef}
+          id={id}
+          className="ks-input"
+          type="text"
+          role="combobox"
+          aria-expanded={open}
+          aria-controls={`${id}-list`}
+          aria-autocomplete="list"
+          aria-activedescendant={open && shown[active] ? `${id}-opt-${shown[active].id}` : undefined}
+          autoComplete="off"
+          spellCheck={false}
+          disabled={locked}
+          placeholder={locked ? lockedText : placeholder}
+          value={showSelected ? selected.name : query}
+          onChange={e => { setQuery(e.target.value); setActive(0); setOpen(true) }}
+          onFocus={() => { setQuery(''); setActive(0); setOpen(true) }}
+          onBlur={() => { setOpen(false); setQuery('') }}
+          onKeyDown={onKeyDown}
+        />
+        {!multi && selected && onClear && (
+          <button type="button" className="rateiq-combo-clear" aria-label={`Clear ${selected.name}`}
+            onMouseDown={e => e.preventDefault()} onClick={onClear}>✕</button>
+        )}
+      </div>
+
+      {open && (
+        <ul ref={listRef} id={`${id}-list`} role="listbox" aria-label={label} className="rateiq-combo-list"
+          onMouseDown={e => e.preventDefault()}>
+          {shown.length === 0 && (
+            <li className="mono rateiq-combo-note">No hotels match “{query}” in this market.</li>
+          )}
+          {shown.map((h, i) => {
+            const blocked = blockedReason(h)
+            return (
+              <li key={h.id} id={`${id}-opt-${h.id}`} role="option"
+                aria-selected={i === active} aria-disabled={blocked ? true : undefined}
+                className={`rateiq-combo-option ${i === active ? 'is-active' : ''}`}
+                onMouseEnter={() => setActive(i)} onClick={() => pick(h)}>
+                <span className="rateiq-combo-name">{h.name}</span>
+                <span className="mono">
+                  {blocked ? `${blocked} · ` : ''}
+                  {h.stars > 0 ? `${h.stars}-star` : 'Unrated'}
+                  {h.rating > 0 ? ` · ${h.rating}/10 · ${h.reviews.toLocaleString('en-US')} reviews` : ''}
+                  {h.address ? ` · ${h.address}` : ''}
+                </span>
+              </li>
+            )
+          })}
+          {results.length > shown.length && (
+            <li className="mono rateiq-combo-note">
+              Showing {shown.length} of {results.length} — keep typing to narrow it down.
+            </li>
+          )}
+        </ul>
+      )}
+    </div>
+  )
+}
 
 export const HiFiRateIntel = ({ onNav }) => {
   const [market, setMarket] = useState(null)
   const [hotels, setHotels] = useState([])
   const [loadingHotels, setLoadingHotels] = useState(false)
   const [marketError, setMarketError] = useState(null)
-  const [search, setSearch] = useState('')
-  const [visible, setVisible] = useState(PAGE)
   const [competitorIds, setCompetitorIds] = useState([])
   const [ownId, setOwnId] = useState('')
   const [checkIn, setCheckIn] = useState(() => addDays(todayIso(), 14))
@@ -38,7 +160,7 @@ export const HiFiRateIntel = ({ onNav }) => {
 
   const pickMarket = async (m) => {
     const request = ++marketRequest.current
-    setMarket(m); setHotels([]); setCompetitorIds([]); setOwnId(''); setSearch(''); setVisible(PAGE)
+    setMarket(m); setHotels([]); setCompetitorIds([]); setOwnId('')
     setMarketError(null); clearResult()
     setLoadingHotels(true)
     try {
@@ -54,23 +176,18 @@ export const HiFiRateIntel = ({ onNav }) => {
     }
   }
 
-  const toggleCompetitor = (id) => {
-    if (id === ownId) return
+  const addCompetitor = (id) => {
     clearResult()
-    setCompetitorIds(ids => ids.includes(id)
-      ? ids.filter(x => x !== id)
-      : ids.length >= MAX_COMPETITORS ? ids : [...ids, id])
+    setCompetitorIds(ids => (ids.includes(id) || ids.length >= MAX_COMPETITORS ? ids : [...ids, id]))
+  }
+  const removeCompetitor = (id) => {
+    clearResult()
+    setCompetitorIds(ids => ids.filter(x => x !== id))
   }
 
   const byId = useMemo(() => Object.fromEntries(hotels.map(h => [h.id, h])), [hotels])
   const competitors = competitorIds.map(id => byId[id]).filter(Boolean)
   const ownHotel = byId[ownId] || null
-  const alphabetical = useMemo(() => [...hotels].sort((a, b) => a.name.localeCompare(b.name)), [hotels])
-
-  const matches = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    return q ? hotels.filter(h => h.name.toLowerCase().includes(q)) : hotels
-  }, [hotels, search])
 
   const nights = useMemo(() => nightsBetween(checkIn, checkOut), [checkIn, checkOut])
   const today = todayIso()
@@ -152,11 +269,24 @@ export const HiFiRateIntel = ({ onNav }) => {
           <section style={{ padding: '32px 56px' }}>
             <div className="container">
               <div className="mono accent">02 / Choose up to {MAX_COMPETITORS} competitors</div>
-
+              <div style={{ marginTop: 20 }}>
+                <HotelSearch
+                  key={`competitors-${market.id}`}
+                  id="rateiq-competitors"
+                  label="Search competitor hotels"
+                  placeholder="Start typing a hotel name…"
+                  hotels={hotels}
+                  multi
+                  locked={full}
+                  lockedText={`${MAX_COMPETITORS} of ${MAX_COMPETITORS} selected — remove one to change`}
+                  onPick={h => addCompetitor(h.id)}
+                  blockedReason={h => (h.id === ownId ? 'Your hotel' : competitorIds.includes(h.id) ? 'Already selected' : null)}
+                />
+              </div>
               <div className="rateiq-picked" style={{ marginTop: 20 }}>
                 {competitors.length === 0 && <span className="mono">No competitors selected yet.</span>}
                 {competitors.map(c => (
-                  <button key={c.id} type="button" className="tag tag-active" onClick={() => toggleCompetitor(c.id)}
+                  <button key={c.id} type="button" className="tag tag-active" onClick={() => removeCompetitor(c.id)}
                     style={{ background: 'transparent', cursor: 'pointer', fontFamily: 'var(--mono)' }}
                     aria-label={`Remove ${c.name}`}>
                     {c.name} ✕
@@ -166,43 +296,6 @@ export const HiFiRateIntel = ({ onNav }) => {
                   <span className="mono">{competitors.length} of {MAX_COMPETITORS} selected</span>
                 )}
               </div>
-
-              <label style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 24, maxWidth: 420 }}>
-                <span className="mono">Search hotels by name</span>
-                <input className="ks-input" placeholder="e.g. Marriott, Hilton, Conrad…" value={search}
-                  onChange={e => { setSearch(e.target.value); setVisible(PAGE) }}/>
-              </label>
-
-              {matches.length === 0 ? (
-                <div className="mono" style={{ marginTop: 24 }}>No hotels match “{search}” in this market.</div>
-              ) : (
-                <div className="rateiq-grid" style={{ marginTop: 20 }}>
-                  {matches.slice(0, visible).map(h => {
-                    const selected = competitorIds.includes(h.id)
-                    const mine = h.id === ownId
-                    const disabled = mine || (full && !selected)
-                    return (
-                      <button key={h.id} type="button" disabled={disabled} onClick={() => toggleCompetitor(h.id)}
-                        className={`rateiq-card ${selected ? 'is-selected' : ''}`}>
-                        <span className="title-m">{h.name}</span>
-                        <span className="mono">
-                          {h.stars > 0 ? `${h.stars}-star` : 'Unrated'}
-                          {h.rating > 0 ? ` · ${h.rating}/10 · ${h.reviews.toLocaleString('en-US')} reviews` : ''}
-                        </span>
-                        {h.address && <span className="mono rateiq-card-address">{h.address}</span>}
-                        <span className="mono rateiq-card-state">
-                          {mine ? 'Your hotel' : selected ? '✓ Selected' : full ? 'Limit reached' : '+ Add competitor'}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
-              {matches.length > visible && (
-                <button type="button" className="btn" style={{ marginTop: 20 }} onClick={() => setVisible(v => v + PAGE)}>
-                  Show more · {matches.length - visible} left
-                </button>
-              )}
             </div>
           </section>
 
@@ -210,19 +303,23 @@ export const HiFiRateIntel = ({ onNav }) => {
           <section style={{ padding: '32px 56px' }}>
             <div className="container">
               <div className="mono accent">03 / Choose your hotel</div>
-              <label style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20, maxWidth: 520 }}>
-                <span className="mono">Your hotel</span>
-                <select className="ks-input" value={ownId} onChange={e => { setOwnId(e.target.value); clearResult() }}>
-                  <option value="">My hotel is not listed</option>
-                  {alphabetical.map(h => (
-                    <option key={h.id} value={h.id} disabled={competitorIds.includes(h.id)}>{h.name}</option>
-                  ))}
-                </select>
-              </label>
-              <div className="mono" style={{ marginTop: 10 }}>
+              <div style={{ marginTop: 20 }}>
+                <HotelSearch
+                  key={`own-${market.id}`}
+                  id="rateiq-own"
+                  label="Search for your hotel"
+                  placeholder="Start typing your hotel's name…"
+                  hotels={hotels}
+                  selected={ownHotel}
+                  onPick={h => { setOwnId(h.id); clearResult() }}
+                  onClear={() => { setOwnId(''); clearResult() }}
+                  blockedReason={h => (competitorIds.includes(h.id) ? 'Selected as a competitor' : null)}
+                />
+              </div>
+              <div className="mono" style={{ marginTop: 12 }}>
                 {ownHotel
                   ? 'Your current nightly prices will be shown next to the recommendation.'
-                  : 'Without your hotel you still get the competitor prices and a recommended rate.'}
+                  : 'Not listed? Leave this empty — you still get the competitor prices and a recommended rate.'}
               </div>
             </div>
           </section>
