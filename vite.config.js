@@ -37,32 +37,15 @@ function micrositeIndexPlugin() {
   }
 }
 
-/** Same-origin proxies for rate-data APIs (no CORS headers upstream).
- *  Production equivalents live in amplify.yml as 200 rewrites. */
-const XOTELO_PROXY = {
-  '/api/xotelo': {
-    target: 'https://data.xotelo.com',
-    changeOrigin: true,
-    rewrite: (p) => p.replace(/^\/api\/xotelo/, '/api'),
-  },
-  '/api/liteapi': {
-    target: 'https://api.liteapi.travel',
-    changeOrigin: true,
-    rewrite: (p) => p.replace(/^\/api\/liteapi/, '/v3.0'),
-  },
-}
-
 export default defineConfig({
   plugins: [react(), micrositeIndexPlugin()],
   server: {
     port: 5174,
     host: true,
     open: false,
-    proxy: XOTELO_PROXY,
   },
   preview: {
     port: 5174,
     host: true,
-    proxy: XOTELO_PROXY,
   },
 })

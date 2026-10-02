@@ -726,6 +726,66 @@
   .ks [style*="gap: 80px"] { gap: 44px !important; }
 }
 
+/* RateIQ (Technology page) */
+.ks .rateiq-picked { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; min-height: 30px; }
+.ks .rateiq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.ks .rateiq-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 16px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ks .rateiq-card:hover:not(:disabled) { border-color: var(--cream-3); }
+.ks .rateiq-card:disabled { opacity: 0.4; cursor: default; }
+.ks .rateiq-card.is-selected { background: var(--accent); border-color: var(--accent); }
+.ks .rateiq-card.is-selected .mono { color: var(--cream); }
+.ks .rateiq-card .mono { line-height: 1.6; overflow-wrap: anywhere; }
+.ks .rateiq-card-state { margin-top: auto; padding-top: 4px; font-size: 9px; }
+.ks .rateiq-dates { display: grid; grid-template-columns: repeat(2, minmax(150px, 240px)); gap: 24px; }
+.ks .rateiq-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+.ks .rateiq-big { font-size: 72px; line-height: 1; color: var(--cream); margin-top: 12px; }
+.ks .rateiq-table-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.ks .rateiq-table { width: 100%; min-width: 560px; border-collapse: collapse; }
+.ks .rateiq-table th,
+.ks .rateiq-table td { padding: 14px 16px; text-align: right; border-bottom: 1px solid var(--line); }
+.ks .rateiq-table tbody tr:last-child th,
+.ks .rateiq-table tbody tr:last-child td { border-bottom: none; }
+.ks .rateiq-table th {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  color: var(--cream-3);
+}
+.ks .rateiq-table thead th { vertical-align: bottom; max-width: 170px; }
+.ks .rateiq-table th:first-child { text-align: left; white-space: nowrap; }
+.ks .rateiq-table td { font-family: var(--serif); font-size: 18px; color: var(--cream-2); white-space: nowrap; }
+.ks .rateiq-table .is-rec { background: rgba(237, 230, 216, 0.05); color: var(--cream); }
+@media (max-width: 768px) {
+  .ks .rateiq-summary { grid-template-columns: 1fr; gap: 36px; }
+  .ks .rateiq-big { font-size: 56px; }
+  .ks .rateiq-dates { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .ks .rateiq-table th,
+  .ks .rateiq-table td { padding: 12px; }
+}
+@media (max-width: 480px) {
+  .ks .rateiq-dates { grid-template-columns: 1fr; }
+}
+
 /* Press coverage tiles (Press page) */
 .ks .press-tile {
   display: flex;

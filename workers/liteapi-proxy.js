@@ -11,7 +11,7 @@
 //        name  LITEAPI_KEY   (type: Secret)
 //        value your liteAPI key (sand_… or prod_…)
 //   4. Copy the worker URL (https://rateiq-proxy.<account>.workers.dev)
-//      and set LITE_PROXY_URL in src/lib/rateIntel.js to that URL.
+//      and set PROXY in src/lib/rateIntel.js to that URL.
 
 const ALLOWED_ORIGINS = [
   'https://www.kshospitalitygroup.com',
