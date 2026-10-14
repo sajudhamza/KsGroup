@@ -532,6 +532,11 @@ export const HiFiPress = ({ onNav, openProperty }) => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
             {shown.map(a => (
               <a key={a.url + a.venue} href={a.url} target="_blank" rel="noopener noreferrer" className="press-tile">
+                {a.thumb && (
+                  <div className="press-thumb">
+                    <img src={a.thumb} alt="" loading="lazy" decoding="async"/>
+                  </div>
+                )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
                   <span className="mono accent" style={{ letterSpacing: '0.14em' }}>{a.outlet.toUpperCase()}</span>
                   <span className="mono press-arrow">↗</span>
