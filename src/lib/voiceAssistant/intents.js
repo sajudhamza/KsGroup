@@ -1,7 +1,9 @@
 import { KS_DATA } from '../../data.js'
 
+const stripAccents = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
 const normalize = (text) =>
-  text
+  stripAccents(text)
     .toLowerCase()
     .replace(/[^\w\s&]/g, ' ')
     .replace(/\s+/g, ' ')
@@ -12,7 +14,7 @@ const includesAny = (text, phrases) => phrases.some((phrase) => text.includes(ph
 const { brand, contact, about, mission, team, properties, categories, strengths, stats } = KS_DATA
 
 const venueMatchers = properties.map((property) => {
-  const nameLower = property.name.toLowerCase()
+  const nameLower = stripAccents(property.name).toLowerCase()
   const phrases = [
     nameLower,
     property.id.replace(/-/g, ' '),
@@ -184,6 +186,59 @@ export function resolveIntent(rawInput) {
     }
   }
 
+  // Named team member or venue first, so "tell me about X" answers about X
+  // instead of matching the general "about" page below.
+  // Team member
+  const member = matchTeam(text)
+  if (
+    member &&
+    includesAny(text, [
+      'who',
+      'about',
+      'tell',
+      'team',
+      'ceo',
+      'founder',
+      'director',
+      'vp',
+      'cfo',
+      'strategist',
+      'manager',
+      member.name.toLowerCase(),
+      ...member.name.toLowerCase().split(' '),
+    ])
+  ) {
+    return {
+      message: `${member.name} is our ${member.role}. ${member.bio.split('.').slice(0, 2).join('.')}. I'm opening the Team page.`,
+      actions: [{ type: 'navigate', page: 'team' }],
+    }
+  }
+
+  // Specific venue (before the general page and category answers)
+  const venue = matchVenue(text)
+  if (venue) {
+    const actions = [{ type: 'property', propertyId: venue.id }]
+    const wantsSite = includesAny(text, ['website', 'site', 'open', 'visit', 'go to', 'take me'])
+
+    if (wantsSite && venue.url && venue.url !== '#') {
+      actions.push({ type: 'openUrl', url: venue.url })
+    }
+
+    let message = venueSummary(venue)
+    if (venue.press) {
+      message += ` ${venue.press}`
+    }
+    if (wantsSite && venue.url && venue.url !== '#') {
+      message += venue.url.startsWith('/')
+        ? ` Opening ${venue.name} now.`
+        : ` Opening the ${venue.name} website.`
+    } else {
+      message += ` I'm opening its portfolio detail.`
+    }
+
+    return { message, actions }
+  }
+
   // Pages
   if (includesAny(text, ['about', 'who are you', 'what is ks', 'company', 'mission', 'about the group'])) {
     return {
@@ -212,57 +267,6 @@ export function resolveIntent(rawInput) {
       message: "I'll take you back to the homepage.",
       actions: [{ type: 'navigate', page: 'home' }],
     }
-  }
-
-  // Team member
-  const member = matchTeam(text)
-  if (
-    member &&
-    includesAny(text, [
-      'who',
-      'about',
-      'tell',
-      'team',
-      'ceo',
-      'founder',
-      'director',
-      'vp',
-      'cfo',
-      'strategist',
-      'manager',
-      member.name.toLowerCase(),
-      ...member.name.toLowerCase().split(' '),
-    ])
-  ) {
-    return {
-      message: `${member.name} is our ${member.role}. ${member.bio.split('.').slice(0, 2).join('.')}. I'm opening the Team page.`,
-      actions: [{ type: 'navigate', page: 'team' }],
-    }
-  }
-
-  // Specific venue (before broader lounge/hotel lists)
-  const venue = matchVenue(text)
-  if (venue) {
-    const actions = [{ type: 'property', propertyId: venue.id }]
-    const wantsSite = includesAny(text, ['website', 'site', 'open', 'visit', 'go to', 'take me'])
-
-    if (wantsSite && venue.url && venue.url !== '#') {
-      actions.push({ type: 'openUrl', url: venue.url })
-    }
-
-    let message = venueSummary(venue)
-    if (venue.press) {
-      message += ` ${venue.press}`
-    }
-    if (wantsSite && venue.url && venue.url !== '#') {
-      message += venue.url.startsWith('/')
-        ? ` Opening ${venue.name} now.`
-        : ` Opening the ${venue.name} website.`
-    } else {
-      message += ` I'm opening its portfolio detail.`
-    }
-
-    return { message, actions }
   }
 
   // Category lists

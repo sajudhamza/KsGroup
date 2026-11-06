@@ -21,7 +21,7 @@ export const HiFiPortfolio = ({ onNav, openProperty }) => {
         <div className="container">
           <Kicker>The Portfolio</Kicker>
           <h1 className="display-l" style={{ marginTop: 18, maxWidth: 1000 }}>
-            {all.length} houses across<br/><span className="ital">four regions</span>.
+            {all.length} properties across<br/><span className="ital">four regions</span>.
           </h1>
           <p className="body-l" style={{ marginTop: 28, maxWidth: 640 }}>
             Each property is concepted, built and operated by KS. We do not franchise.
@@ -80,7 +80,7 @@ export const HiFiAbout = ({ onNav }) => {
           <Kicker>The Group</Kicker>
           <h1 className="display-xl" style={{ marginTop: 24, maxWidth: 1100 }}>
             Decades of work.<br/>
-            {D.properties.length} houses.<br/>
+            {D.properties.length} properties.<br/>
             <span className="ital" style={{ color: 'var(--cream-2)' }}>One philosophy.</span>
           </h1>
         </div>
@@ -352,7 +352,7 @@ export const HiFiProperty = ({ onNav, propertyId, openProperty }) => {
 
       <section style={{ padding: '100px 56px', borderTop: '1px solid var(--line)' }}>
         <div className="container">
-          <Kicker>Related houses</Kicker>
+          <Kicker>Related properties</Kicker>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 32 }}>
             {rel.map(r => (
               <a key={r.id} href="#" onClick={(e) => { e.preventDefault(); openProperty && openProperty(r.id) }} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -492,7 +492,7 @@ export const HiFiPress = ({ onNav, openProperty }) => {
   const covered = D.properties.filter(p => p.press)
   const [pressFilter, setPressFilter] = useState('All')
   // Tiles and filter chips follow the homepage venue order; coverage that isn't
-  // tied to a venue (founder profiles) comes after the houses.
+  // tied to a venue (founder profiles) comes after the venues.
   const venueRank = (venue) => {
     const i = D.properties.findIndex(p => venue.includes(p.name))
     return i === -1 ? D.properties.length : i
@@ -512,7 +512,7 @@ export const HiFiPress = ({ onNav, openProperty }) => {
             In the <span className="ital">press</span>.
           </h1>
           <p className="body-l" style={{ marginTop: 28, maxWidth: 640 }}>
-            Coverage of KS Hospitality Group and its houses, from The New York Times to Time Out New York.
+            Coverage of KS Hospitality Group and its properties, from The New York Times to Time Out New York.
           </p>
         </div>
       </section>

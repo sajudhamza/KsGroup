@@ -111,7 +111,7 @@ export default function HiFiHome({ onNav }) {
             <div>
               <Kicker>The Portfolio</Kicker>
               <h2 className="display-m" style={{ marginTop: 16 }}>
-                {props.length} houses.<br/>
+                {props.length} properties.<br/>
                 <span className="ital" style={{ color: 'var(--cream-2)' }}>One philosophy.</span>
               </h2>
             </div>

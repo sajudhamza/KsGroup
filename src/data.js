@@ -141,7 +141,7 @@ export const KS_DATA = {
   },
 
   stats: [
-    { k: 'Properties', v: '16' },
+    { k: 'Properties', get v() { return String(KS_DATA.properties.length) } },
     { k: 'Regions', v: '4' },
     { k: 'Founded', v: '2024' },
   ],
@@ -153,7 +153,7 @@ export const KS_DATA = {
   // Homepage "Our Mission" visual — stand-in until the final image is provided.
   missionImage: '/img/Rooftops/Rosehill Rooftop/1.jpg',
 
-  // Properties, Summer 2026 deck logo order, then additional operated venues.
+  // Properties in display order (portfolio, homepage, press page all follow it).
   // Homepage layout: index 0 = featured big card; 1-2 = stack to the right; 3-5 = row of three.
   properties: [
     {
@@ -236,42 +236,6 @@ export const KS_DATA = {
         'Featured in Time Out New York, Eater NY, The Infatuation, Cititour, and The Rooftop Guide among the top rooftop bars in NYC.',
     },
     {
-      id: 'skewr',
-      name: 'Skewr',
-      cat: 'Restaurant',
-      catSlug: 'restaurants',
-      loc: 'NoMad, NY',
-      url: 'https://www.skewr.nyc',
-      img: '/img/Lounges/Skewr/1.jpg',
-      logo: '/img/Lounges/Skewr/logo.svg',
-      kind: 'photo',
-      blurb:
-        'Eastern Mediterranean dining built for sharing: signature skewers, bold mezze, and catering in NoMad.',
-      description: [
-        'Skewr brings fire back to the table. Tucked into NoMad at the Park South Hotel, this 3,000-square-foot Mediterranean restaurant and bar is built for sharing: signature skewers, shareable plates, ethically sourced ingredients, and catering.',
-        'From flame-roasted dips and freshly baked pita to seasonal vegetables and impeccably sourced meats, every dish is an invitation to slow down, share, and stay a while. Capacity 150+; opened 2025.',
-        'One of four KS Hospitality Group venues at the Park South Hotel (JDV by Hyatt).',
-      ],
-      press: 'Featured in Forbes, Time Out New York, and The Infatuation.',
-    },
-    {
-      id: 'brewr',
-      name: 'Brewr',
-      cat: 'Lounge',
-      catSlug: 'lounges',
-      loc: 'NoMad, NY',
-      url: 'https://www.brewr.us',
-      img: '/img/Lounges/Brewr/1.jpg',
-      logo: '/img/Lounges/Brewr/logo.png',
-      kind: 'photo',
-      blurb:
-        'An all-day café that becomes an evening coffee lounge with handcrafted coffee, pastries, and espresso martinis.',
-      description: [
-        'By day, Brewr is a bright, unhurried café with handcrafted coffee, fresh pastries, and easy atmosphere. By night, the lights dim and Brewr becomes a warm coffee lounge where espresso martinis and coffee-inspired cocktails take center stage.',
-        'Located within the Park South Hotel in NoMad, Brewr is a neighborhood gathering place that refuses to be just one thing. Capacity 50+; opened 2025. One of four KS venues at Park South (JDV by Hyatt).',
-      ],
-    },
-    {
       id: 'stone-and-soil',
       name: 'Stone & Soil',
       cat: 'Lounge',
@@ -289,24 +253,6 @@ export const KS_DATA = {
       ],
       press:
         'Time Out: “The Best New Cocktail Bar in New York City” · Featured in Eater NY and The New York Times.',
-    },
-    {
-      id: 'the-maine-grill',
-      name: 'The Maine Grill',
-      cat: 'Restaurant',
-      catSlug: 'restaurants',
-      loc: 'Lewiston, ME',
-      url: '/maine-grill/',
-      img: '/img/Lounges/Maine Grill/hero-dusk.png',
-      logo: '/img/Lounges/Maine Grill/logo.png',
-      kind: 'photo',
-      blurb:
-        'An elevated American grill destination: Made to Gather. Fresh seafood, prime steaks, craft cocktails, and private events.',
-      description: [
-        'The Maine Grill is Lewiston\'s premier dining destination, a multi-million-dollar transformation delivering modern American dining, handcrafted cocktails, patio dining, and private events under the Made to Gather ethos.',
-        'Located at 490 Pleasant Street within the Clarion Hotel & Conference Center, the restaurant spans 4,500 square feet with capacity for 200+ guests. Ideal for dinners, celebrations, and gatherings.',
-        'KS Hospitality Group serves as investor and management company for The Maine Grill and the Clarion property.',
-      ],
     },
     {
       id: 'premiere-park-city',
@@ -327,6 +273,96 @@ export const KS_DATA = {
       ],
       press:
         'TownLift, Park City · Fox 13 Salt Lake City: “Premiere Park City is one of the newest spots on Main and one of the coolest vibes.”',
+    },
+    {
+      id: 'ramada',
+      name: 'Clarion Hotel Lewiston',
+      cat: 'Hotel',
+      catSlug: 'hotels',
+      loc: 'Lewiston, ME',
+      url: 'https://www.clarionhotellewiston.com',
+      img: '/img/Hotels/Clarion Lewiston Maine/1.jpg',
+      logo: '/img/Hotels/Clarion Lewiston Maine/logo.png',
+      kind: 'photo',
+      blurb:
+        'Central Maine’s premier hospitality destination: 117 keys, restaurant & lounge, events, and conference facilities.',
+      description: [
+        'Following a multi-million-dollar renovation, Clarion Hotel Lewiston has emerged as Central Maine\'s premier hospitality destination with elevated accommodations, modern gatherings, and full-service hospitality under one roof.',
+        'Amenities include luxury guest rooms (117 keys), The Maine Grill restaurant and lounge, event and wedding venues, conference facilities, and an indoor pool. Opened 2024.',
+        'KS Hospitality Group serves as both investor and management company for the hotel and all food and beverage venues on property.',
+      ],
+    },
+    {
+      id: 'lic-manhattan-view',
+      name: 'LIC Manhattan View Hotel',
+      cat: 'Hotel',
+      catSlug: 'hotels',
+      loc: 'Long Island City, NY',
+      url: 'https://licmanhattanviewhotel.com',
+      img: '/img/Hotels/LIC Manhattan View Hotel/1.png',
+      logo: '/img/Hotels/LIC Manhattan View Hotel/logo.png',
+      logoRaw: true, // solid-background logo — don't white-ify in the card chip
+      kind: 'photo',
+      blurb: 'A strategically located LIC hotel, 15 minutes from Midtown by subway.',
+      description: [
+        'LIC Manhattan View Hotel is located in Long Island City, just a 15-minute subway ride from Midtown Manhattan, with easy access to Rockefeller Center and Central Park. LaGuardia Airport is a 10-minute drive away, and the 39th Ave Subway Station is one block from the hotel.',
+        'Guest rooms feature a 32-inch flat-screen TV, complimentary Wi-Fi, a mini-fridge, and a hair dryer. An on-site restaurant and lounge are currently undergoing renovations.',
+        'KS Hospitality Group will serve as both investor and management company for the LIC Manhattan View Hotel.',
+      ],
+    },
+    {
+      id: 'the-maine-grill',
+      name: 'The Maine Grill',
+      cat: 'Restaurant',
+      catSlug: 'restaurants',
+      loc: 'Lewiston, ME',
+      url: '/maine-grill/',
+      img: '/img/Lounges/Maine Grill/hero-dusk.png',
+      logo: '/img/Lounges/Maine Grill/logo.png',
+      kind: 'photo',
+      blurb:
+        'An elevated American grill destination: Made to Gather. Fresh seafood, prime steaks, craft cocktails, and private events.',
+      description: [
+        'The Maine Grill is Lewiston\'s premier dining destination, a multi-million-dollar transformation delivering modern American dining, handcrafted cocktails, patio dining, and private events under the Made to Gather ethos.',
+        'Located at 490 Pleasant Street within the Clarion Hotel & Conference Center, the restaurant spans 4,500 square feet with capacity for 200+ guests. Ideal for dinners, celebrations, and gatherings.',
+        'KS Hospitality Group serves as investor and management company for The Maine Grill and the Clarion property.',
+      ],
+    },
+    {
+      id: 'skewr',
+      name: 'Skëwr',
+      cat: 'Restaurant',
+      catSlug: 'restaurants',
+      loc: 'NoMad, NY',
+      url: 'https://www.skewr.nyc',
+      img: '/img/Lounges/Skewr/1.jpg',
+      logo: '/img/Lounges/Skewr/logo.svg',
+      kind: 'photo',
+      blurb:
+        'Eastern Mediterranean dining built for sharing: signature skewers, bold mezze, and catering in NoMad.',
+      description: [
+        'Skëwr brings fire back to the table. Tucked into NoMad at the Park South Hotel, this 3,000-square-foot Mediterranean restaurant and bar is built for sharing: signature skewers, shareable plates, ethically sourced ingredients, and catering.',
+        'From flame-roasted dips and freshly baked pita to seasonal vegetables and impeccably sourced meats, every dish is an invitation to slow down, share, and stay a while. Capacity 150+; opened 2025.',
+        'One of four KS Hospitality Group venues at the Park South Hotel (JDV by Hyatt).',
+      ],
+      press: 'Featured in Forbes, Time Out New York, and The Infatuation.',
+    },
+    {
+      id: 'brewr',
+      name: 'Brëwr',
+      cat: 'Lounge',
+      catSlug: 'lounges',
+      loc: 'NoMad, NY',
+      url: 'https://www.brewr.us',
+      img: '/img/Lounges/Brewr/1.jpg',
+      logo: '/img/Lounges/Brewr/logo.png',
+      kind: 'photo',
+      blurb:
+        'An all-day café that becomes an evening coffee lounge with handcrafted coffee, pastries, and espresso martinis.',
+      description: [
+        'By day, Brëwr is a bright, unhurried café with handcrafted coffee, fresh pastries, and easy atmosphere. By night, the lights dim and Brëwr becomes a warm coffee lounge where espresso martinis and coffee-inspired cocktails take center stage.',
+        'Located within the Park South Hotel in NoMad, Brëwr is a neighborhood gathering place that refuses to be just one thing. Capacity 50+; opened 2025. One of four KS venues at Park South (JDV by Hyatt).',
+      ],
     },
     {
       id: 'landmark',
@@ -379,43 +415,6 @@ export const KS_DATA = {
         'Across Watermark, Landmark, and Benchmark, guests find roughly 24 luxury suites for private buyouts, executive retreats, weddings, wellness escapes, and extended stays.',
       ],
     },
-    {
-      id: 'ramada',
-      name: 'Clarion Hotel Lewiston',
-      cat: 'Hotel',
-      catSlug: 'hotels',
-      loc: 'Lewiston, ME',
-      url: 'https://www.clarionhotellewiston.com',
-      img: '/img/Hotels/Clarion Lewiston Maine/1.jpg',
-      logo: '/img/Hotels/Clarion Lewiston Maine/logo.png',
-      kind: 'photo',
-      blurb:
-        'Central Maine’s premier hospitality destination: 117 keys, restaurant & lounge, events, and conference facilities.',
-      description: [
-        'Following a multi-million-dollar renovation, Clarion Hotel Lewiston has emerged as Central Maine\'s premier hospitality destination with elevated accommodations, modern gatherings, and full-service hospitality under one roof.',
-        'Amenities include luxury guest rooms (117 keys), The Maine Grill restaurant and lounge, event and wedding venues, conference facilities, and an indoor pool. Opened 2024.',
-        'KS Hospitality Group serves as both investor and management company for the hotel and all food and beverage venues on property.',
-      ],
-    },
-    // Additional operated venues (beyond Summer 2026 logo wall)
-    {
-      id: 'lic-manhattan-view',
-      name: 'LIC Manhattan View Hotel',
-      cat: 'Hotel',
-      catSlug: 'hotels',
-      loc: 'Long Island City, NY',
-      url: 'https://licmanhattanviewhotel.com',
-      img: '/img/Hotels/LIC Manhattan View Hotel/1.png',
-      logo: '/img/Hotels/LIC Manhattan View Hotel/logo.png',
-      logoRaw: true, // solid-background logo — don't white-ify in the card chip
-      kind: 'photo',
-      blurb: 'A strategically located LIC hotel, 15 minutes from Midtown by subway.',
-      description: [
-        'LIC Manhattan View Hotel is located in Long Island City, just a 15-minute subway ride from Midtown Manhattan, with easy access to Rockefeller Center and Central Park. LaGuardia Airport is a 10-minute drive away, and the 39th Ave Subway Station is one block from the hotel.',
-        'Guest rooms feature a 32-inch flat-screen TV, complimentary Wi-Fi, a mini-fridge, and a hair dryer. An on-site restaurant and lounge are currently undergoing renovations.',
-        'KS Hospitality Group will serve as both investor and management company for the LIC Manhattan View Hotel.',
-      ],
-    },
   ],
 
   // Alphabetical order (homepage "Pick your atmosphere" + portfolio filters).
@@ -435,9 +434,9 @@ export const KS_DATA = {
     { venue: 'Premiere Park City', outlet: 'The Park Record', title: 'Cocktail lounge Premiere debuts today on Main Street', url: 'https://www.parkrecord.com/2024/04/29/cocktail-lounge-premiere-debuts-today-on-main-street/', thumb: '/img/press/premiere-park-city--the-park-record.jpg' },
     { venue: 'Premiere Park City', outlet: 'FOX 13', title: 'Utah has a swanky new underground cocktail lounge', url: 'https://www.fox13now.com/the-place/utah-has-a-swanky-new-underground-cocktail-lounge', thumb: '/img/press/premiere-park-city--fox-13.jpg' },
     { venue: 'Premiere Park City', outlet: 'ABC4', title: 'Grand opening of Premiere, Park City’s gourmet dinner experience', url: 'https://www.abc4.com/gtu/grand-opening-of-premiere-park-citys-gourmet-dinner-experience/', thumb: '/img/press/premiere-park-city--abc4.jpg' },
-    { venue: 'Skewr & Brewr', outlet: 'Forbes', title: 'Why Skëwr is the hotel restaurant turning Park South into a dining destination', url: 'https://www.forbes.com/sites/shivanivora/2026/01/30/why-skwr-is-the-hotel-restaurant-turning-park-south-into-a-dining-destination/', thumb: '/img/press/skewr-brewr--forbes.jpg' },
-    { venue: 'Skewr & Brewr', outlet: 'Time Out New York', title: 'One of the founders behind Bungalow opened a skewer-heavy Mediterranean restaurant in NoMad', url: 'https://www.timeout.com/newyork/news/you-can-get-17-types-of-char-grilled-skewers-at-this-mediterranean-restaurant-in-nomad-030326', thumb: '/img/press/skewr-brewr--time-out-new-york.jpg' },
-    { venue: 'Skewr & Brewr', outlet: 'Eater NY', title: 'NYC restaurant openings to know in February 2026', url: 'https://ny.eater.com/news/409076/nyc-new-restaurant-openings-february-2026', thumb: '/img/press/skewr-brewr--eater-ny.jpg' },
+    { venue: 'Skëwr & Brëwr', outlet: 'Forbes', title: 'Why Skëwr is the hotel restaurant turning Park South into a dining destination', url: 'https://www.forbes.com/sites/shivanivora/2026/01/30/why-skwr-is-the-hotel-restaurant-turning-park-south-into-a-dining-destination/', thumb: '/img/press/skewr-brewr--forbes.jpg' },
+    { venue: 'Skëwr & Brëwr', outlet: 'Time Out New York', title: 'One of the founders behind Bungalow opened a skewer-heavy Mediterranean restaurant in NoMad', url: 'https://www.timeout.com/newyork/news/you-can-get-17-types-of-char-grilled-skewers-at-this-mediterranean-restaurant-in-nomad-030326', thumb: '/img/press/skewr-brewr--time-out-new-york.jpg' },
+    { venue: 'Skëwr & Brëwr', outlet: 'Eater NY', title: 'NYC restaurant openings to know in February 2026', url: 'https://ny.eater.com/news/409076/nyc-new-restaurant-openings-february-2026', thumb: '/img/press/skewr-brewr--eater-ny.jpg' },
     { venue: 'Stone & Soil', outlet: 'Time Out New York', title: 'A new NoMad hotel bar is obsessed with Japanese bartending', url: 'https://www.timeout.com/newyork/news/this-new-hotel-bar-serves-a-20-drink-menu-focusing-on-japanese-bartending-techniques-013026', thumb: '/img/press/stone-soil--time-out-new-york.jpg' },
     { venue: 'Stone & Soil', outlet: 'Resy', title: 'Five essential dishes and drinks to order at Stone & Soil', url: 'https://blog.resy.com/2026/03/stone-soil-nyc/', thumb: '/img/press/stone-soil--resy.jpg' },
     { venue: 'Stone & Soil', outlet: 'Hospitality Design', title: 'Stone & Soil, New York', url: 'https://hospitalitydesign.com/news/stone-soil-new-york/187598/', thumb: '/img/press/stone-soil--hospitality-design.jpg' },
@@ -488,7 +487,7 @@ export const KS_DATA = {
       role: 'Founder & CEO',
       img: '/img/Team/team-kanvar.png',
       tagline: null,
-      bio: 'Kanvar Singh is the founder and CEO of KS Hospitality Group; a hospitality executive and investor with over 20 years of experience leading hotels, restaurants, and bars across the U.S. and internationally. As former Vice President of Operations at Dream Hotels and Hyatt Hotels, Kanvar built a career at the intersection of luxury hospitality, high-volume F&B, and real estate. He oversaw Tao at Dream Midtown, led Food & Beverage at Time NY, and has driven Elsie Rooftop to become one of New York City\'s most sought-after rooftop destinations for three consecutive years. Under KS Hospitality Group, Kanvar leads a growing portfolio of venues including Elsie Rooftop, Elsie Penthouse, Stone & Soil, Rosehill Rooftop, Skewr, Brewr, Premiere Park City, Casa CeCe, Clarion Hotel Lewiston, and more; each designed to deliver elevated experiences across dining, nightlife, and private events. Kanvar has been featured in Forbes, Leaders Magazine, the Huffington Post, and Hotels Magazine. Today, he is focused on strategic expansion; identifying underperforming venues and turning them into thriving destinations.',
+      bio: 'Kanvar Singh is the founder and CEO of KS Hospitality Group; a hospitality executive and investor with over 20 years of experience leading hotels, restaurants, and bars across the U.S. and internationally. As former Vice President of Operations at Dream Hotels and Hyatt Hotels, Kanvar built a career at the intersection of luxury hospitality, high-volume F&B, and real estate. He oversaw Tao at Dream Midtown, led Food & Beverage at Time NY, and has driven Elsie Rooftop to become one of New York City\'s most sought-after rooftop destinations for three consecutive years. Under KS Hospitality Group, Kanvar leads a growing portfolio of venues including Elsie Rooftop, Elsie Penthouse, Stone & Soil, Rosehill Rooftop, Skëwr, Brëwr, Premiere Park City, Casa CeCe, Clarion Hotel Lewiston, and more; each designed to deliver elevated experiences across dining, nightlife, and private events. Kanvar has been featured in Forbes, Leaders Magazine, the Huffington Post, and Hotels Magazine. Today, he is focused on strategic expansion; identifying underperforming venues and turning them into thriving destinations.',
     },
     {
       name: 'Bianca Lopez',
