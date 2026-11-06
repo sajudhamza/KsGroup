@@ -234,8 +234,9 @@ export const HiFiTeam = ({ onNav }) => {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 48 }}>
             {D.team.map((m, i) => (
-              <div key={m.name} style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 32, padding: '32px 0', borderTop: i === 0 ? 'none' : '1px solid var(--line)', paddingTop: i === 0 ? 0 : 32 }}>
-                <Photo src={m.img} label={m.name} style={{ height: 360 }} objectPosition="top"/>
+              // The founder's card spans the full row; everyone else sits two to a row.
+              <div key={m.name} style={{ display: 'grid', gridColumn: i === 0 ? '1 / -1' : 'auto', gridTemplateColumns: i === 0 ? '1fr 2.2fr' : '1fr 1.4fr', gap: i === 0 ? 48 : 32, padding: '32px 0', borderTop: i === 0 ? 'none' : '1px solid var(--line)', paddingTop: i === 0 ? 0 : 32 }}>
+                <Photo src={m.img} label={m.name} style={{ height: i === 0 ? 440 : 360 }} objectPosition="top"/>
                 <div>
                   <div className="mono accent">{String(i + 1).padStart(2, '0')} / {String(D.team.length).padStart(2, '0')}</div>
                   <div className="display-s" style={{ marginTop: 14 }}>{m.name}</div>
