@@ -205,3 +205,23 @@ export const Footer = ({ onNav }) => {
     </footer>
   )
 }
+
+// KS Intelligence product switcher (Technology pages)
+export const TECH_PRODUCTS = [
+  { page: 'intelligence', name: 'RateIQ', line: 'Hotel rate intelligence' },
+  { page: 'rostering', name: 'Smart Rostering', line: 'Restaurant staffing' },
+]
+
+export const ProductTabs = ({ active, onNav }) => (
+  <nav className="tech-tabs" aria-label="KS Intelligence products">
+    {TECH_PRODUCTS.map((p, i) => (
+      <a key={p.page} href={`?page=${p.page}`}
+        className={`tech-tab ${active === p.page ? 'is-active' : ''}`}
+        aria-current={active === p.page ? 'page' : undefined}
+        onClick={e => { if (!onNav) return; e.preventDefault(); if (active !== p.page) onNav(p.page) }}>
+        <span className="mono">{String(i + 1).padStart(2, '0')} · {p.line}</span>
+        <span className="tech-tab-name">{p.name}</span>
+      </a>
+    ))}
+  </nav>
+)

@@ -186,6 +186,23 @@ export function resolveIntent(rawInput) {
     }
   }
 
+  // KS Intelligence tools
+  if (includesAny(text, ['roster', 'rota', 'staff schedule', 'staffing', 'scheduling', 'shift'])) {
+    return {
+      message:
+        'Smart Rostering builds a staff roster from your guest numbers. Add your team and last week\'s or expected guests, and it staffs each service to the load. I\'m opening it now.',
+      actions: [{ type: 'navigate', page: 'rostering' }],
+    }
+  }
+
+  if (includesAny(text, ['rateiq', 'rate iq', 'technology', 'intelligence', 'hotel rates', 'room rates', 'competitor rates'])) {
+    return {
+      message:
+        'KS Intelligence includes RateIQ, which compares competitor hotels night by night and recommends a nightly rate, and Smart Rostering for restaurant staffing. I\'m opening RateIQ.',
+      actions: [{ type: 'navigate', page: 'intelligence' }],
+    }
+  }
+
   // Named team member or venue first, so "tell me about X" answers about X
   // instead of matching the general "about" page below.
   // Team member
