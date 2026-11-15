@@ -187,19 +187,34 @@ export function resolveIntent(rawInput) {
   }
 
   // KS Intelligence tools
-  if (includesAny(text, ['roster', 'rota', 'staff schedule', 'staffing', 'scheduling', 'shift'])) {
+  if (includesAny(text, ['roster', 'rota', 'staff schedule', 'staffing', 'scheduling', 'shift', 'housekeeping schedule', 'front desk schedule', 'hotel schedule'])) {
+    if (includesAny(text, ['hotel', 'housekeeping', 'front desk', 'occupancy', 'room attendant', 'night audit'])) {
+      return {
+        message:
+          'Smart Rostering for Hotels builds a staff roster from your occupancy. Add your team and last week\'s or expected occupied rooms, and it staffs each shift to the load. I\'m opening it now.',
+        actions: [{ type: 'navigate', page: 'hotel-rostering' }],
+      }
+    }
     return {
       message:
-        'Smart Rostering builds a staff roster from your guest numbers. Add your team and last week\'s or expected guests, and it staffs each service to the load. I\'m opening it now.',
+        'Smart Rostering for Restaurants builds a staff roster from your guest numbers. Add your team and last week\'s or expected guests, and it staffs each service to the load. I\'m opening it now.',
       actions: [{ type: 'navigate', page: 'rostering' }],
     }
   }
 
-  if (includesAny(text, ['rateiq', 'rate iq', 'technology', 'intelligence', 'hotel rates', 'room rates', 'competitor rates'])) {
+  if (includesAny(text, ['rateiq', 'rate iq', 'hotel rates', 'room rates', 'competitor rates'])) {
     return {
       message:
-        'KS Intelligence includes RateIQ, which compares competitor hotels night by night and recommends a nightly rate, and Smart Rostering for restaurant staffing. I\'m opening RateIQ.',
+        'RateIQ compares competitor hotels night by night and recommends a nightly rate. I\'m opening it now.',
       actions: [{ type: 'navigate', page: 'intelligence' }],
+    }
+  }
+
+  if (includesAny(text, ['technology', 'intelligence', 'your apps', 'your tools'])) {
+    return {
+      message:
+        'KS Intelligence has three apps: RateIQ for hotel rates, and Smart Rostering for restaurants and for hotels. I\'m opening Technology so you can pick one.',
+      actions: [{ type: 'navigate', page: 'technology' }],
     }
   }
 

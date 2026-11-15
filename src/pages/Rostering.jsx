@@ -1,32 +1,62 @@
 import { useEffect, useMemo, useState } from 'react'
-import { TopNav, Kicker, Footer, ProductTabs } from '../components/Parts.jsx'
+import { TopNav, Kicker, Footer, TechCrumb } from '../components/Parts.jsx'
 import { KS_DATA } from '../data.js'
 import {
   DAYS, DAY_NAMES, DEFAULT_ROLES, DEFAULT_SERVICES, DEFAULT_MAX_SHIFTS, SAMPLE_GUESTS,
   buildRoster, expectedGuests, newEmployee, sampleTeam, roleFromText, serviceShares,
   formatTime, serviceHours, nextMonday, weekDates, rosterCsv, sortTeam,
 } from '../lib/rostering.js'
+import {
+  HOTEL_ROLES, HOTEL_SHIFTS, SAMPLE_OCCUPANCY, SAMPLE_ROOMS, sampleHotelTeam, hotelRoleFromText,
+} from '../lib/hotelRostering.js'
 
 // Smart Rostering — KS Intelligence: a manager enters the team and a week of
-// guest numbers, and gets a roster staffed to the load of each service.
+// guests (restaurants) or occupied rooms (hotels), and gets a roster staffed
+// to the load of each service or shift.
 
-const VENUES = [
-  ...KS_DATA.properties
-    .filter(p => ['restaurants', 'lounges', 'rooftops'].includes(p.catSlug))
-    .map(p => ({ id: p.id, name: p.name })),
-  { id: 'other', name: 'Another restaurant' },
+const venuesFor = (slugs, other) => [
+  ...KS_DATA.properties.filter(p => slugs.includes(p.catSlug)).map(p => ({ id: p.id, name: p.name })),
+  { id: 'other', name: other },
 ]
 
-const STORAGE_PREFIX = 'ks-rostering:v1:'
-const EMPTY_GUESTS = ['', '', '', '', '', '', '']
+const MODES = {
+  restaurant: {
+    page: 'rostering',
+    storage: 'ks-rostering:v1:',
+    venues: venuesFor(['restaurants', 'lounges', 'rooftops'], 'Another restaurant'),
+    roles: DEFAULT_ROLES,
+    services: DEFAULT_SERVICES,
+    split: true,
+    defaultRole: 'server',
+    roleFromText,
+    sample: () => ({ team: sampleTeam(), guests: SAMPLE_GUESTS.map(String) }),
+    defaultRooms: {},
+  },
+  hotel: {
+    page: 'hotel-rostering',
+    storage: 'ks-hotel-rostering:v1:',
+    venues: venuesFor(['hotels'], 'Another hotel'),
+    roles: HOTEL_ROLES,
+    services: HOTEL_SHIFTS,
+    split: false,
+    defaultRole: 'frontdesk',
+    roleFromText: hotelRoleFromText,
+    sample: () => ({ team: sampleHotelTeam(), guests: SAMPLE_OCCUPANCY.map(String), rooms: String(SAMPLE_ROOMS) }),
+    defaultRooms: { ramada: 117 },
+  },
+}
 
-const freshPlan = () => ({
+const EMPTY_GUESTS = ['', '', '', '', '', '', '']
+const copy = (x) => JSON.parse(JSON.stringify(x))
+
+const freshPlan = (M, venueId) => ({
   team: [],
   guests: EMPTY_GUESTS,
   source: 'last-week',
   adjust: 0,
-  roles: DEFAULT_ROLES.map(r => ({ ...r })),
-  services: DEFAULT_SERVICES.map(s => ({ ...s })),
+  rooms: M.defaultRooms[venueId] ? String(M.defaultRooms[venueId]) : '',
+  roles: copy(M.roles),
+  services: copy(M.services),
   allowDoubles: false,
 })
 
@@ -34,10 +64,21 @@ const freshPlan = () => ({
 const mergeById = (defaults, saved) =>
   defaults.map(d => ({ ...d, ...(Array.isArray(saved) ? saved.find(x => x && x.id === d.id) : null), id: d.id, name: d.name }))
 
-function loadPlan(venueId) {
-  const base = freshPlan()
+// Hotel roles carry a rule per shift; merge those shift by shift too.
+const mergeRoles = (defaults, saved) => mergeById(defaults, saved).map((r, i) => {
+  const d = defaults[i]
+  if (!d.rules) return r
+  const savedRules = r.rules && typeof r.rules === 'object' ? r.rules : {}
+  return {
+    ...r,
+    rules: Object.fromEntries(Object.entries(d.rules).map(([k, v]) => [k, { ...v, ...(savedRules[k] && typeof savedRules[k] === 'object' ? savedRules[k] : {}) }])),
+  }
+})
+
+function loadPlan(M, venueId) {
+  const base = freshPlan(M, venueId)
   try {
-    const raw = window.localStorage.getItem(STORAGE_PREFIX + venueId)
+    const raw = window.localStorage.getItem(M.storage + venueId)
     if (!raw) return base
     const saved = JSON.parse(raw)
     const roleIds = new Set(base.roles.map(r => r.id))
@@ -57,7 +98,8 @@ function loadPlan(venueId) {
       guests: Array.isArray(saved.guests) && saved.guests.length === 7 ? saved.guests.map(g => (g === '' ? '' : String(g))) : base.guests,
       source: saved.source === 'expected' ? 'expected' : 'last-week',
       adjust: Number(saved.adjust) || 0,
-      roles: mergeById(base.roles, saved.roles),
+      rooms: typeof saved.rooms === 'string' || typeof saved.rooms === 'number' ? String(saved.rooms) : base.rooms,
+      roles: mergeRoles(base.roles, saved.roles),
       services: mergeById(base.services, saved.services),
       allowDoubles: !!saved.allowDoubles,
     }
@@ -66,8 +108,8 @@ function loadPlan(venueId) {
   }
 }
 
-function savePlan(venueId, plan) {
-  try { window.localStorage.setItem(STORAGE_PREFIX + venueId, JSON.stringify(plan)) } catch { /* storage unavailable */ }
+function savePlan(M, venueId, plan) {
+  try { window.localStorage.setItem(M.storage + venueId, JSON.stringify(plan)) } catch { /* storage unavailable */ }
 }
 
 const clampInt = (v, lo, hi) => Math.min(hi, Math.max(lo, Math.round(Number(v) || 0)))
@@ -82,24 +124,30 @@ const ToggleTag = ({ on, onClick, children, label }) => (
   </button>
 )
 
-export const HiFiRostering = ({ onNav }) => {
+export const HiFiRostering = ({ onNav }) => <RosteringApp key="restaurant" mode="restaurant" onNav={onNav}/>
+export const HiFiHotelRostering = ({ onNav }) => <RosteringApp key="hotel" mode="hotel" onNav={onNav}/>
+
+const RosteringApp = ({ mode, onNav }) => {
+  const M = MODES[mode]
+  const hotel = mode === 'hotel'
+  const VENUES = M.venues
   const [venueId, setVenueId] = useState(VENUES[0].id)
-  const [plan, setPlan] = useState(() => loadPlan(VENUES[0].id))
+  const [plan, setPlan] = useState(() => loadPlan(M, VENUES[0].id))
   const [weekStart, setWeekStart] = useState(() => nextMonday())
   const [name, setName] = useState('')
-  const [role, setRole] = useState('server')
+  const [role, setRole] = useState(M.defaultRole)
   const [maxShifts, setMaxShifts] = useState(DEFAULT_MAX_SHIFTS)
   const [bulkOpen, setBulkOpen] = useState(false)
   const [bulkText, setBulkText] = useState('')
 
-  useEffect(() => { savePlan(venueId, plan) }, [venueId, plan])
+  useEffect(() => { savePlan(M, venueId, plan) }, [M, venueId, plan])
 
   const update = (patch) => setPlan(p => ({ ...p, ...(typeof patch === 'function' ? patch(p) : patch) }))
   const venue = VENUES.find(v => v.id === venueId)
   const dates = useMemo(() => weekDates(weekStart), [weekStart])
   const roleName = Object.fromEntries(plan.roles.map(r => [r.id, r.name]))
 
-  const switchVenue = (id) => { setVenueId(id); setPlan(loadPlan(id)) }
+  const switchVenue = (id) => { setVenueId(id); setPlan(loadPlan(M, id)) }
 
   // ----- team -----
   const addOne = (e) => {
@@ -113,7 +161,7 @@ export const HiFiRostering = ({ onNav }) => {
   const addBulk = () => {
     const people = bulkLines.map(line => {
       const [n, ...rest] = line.split(/[,\t;]| - /)
-      return newEmployee(n || line, roleFromText(rest.join(' ')) || role, clampInt(maxShifts, 1, 14))
+      return newEmployee(n || line, M.roleFromText(rest.join(' ')) || role, clampInt(maxShifts, 1, 14))
     }).filter(p => p.name)
     if (!people.length) return
     update(p => ({ team: [...p.team, ...people] }))
@@ -128,12 +176,15 @@ export const HiFiRostering = ({ onNav }) => {
   const clearTeam = () => {
     if (window.confirm(`Remove all ${plan.team.length} people from the ${venue.name} team?`)) update({ team: [] })
   }
-  const loadSample = () => update({ team: sampleTeam(), guests: SAMPLE_GUESTS.map(String), source: 'last-week', adjust: 0 })
+  const loadSample = () => update({ ...M.sample(), source: 'last-week', adjust: 0 })
 
   // ----- rules -----
   const setRule = (id, patch) => update(p => ({ roles: p.roles.map(r => (r.id === id ? { ...r, ...patch } : r)) }))
+  const setShiftRule = (id, shiftId, patch) => update(p => ({
+    roles: p.roles.map(r => (r.id === id ? { ...r, rules: { ...r.rules, [shiftId]: { ...r.rules[shiftId], ...patch } } } : r)),
+  }))
   const setService = (id, patch) => update(p => ({ services: p.services.map(s => (s.id === id ? { ...s, ...patch } : s)) }))
-  const resetRules = () => update({ roles: DEFAULT_ROLES.map(r => ({ ...r })), services: DEFAULT_SERVICES.map(s => ({ ...s })), allowDoubles: false })
+  const resetRules = () => update({ roles: copy(M.roles), services: copy(M.services), allowDoubles: false })
 
   // ----- roster -----
   const guests = useMemo(() => expectedGuests(plan.guests, plan.source, plan.adjust), [plan.guests, plan.source, plan.adjust])
@@ -141,18 +192,22 @@ export const HiFiRostering = ({ onNav }) => {
   const busiestDay = weekGuests ? guests.indexOf(Math.max(...guests)) : -1
   const openServices = plan.services.filter(s => s.on)
   const shares = serviceShares(plan.services)
-  const bothServices = openServices.length === 2
+  const bothServices = M.split && openServices.length === 2
+  const multiService = openServices.length > 1
+  const rooms = clampInt(plan.rooms, 0, 5000)
+  const occupancy = (n) => (rooms ? Math.round((n / rooms) * 100) : null)
+  const avgOccupancy = rooms ? Math.round((weekGuests / (rooms * 7)) * 100) : null
 
   const roster = useMemo(
-    () => buildRoster({ team: plan.team, guests, roles: plan.roles, services: plan.services, allowDoubles: plan.allowDoubles }),
-    [plan.team, guests, plan.roles, plan.services, plan.allowDoubles],
+    () => buildRoster({ team: plan.team, guests, roles: plan.roles, services: plan.services, allowDoubles: plan.allowDoubles, split: M.split }),
+    [plan.team, guests, plan.roles, plan.services, plan.allowDoubles, M.split],
   )
 
   const ready = plan.team.length > 0 && roster.slots.length > 0
-  const waiting = !plan.team.length && !weekGuests ? 'Add your team and the week’s guests to build the roster.'
+  const waiting = !plan.team.length && !weekGuests ? `Add your team and the week’s ${hotel ? 'occupancy' : 'guests'} to build the roster.`
     : !plan.team.length ? 'Add your team to build the roster.'
-      : !openServices.length ? 'Turn on at least one service under the staffing rules.'
-        : !weekGuests ? 'Enter guest numbers for the week to build the roster.' : null
+      : !openServices.length ? `Turn on at least one ${hotel ? 'shift' : 'service'} under the staffing rules.`
+        : !weekGuests ? (hotel ? 'Enter occupied rooms for the week to build the roster.' : 'Enter guest numbers for the week to build the roster.') : null
 
   const sortedTeam = useMemo(() => sortTeam(plan.team, plan.roles), [plan.team, plan.roles])
   const teamByRole = plan.roles
@@ -180,16 +235,30 @@ export const HiFiRostering = ({ onNav }) => {
 
       <section className="roster-hero" style={{ padding: '100px 56px 40px' }}>
         <div className="container">
-          <Kicker>KS Intelligence</Kicker>
-          <ProductTabs active="rostering" onNav={onNav}/>
-          <h1 className="display-l" style={{ marginTop: 40, maxWidth: 1000 }}>
-            Smart Rostering. <span className="ital">Staff to the load.</span>
-          </h1>
-          <p className="body-l" style={{ marginTop: 28, maxWidth: 700 }}>
-            Add your team and how many guests you had last week, or expect this week. Smart Rostering works out
-            how many hosts, servers, bartenders and cooks each service needs, then builds a fair roster around
-            everyone&apos;s availability.
-          </p>
+          <TechCrumb page={M.page} onNav={onNav}/>
+          {hotel ? (
+            <>
+              <h1 className="display-l" style={{ marginTop: 28, maxWidth: 1000 }}>
+                Smart Rostering for Hotels. <span className="ital">Staff to occupancy.</span>
+              </h1>
+              <p className="body-l" style={{ marginTop: 28, maxWidth: 720 }}>
+                Add your team and how many rooms were occupied last week, or are expected this week. Smart Rostering
+                works out how many front desk agents, room attendants, night auditors and engineers each shift needs,
+                then builds a fair roster around everyone&apos;s availability.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="display-l" style={{ marginTop: 28, maxWidth: 1000 }}>
+                Smart Rostering for Restaurants. <span className="ital">Staff to the load.</span>
+              </h1>
+              <p className="body-l" style={{ marginTop: 28, maxWidth: 700 }}>
+                Add your team and how many guests you had last week, or expect this week. Smart Rostering works out
+                how many hosts, servers, bartenders and cooks each service needs, then builds a fair roster around
+                everyone&apos;s availability.
+              </p>
+            </>
+          )}
         </div>
       </section>
 
@@ -197,10 +266,10 @@ export const HiFiRostering = ({ onNav }) => {
         {/* 01 — VENUE & WEEK */}
         <section style={{ padding: '32px 56px' }}>
           <div className="container">
-            <div className="mono accent">01 / Restaurant &amp; week</div>
+            <div className="mono accent">01 / {hotel ? 'Hotel' : 'Restaurant'} &amp; week</div>
             <div className="roster-row" style={{ marginTop: 20 }}>
               <label className="roster-field">
-                <span className="mono">Restaurant</span>
+                <span className="mono">{hotel ? 'Hotel' : 'Restaurant'}</span>
                 <select className="ks-input ks-select" value={venueId} onChange={e => switchVenue(e.target.value)}>
                   {VENUES.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
                 </select>
@@ -209,9 +278,16 @@ export const HiFiRostering = ({ onNav }) => {
                 <span className="mono">Week starting</span>
                 <input type="date" className="ks-input" value={weekStart} onChange={e => e.target.value && setWeekStart(e.target.value)}/>
               </label>
+              {hotel && (
+                <label className="roster-field roster-field-num">
+                  <span className="mono">Rooms in hotel</span>
+                  <input type="number" inputMode="numeric" min={0} className="ks-input" placeholder="e.g. 120" value={plan.rooms}
+                    onChange={e => update({ rooms: e.target.value })}/>
+                </label>
+              )}
             </div>
             <div className="mono" style={{ marginTop: 14 }}>
-              Each restaurant keeps its own team, guests and rules, saved in this browser only.
+              Each {hotel ? 'hotel' : 'restaurant'} keeps its own team, {hotel ? 'occupancy' : 'guests'} and rules, saved in this browser only.
             </div>
           </div>
         </section>
@@ -224,7 +300,7 @@ export const HiFiRostering = ({ onNav }) => {
             <form className="roster-row roster-add" style={{ marginTop: 20 }} onSubmit={addOne}>
               <label className="roster-field roster-field-grow">
                 <span className="mono">Name</span>
-                <input className="ks-input" value={name} onChange={e => setName(e.target.value)} placeholder="e.g. Maria Lopez" autoComplete="off"/>
+                <input className="ks-input" value={name} onChange={e => setName(e.target.value)} placeholder={hotel ? 'e.g. Lauren Price' : 'e.g. Maria Lopez'} autoComplete="off"/>
               </label>
               <label className="roster-field">
                 <span className="mono">Role</span>
@@ -254,7 +330,9 @@ export const HiFiRostering = ({ onNav }) => {
                 <label className="roster-field">
                   <span className="mono">One person per line · Name, Role</span>
                   <textarea className="ks-input roster-textarea" rows={6} value={bulkText} onChange={e => setBulkText(e.target.value)}
-                    placeholder={'Maria Lopez, Manager\nLiam Patel, Server\nDaniel Osei, Bartender\nCarlos Mendes, Line Cook'}/>
+                    placeholder={hotel
+                      ? 'Rachel Adams, Manager on Duty\nLauren Price, Front Desk\nAna Pereira, Room Attendant\nFrank Miller, Maintenance'
+                      : 'Maria Lopez, Manager\nLiam Patel, Server\nDaniel Osei, Bartender\nCarlos Mendes, Line Cook'}/>
                 </label>
                 <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap', marginTop: 14 }}>
                   <button type="button" className="btn" onClick={addBulk} disabled={!bulkLines.length} style={{ opacity: bulkLines.length ? 1 : 0.5 }}>
@@ -318,10 +396,10 @@ export const HiFiRostering = ({ onNav }) => {
         {/* 03 — GUESTS */}
         <section style={{ padding: '32px 56px' }}>
           <div className="container">
-            <div className="mono accent">03 / Guests</div>
+            <div className="mono accent">03 / {hotel ? 'Occupied rooms' : 'Guests'}</div>
             <div style={{ display: 'flex', gap: 8, marginTop: 20, flexWrap: 'wrap' }}>
-              <ToggleTag on={plan.source === 'last-week'} onClick={() => update({ source: 'last-week' })}>Last week&apos;s guests</ToggleTag>
-              <ToggleTag on={plan.source === 'expected'} onClick={() => update({ source: 'expected' })}>Expected guests</ToggleTag>
+              <ToggleTag on={plan.source === 'last-week'} onClick={() => update({ source: 'last-week' })}>Last week&apos;s {hotel ? 'occupancy' : 'guests'}</ToggleTag>
+              <ToggleTag on={plan.source === 'expected'} onClick={() => update({ source: 'expected' })}>Expected {hotel ? 'occupancy' : 'guests'}</ToggleTag>
             </div>
             <div className="roster-guests" style={{ marginTop: 24 }}>
               {DAYS.map((d, i) => (
@@ -330,8 +408,16 @@ export const HiFiRostering = ({ onNav }) => {
                   <input type="number" inputMode="numeric" min={0} className="ks-input" placeholder="0"
                     value={plan.guests[i]}
                     onChange={e => update(p => ({ guests: p.guests.map((g, j) => (j === i ? e.target.value : g)) }))}/>
-                  {plan.source === 'last-week' && plan.adjust !== 0 && Number(plan.guests[i]) > 0 && (
+                  {!hotel && plan.source === 'last-week' && plan.adjust !== 0 && Number(plan.guests[i]) > 0 && (
                     <span className="mono roster-expected">→ {num(guests[i])} expected</span>
+                  )}
+                  {hotel && Number(plan.guests[i]) > 0 && (plan.source === 'last-week' && plan.adjust !== 0 || rooms > 0) && (
+                    <span className={`mono roster-expected ${rooms && guests[i] > rooms ? 'is-over' : ''}`}>
+                      {[
+                        plan.source === 'last-week' && plan.adjust !== 0 ? `→ ${num(guests[i])}` : null,
+                        rooms ? `${occupancy(guests[i])}% occupied` : null,
+                      ].filter(Boolean).join(' · ')}
+                    </span>
                   )}
                 </label>
               ))}
@@ -344,9 +430,13 @@ export const HiFiRostering = ({ onNav }) => {
               </label>
             )}
             <div className="mono" style={{ marginTop: 18 }}>
-              {weekGuests
-                ? `${plural(weekGuests, 'guest')} ${plan.source === 'last-week' && plan.adjust ? 'expected ' : ''}this week · busiest day ${DAY_NAMES[busiestDay]} · enter 0 for days you're closed`
-                : 'Enter the number of guests for each day. Leave a day at 0 if you are closed.'}
+              {hotel
+                ? (weekGuests
+                  ? `${plural(weekGuests, 'room night')} ${plan.source === 'last-week' && plan.adjust ? 'expected ' : ''}this week · busiest night ${DAY_NAMES[busiestDay]}${avgOccupancy !== null ? ` · ${avgOccupancy}% average occupancy` : ''}`
+                  : 'Enter how many rooms were occupied each night. Add the number of rooms in the hotel above to see occupancy.')
+                : (weekGuests
+                  ? `${plural(weekGuests, 'guest')} ${plan.source === 'last-week' && plan.adjust ? 'expected ' : ''}this week · busiest day ${DAY_NAMES[busiestDay]} · enter 0 for days you're closed`
+                  : 'Enter the number of guests for each day. Leave a day at 0 if you are closed.')}
             </div>
           </div>
         </section>
@@ -354,10 +444,10 @@ export const HiFiRostering = ({ onNav }) => {
         {/* 04 — RULES */}
         <section style={{ padding: '32px 56px 56px' }}>
           <div className="container">
-            <div className="mono accent">04 / Services &amp; staffing rules</div>
+            <div className="mono accent">04 / {hotel ? 'Shifts' : 'Services'} &amp; staffing rules</div>
             <details className="roster-rules">
               <summary className="mono mono-on">
-                {openServices.map(s => `${s.name} ${formatTime(s.start)}–${formatTime(s.end)}`).join(' · ') || 'No services on'}
+                {openServices.map(s => `${s.name} ${formatTime(s.start)}–${formatTime(s.end)}`).join(' · ') || `No ${hotel ? 'shifts' : 'services'} on`}
                 {' '}· adjust staffing rules
               </summary>
 
@@ -376,7 +466,7 @@ export const HiFiRostering = ({ onNav }) => {
                       <span className="mono">Ends</span>
                       <input type="time" className="ks-input" value={s.end} disabled={!s.on} onChange={e => e.target.value && setService(s.id, { end: e.target.value })}/>
                     </label>
-                    <span className="mono">{s.on ? `${serviceHours(s)} h shift · ${Math.round((shares[s.id] || 0) * 100)}% of guests` : 'Off'}</span>
+                    <span className="mono">{!s.on ? 'Off' : M.split ? `${serviceHours(s)} h shift · ${Math.round((shares[s.id] || 0) * 100)}% of guests` : `${serviceHours(s)} h shift`}</span>
                   </div>
                 ))}
               </div>
@@ -389,6 +479,40 @@ export const HiFiRostering = ({ onNav }) => {
                 </label>
               )}
 
+              {hotel ? (
+                <div className="rateiq-table-wrap" style={{ marginTop: 28 }}>
+                  <table className="rateiq-table roster-rules-table roster-shift-rules">
+                    <thead>
+                      <tr>
+                        <th scope="col">Role</th>
+                        {openServices.map(s => <th scope="col" key={s.id}>{s.name}<br/><span className="roster-rule-hint">1 per … rooms · min</span></th>)}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {plan.roles.map(r => (
+                        <tr key={r.id}>
+                          <th scope="row">{r.name}</th>
+                          {openServices.map(s => {
+                            const rule = r.rules[s.id] || { perGuests: 0, min: 0 }
+                            return (
+                              <td key={s.id}>
+                                <div className="roster-rule-pair">
+                                  <input type="number" className="ks-input roster-cell-input" min={0} value={rule.perGuests}
+                                    aria-label={`${r.name}, ${s.name}: rooms per person`}
+                                    onChange={e => setShiftRule(r.id, s.id, { perGuests: clampInt(e.target.value, 0, 1000) })}/>
+                                  <input type="number" className="ks-input roster-cell-input" min={0} value={rule.min}
+                                    aria-label={`${r.name}, ${s.name}: minimum on shift`}
+                                    onChange={e => setShiftRule(r.id, s.id, { min: clampInt(e.target.value, 0, 50) })}/>
+                                </div>
+                              </td>
+                            )
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
               <div className="rateiq-table-wrap" style={{ marginTop: 28 }}>
                 <table className="rateiq-table roster-rules-table">
                   <thead>
@@ -415,14 +539,20 @@ export const HiFiRostering = ({ onNav }) => {
                   </tbody>
                 </table>
               </div>
+              )}
               <p className="mono" style={{ marginTop: 14, lineHeight: 1.7, maxWidth: 640 }}>
-                Example: servers at one per 30 guests means a 145-guest dinner gets 5 servers. A 0 means a fixed
-                headcount, so that role gets exactly its minimum on every service.
+                {hotel
+                  ? 'Example: room attendants at one per 15 rooms means a night with 112 occupied rooms gets 8 attendants on the morning shift. A 0 in the first box means a fixed headcount, so that role gets exactly its minimum. Set both to 0 for a shift a role doesn’t work.'
+                  : 'Example: servers at one per 30 guests means a 145-guest dinner gets 5 servers. A 0 means a fixed headcount, so that role gets exactly its minimum on every service.'}
               </p>
 
               <label className="roster-check" style={{ marginTop: 20 }}>
                 <input type="checkbox" checked={plan.allowDoubles} onChange={e => update({ allowDoubles: e.target.checked })}/>
-                <span className="body">Allow double shifts: the same person can work lunch and dinner on one day</span>
+                <span className="body">
+                  {hotel
+                    ? 'Allow double shifts: the same person can work two shifts on one day'
+                    : 'Allow double shifts: the same person can work lunch and dinner on one day'}
+                </span>
               </label>
               <button type="button" className="roster-link mono" style={{ marginTop: 20 }} onClick={resetRules}>Reset rules to defaults</button>
             </details>
@@ -462,14 +592,16 @@ export const HiFiRostering = ({ onNav }) => {
                 <div className="serif roster-stat">{num(roster.totals.hours)}</div>
               </div>
               <div>
-                <div className="mono">Guests</div>
-                <div className="serif roster-stat">{num(roster.totals.covers)}</div>
+                <div className="mono">{hotel ? 'Room nights' : 'Guests'}</div>
+                <div className="serif roster-stat">
+                  {num(weekGuests)}{hotel && avgOccupancy !== null && <span> · {avgOccupancy}%</span>}
+                </div>
               </div>
             </div>
 
             <div className="roster-notes" style={{ marginTop: 32 }}>
               {roster.gaps.length === 0 ? (
-                <p className="body-l">Every service is fully staffed for the load you expect.</p>
+                <p className="body-l">Every {hotel ? 'shift' : 'service'} is fully staffed for the load you expect.</p>
               ) : roster.gaps.map(g => {
                 const where = g.slots.map(s => `${DAYS[s.day]} ${s.service.name.toLowerCase()}`).join(', ')
                 const roleLower = g.role.name.toLowerCase()
@@ -495,24 +627,29 @@ export const HiFiRostering = ({ onNav }) => {
               {DAYS.map((d, day) => (
                 <div key={d} className={`roster-load-day ${day === busiestDay ? 'is-peak' : ''}`}>
                   <div className="roster-load-bars" aria-hidden="true">
-                    {slotsByDay[day].map(s => (
-                      <div key={s.key} className={`roster-load-bar is-${s.service.id}`} style={{ height: `${(s.covers / peakDayGuests) * 100}%` }}/>
-                    ))}
+                    {M.split
+                      ? slotsByDay[day].map(s => (
+                        <div key={s.key} className={`roster-load-bar is-${s.service.id}`} style={{ height: `${(s.covers / peakDayGuests) * 100}%` }}/>
+                      ))
+                      : guests[day] > 0 && <div className="roster-load-bar is-occ" style={{ height: `${(guests[day] / peakDayGuests) * 100}%` }}/>}
                   </div>
                   <div className="mono mono-on">{d}</div>
                   <div className="serif" style={{ fontSize: 18 }}>{guests[day] ? num(guests[day]) : '—'}</div>
-                  {slotsByDay[day].length
-                    ? slotsByDay[day].map(s => (
-                      <div key={s.key} className="mono roster-load-label">{s.service.name[0]} · {s.load}</div>
-                    ))
-                    : <div className="mono roster-load-label">Closed</div>}
+                  {!slotsByDay[day].length
+                    ? <div className="mono roster-load-label">{hotel ? 'Empty' : 'Closed'}</div>
+                    : M.split
+                      ? slotsByDay[day].map(s => (
+                        <div key={s.key} className="mono roster-load-label">{s.service.short || s.service.name[0]} · {s.load}</div>
+                      ))
+                      : <div className="mono roster-load-label">{rooms ? `${occupancy(guests[day])}% · ` : ''}{slotsByDay[day][0].load}</div>}
                 </div>
               ))}
             </div>
             <div className="mono roster-legend" style={{ marginTop: 12 }}>
               {bothServices && <><span><i className="is-lunch"/> Lunch</span><span><i className="is-dinner"/> Dinner</span></>}
-              {busiestSlot && (
-                <span>Busiest service · {DAY_NAMES[busiestSlot.day]} {busiestSlot.service.name.toLowerCase()}, {plural(busiestSlot.covers, 'guest')}</span>
+              {busiestSlot && (hotel
+                ? <span>Busiest night · {DAY_NAMES[busiestSlot.day]}, {plural(busiestSlot.covers, 'room')} occupied</span>
+                : <span>Busiest service · {DAY_NAMES[busiestSlot.day]} {busiestSlot.service.name.toLowerCase()}, {plural(busiestSlot.covers, 'guest')}</span>
               )}
             </div>
 
@@ -536,7 +673,7 @@ export const HiFiRostering = ({ onNav }) => {
             </div>
 
             {/* Coverage by service */}
-            <div className="mono" style={{ margin: '48px 0 12px' }}>Staff on each service · scheduled / needed</div>
+            <div className="mono" style={{ margin: '48px 0 12px' }}>Staff on each {hotel ? 'shift' : 'service'} · scheduled / needed</div>
             <div className="rateiq-table-wrap">
               <table className="rateiq-table roster-table roster-cover-table">
                 <thead>
@@ -551,13 +688,13 @@ export const HiFiRostering = ({ onNav }) => {
                       <th scope="row">{r.name}</th>
                       {DAYS.map((d, day) => (
                         <td key={d}>
-                          {slotsByDay[day].length === 0 ? <span className="roster-off">—</span>
-                            : slotsByDay[day].map(s => {
+                          {slotsByDay[day].every(s => !s.need[r.id]) ? <span className="roster-off">—</span>
+                            : slotsByDay[day].filter(s => s.need[r.id]).map(s => {
                               const need = s.need[r.id]
                               const got = s.assigned[r.id]?.length || 0
                               return (
                                 <div key={s.key} className={`roster-cover ${got < need ? 'is-short' : ''}`}>
-                                  {bothServices ? `${s.service.name[0]} ` : ''}{got}/{need}
+                                  {multiService ? `${s.service.short || s.service.name[0]} ` : ''}{got}/{need}
                                 </div>
                               )
                             })}
@@ -570,10 +707,21 @@ export const HiFiRostering = ({ onNav }) => {
             </div>
 
             <p className="mono" style={{ marginTop: 18, fontSize: 9, maxWidth: 680, lineHeight: 1.7 }}>
-              Each day&apos;s guests are split across lunch and dinner, and each role is staffed at one person per the
-              number of guests in its rule, never below its minimum. The busiest services are filled first, and shifts
-              go to whoever has the fewest hours so far, so the week is shared fairly. Nobody is scheduled on a day
-              they&apos;re unavailable or past their max shifts.
+              {hotel ? (
+                <>
+                  Every shift is staffed to that night&apos;s occupied rooms: each role gets one person per the number of
+                  rooms in its rule for that shift, never below its minimum. The busiest nights are filled first, and
+                  shifts go to whoever has the fewest hours so far, so the week is shared fairly. Nobody works an
+                  overnight straight into the next morning, a day they&apos;re unavailable, or past their max shifts.
+                </>
+              ) : (
+                <>
+                  Each day&apos;s guests are split across lunch and dinner, and each role is staffed at one person per the
+                  number of guests in its rule, never below its minimum. The busiest services are filled first, and shifts
+                  go to whoever has the fewest hours so far, so the week is shared fairly. Nobody is scheduled on a day
+                  they&apos;re unavailable or past their max shifts.
+                </>
+              )}
             </p>
           </div>
         </section>

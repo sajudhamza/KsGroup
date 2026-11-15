@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { TopNav, Kicker, Footer, ProductTabs } from '../components/Parts.jsx'
+import { TopNav, Kicker, Footer, TechCrumb } from '../components/Parts.jsx'
 import {
   MARKETS, MAX_COMPETITORS, MAX_NIGHTS, fetchHotels, fetchNightlyRates, nightsBetween,
   buildPlan, addDays, todayIso, formatNight, fmt,
@@ -229,9 +229,8 @@ export const HiFiRateIntel = ({ onNav }) => {
 
       <section style={{ padding: '100px 56px 40px' }}>
         <div className="container">
-          <Kicker>KS Intelligence</Kicker>
-          <ProductTabs active="intelligence" onNav={onNav}/>
-          <h1 className="display-l" style={{ marginTop: 40, maxWidth: 1000 }}>
+          <TechCrumb page="intelligence" onNav={onNav}/>
+          <h1 className="display-l" style={{ marginTop: 28, maxWidth: 1000 }}>
             RateIQ. <span className="ital">Price with precision.</span>
           </h1>
           <p className="body-l" style={{ marginTop: 28, maxWidth: 680 }}>

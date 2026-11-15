@@ -7,7 +7,12 @@
 //    quiet ones. Within a role, the person with the fewest hours so far gets
 //    the shift, so the work is spread fairly.
 // 4. Nobody works a day they're unavailable, goes over their max shifts, or
-//    (unless doubles are allowed) works two services on the same day.
+//    (unless doubles are allowed) works two services on the same day. Shifts on
+//    different days need a rest gap between them (8 hours by default).
+//
+// Restaurants split each day's guests across lunch and dinner. Hotels don't
+// split: every shift is sized to that night's occupied rooms, and each role
+// can have its own rule per shift (see role.rules).
 
 export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 export const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -25,8 +30,8 @@ export const DEFAULT_ROLES = [
 ]
 
 export const DEFAULT_SERVICES = [
-  { id: 'lunch', name: 'Lunch', on: true, start: '11:30', end: '15:30', share: 35 },
-  { id: 'dinner', name: 'Dinner', on: true, start: '17:00', end: '23:00' },
+  { id: 'lunch', name: 'Lunch', short: 'L', on: true, start: '11:30', end: '15:30', share: 35 },
+  { id: 'dinner', name: 'Dinner', short: 'D', on: true, start: '17:00', end: '23:00' },
 ]
 
 export const DEFAULT_MAX_SHIFTS = 5
@@ -124,10 +129,17 @@ export function expectedGuests(guests, source, adjustPct) {
   })
 }
 
-export function staffNeeded(role, covers) {
+/** A role's rule for one service: its own per-service rule if it has them, else the role-wide one. */
+export function roleRule(role, serviceId) {
+  if (role.rules) return role.rules[serviceId] || { perGuests: 0, min: 0 }
+  return role
+}
+
+export function staffNeeded(role, covers, serviceId) {
   if (covers <= 0) return 0
-  const scaled = role.perGuests > 0 ? Math.ceil(covers / role.perGuests) : 0
-  return Math.max(Number(role.min) || 0, scaled)
+  const rule = roleRule(role, serviceId)
+  const scaled = rule.perGuests > 0 ? Math.ceil(covers / rule.perGuests) : 0
+  return Math.max(Number(rule.min) || 0, scaled)
 }
 
 export function loadLevel(covers, peak) {
@@ -142,7 +154,7 @@ export function loadLevel(covers, peak) {
  *   slots: Array, byEmployee: Object, totals: Object, gaps: Array, idle: Array, peakCovers: number
  * }}
  */
-export function buildRoster({ team, guests, roles, services, allowDoubles = false }) {
+export function buildRoster({ team, guests, roles, services, allowDoubles = false, split = true, minRestHours = 8 }) {
   const shares = serviceShares(services)
   const open = services.filter(s => s.on)
 
@@ -150,15 +162,18 @@ export function buildRoster({ team, guests, roles, services, allowDoubles = fals
   guests.forEach((dayGuests, day) => {
     let left = dayGuests
     for (const [i, s] of open.entries()) {
-      // The last service takes what's left, so the services add up to the day.
-      const covers = i === open.length - 1 ? left : Math.round(dayGuests * (shares[s.id] || 0))
+      // Split mode: the last service takes what's left, so the services add up
+      // to the day. Otherwise every service is sized to the whole day's load.
+      const covers = !split ? dayGuests : i === open.length - 1 ? left : Math.round(dayGuests * (shares[s.id] || 0))
       left -= covers
       if (covers <= 0) continue
       const hours = serviceHours(s)
-      const need = Object.fromEntries(roles.map(r => [r.id, staffNeeded(r, covers)]))
-      slots.push({ key: `${day}-${s.id}`, day, service: s, hours, covers, need, assigned: {}, short: {} })
+      const start = day * 1440 + toMinutes(s.start)
+      const need = Object.fromEntries(roles.map(r => [r.id, staffNeeded(r, covers, s.id)]))
+      slots.push({ key: `${day}-${s.id}`, day, service: s, hours, start, end: start + hours * 60, covers, need, assigned: {}, short: {} })
     }
   })
+  const minRest = minRestHours * 60
   const peakCovers = Math.max(0, ...slots.map(s => s.covers))
   slots.forEach(s => { s.load = loadLevel(s.covers, peakCovers) })
 
@@ -179,6 +194,9 @@ export function buildRoster({ team, guests, roles, services, allowDoubles = fals
         if (rec.shifts.length >= (Number(e.maxShifts) || 0)) return false
         if (rec.shifts.some(x => x.key === slot.key)) return false
         if (!allowDoubles && rec.days.has(slot.day)) return false
+        // Enough rest between shifts on different days (e.g. no overnight
+        // straight into the next morning).
+        if (rec.shifts.some(x => x.day !== slot.day && Math.max(slot.start - x.end, x.start - slot.end) < minRest)) return false
         return true
       })
       pool.sort((a, b) => {
@@ -191,7 +209,7 @@ export function buildRoster({ team, guests, roles, services, allowDoubles = fals
       const picked = pool.slice(0, want)
       for (const e of picked) {
         const rec = byEmployee[e.id]
-        rec.shifts.push({ key: slot.key, day: slot.day, service: slot.service, hours: slot.hours })
+        rec.shifts.push({ key: slot.key, day: slot.day, service: slot.service, hours: slot.hours, start: slot.start, end: slot.end })
         rec.hours += slot.hours
         rec.days.add(slot.day)
       }

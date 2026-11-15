@@ -9,14 +9,15 @@ import {
   HiFiPress,
 } from './pages/Pages.jsx'
 import { HiFiRateIntel } from './pages/RateIntel.jsx'
-import { HiFiRostering } from './pages/Rostering.jsx'
+import { HiFiRostering, HiFiHotelRostering } from './pages/Rostering.jsx'
+import { HiFiTechnology } from './pages/Technology.jsx'
 import VoiceAssistant from './components/VoiceAssistant.jsx'
 
 export default function App() {
   const [page, setPage] = useState(() => {
     const params = new URLSearchParams(window.location.search)
     const p = params.get('page')
-    const allowed = ['portfolio', 'about', 'team', 'press', 'contact', 'property', 'intelligence', 'rostering']
+    const allowed = ['portfolio', 'about', 'team', 'press', 'contact', 'property', 'technology', 'intelligence', 'rostering', 'hotel-rostering']
     return allowed.includes(p) ? p : 'home'
   })
   const [propertyId, setPropertyId] = useState(null)
@@ -51,11 +52,17 @@ export default function App() {
         />
       )
       break
+    case 'technology':
+      content = <HiFiTechnology onNav={onNav} />
+      break
     case 'intelligence':
       content = <HiFiRateIntel onNav={onNav} />
       break
     case 'rostering':
       content = <HiFiRostering onNav={onNav} />
+      break
+    case 'hotel-rostering':
+      content = <HiFiHotelRostering onNav={onNav} />
       break
     case 'press':
       content = <HiFiPress onNav={onNav} openProperty={openProperty} />

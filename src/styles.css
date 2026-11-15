@@ -1174,23 +1174,31 @@
 }
 
 /* ==========================================================================
-   KS INTELLIGENCE — product tabs (Technology pages)
+   KS INTELLIGENCE — Technology page cards and app breadcrumb
    ========================================================================== */
-.ks .tech-tabs { display: flex; margin-top: 28px; border: 1px solid var(--line); max-width: 640px; }
-.ks .tech-tab {
-  flex: 1 1 0;
+.ks .tech-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.ks .tech-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 16px 20px;
+  border: 1px solid var(--line);
+  color: inherit;
   text-decoration: none;
-  color: var(--cream-2);
-  transition: background 0.25s, color 0.25s;
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
-.ks .tech-tab + .tech-tab { border-left: 1px solid var(--line); }
-.ks .tech-tab:hover { background: rgba(237, 230, 216, 0.03); color: var(--cream); }
-.ks .tech-tab.is-active { background: rgba(237, 230, 216, 0.06); color: var(--cream); box-shadow: inset 0 -2px 0 var(--accent-2); }
-.ks .tech-tab-name { font-family: var(--serif); font-size: 24px; line-height: 1.1; }
+.ks .tech-card:hover, .ks .tech-card:focus-visible { border-color: var(--line-2); background: rgba(237, 230, 216, 0.02); }
+.ks .tech-card-img { aspect-ratio: 4 / 3; width: 100%; }
+.ks .tech-card:hover .tech-card-img img { transform: scale(1.04); }
+.ks .tech-card-body { display: flex; flex-direction: column; gap: 14px; padding: 28px 28px 30px; flex: 1; }
+.ks .tech-card-name { font-family: var(--serif); font-weight: 400; font-size: 32px; line-height: 1.08; color: var(--cream); margin: 0; }
+.ks .tech-card-body .body { color: var(--cream-2); margin: 0; }
+.ks .tech-card-cta { margin-top: auto; padding-top: 10px; color: var(--cream); }
+.ks .tech-card-cta span { display: inline-block; transition: transform 0.3s ease; }
+.ks .tech-card:hover .tech-card-cta span { transform: translateX(4px); }
+
+.ks .tech-crumb { display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.ks .tech-crumb a { color: var(--cream-2); text-decoration: none; }
+.ks .tech-crumb a:hover { color: var(--cream); }
+.ks .tech-crumb [aria-current] { color: var(--cream); }
 
 /* ==========================================================================
    SMART ROSTERING
@@ -1264,6 +1272,7 @@
 .ks .roster-guests .roster-field { min-width: 0; }
 .ks .roster-guests .ks-input { width: 100%; font-family: var(--serif); font-size: 24px; }
 .ks .roster-expected { color: var(--cream-2); font-size: 9px; }
+.ks .roster-expected.is-over { color: #d77; }
 
 .ks .roster-rules { margin-top: 20px; }
 .ks .roster-rules summary {
@@ -1293,6 +1302,10 @@
 .ks .roster-check input { width: 16px; height: 16px; accent-color: var(--accent-2); flex: none; }
 .ks .roster-rules-table { min-width: 420px; }
 .ks .roster-cell-input { width: 80px; text-align: right; font-family: var(--serif); font-size: 18px; padding: 4px 0; }
+.ks .roster-shift-rules { min-width: 640px; }
+.ks .roster-rule-pair { display: flex; gap: 14px; }
+.ks .roster-rule-pair .roster-cell-input { width: 52px; }
+.ks .roster-rule-hint { font-size: 8px; color: var(--cream-3); letter-spacing: 0.08em; }
 
 .ks .roster-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; align-items: end; }
 .ks .roster-stat { font-size: 44px; line-height: 1; color: var(--cream); margin-top: 12px; }
@@ -1306,6 +1319,7 @@
 .ks .roster-load-bar { flex: 1; min-height: 2px; }
 .ks .roster-load-bar.is-lunch, .ks .roster-legend .is-lunch { background: var(--cream-3); }
 .ks .roster-load-bar.is-dinner, .ks .roster-legend .is-dinner { background: var(--accent-2); }
+.ks .roster-load-bar.is-occ { background: var(--accent-2); max-width: 36px; margin: 0 auto; }
 .ks .roster-load-label { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ks .roster-legend { display: flex; gap: 8px 18px; flex-wrap: wrap; }
 .ks .roster-legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
@@ -1343,6 +1357,9 @@
 .ks .roster-shift + .roster-shift { margin-top: 4px; }
 .ks .roster-shift.is-lunch { border-left: 2px solid var(--cream-3); }
 .ks .roster-shift.is-dinner { border-left: 2px solid var(--accent-2); }
+.ks .roster-shift.is-am { border-left: 2px solid var(--cream-3); }
+.ks .roster-shift.is-pm { border-left: 2px solid var(--accent-2); }
+.ks .roster-shift.is-night { border-left: 2px solid var(--gold); }
 .ks .roster-shift small { display: block; font-family: var(--mono); font-size: 9px; color: var(--cream-3); margin-top: 2px; }
 .ks .roster-off { color: var(--cream-3); opacity: 0.6; }
 .ks .roster-off.is-na { font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -1351,9 +1368,13 @@
 .ks .roster-cover { font-family: var(--mono); font-size: 11px; color: var(--cream-2); padding: 2px 4px; }
 .ks .roster-cover.is-short { background: rgba(142, 42, 42, 0.35); color: var(--cream); }
 
+@media (max-width: 1024px) {
+  .ks .tech-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 768px) {
-  .ks .tech-tab { padding: 12px 14px; }
-  .ks .tech-tab-name { font-size: 19px; }
+  .ks .tech-grid { grid-template-columns: 1fr; gap: 24px; }
+  .ks .tech-card-body { padding: 22px 20px 24px; }
+  .ks .tech-card-name { font-size: 28px; }
   .ks .roster-row { gap: 20px; }
   .ks .roster-field { min-width: 0; flex: 1 1 100%; }
   .ks .roster-add { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; }
@@ -1398,6 +1419,7 @@
   .ks .roster-results * { color: #111 !important; background: transparent !important; border-color: #bbb !important; box-shadow: none !important; }
   .ks .roster-results .roster-load-bar.is-dinner, .ks .roster-results .roster-legend .is-dinner { background: #777 !important; }
   .ks .roster-results .roster-load-bar.is-lunch, .ks .roster-results .roster-legend .is-lunch { background: #ccc !important; }
+  .ks .roster-results .roster-load-bar.is-occ { background: #777 !important; }
   .ks .roster-results .roster-cover.is-short { background: #f3d0cc !important; }
   .ks .rateiq-table-wrap { overflow: visible !important; }
   .ks .roster-table, .ks .roster-cover-table { min-width: 0 !important; }

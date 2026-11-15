@@ -32,7 +32,7 @@ export const LogoMark = ({ size = 44 }) => (
 // Top nav (sticky) — desktop links inline, mobile collapses to a hamburger
 export const TopNav = ({ active = 'Portfolio', onNav }) => {
   const items = ['Portfolio', 'The Group', 'Team', 'Press', 'Technology', 'Contact']
-  const map = { 'Portfolio': 'portfolio', 'The Group': 'about', 'Team': 'team', 'Press': 'press', 'Technology': 'intelligence', 'Contact': 'contact' }
+  const map = { 'Portfolio': 'portfolio', 'The Group': 'about', 'Team': 'team', 'Press': 'press', 'Technology': 'technology', 'Contact': 'contact' }
   const [open, setOpen] = useState(false)
 
   const go = (e, page) => {
@@ -178,7 +178,7 @@ export const Footer = ({ onNav }) => {
         </div>
         <div>
           <div className="mono" style={{ marginBottom: 16 }}>Navigate</div>
-          {[['Portfolio','portfolio'],['The Group','about'],['Team','team'],['Press','press'],['Technology','intelligence'],['Contact','contact']].map(([l,p]) => (
+          {[['Portfolio','portfolio'],['The Group','about'],['Team','team'],['Press','press'],['Technology','technology'],['Contact','contact']].map(([l,p]) => (
             <a key={l} href="#" onClick={(e) => go(e, p)} className="body" style={{ padding: '6px 0', display: 'block', color: 'inherit', textDecoration: 'none' }}>{l}</a>
           ))}
         </div>
@@ -206,22 +206,39 @@ export const Footer = ({ onNav }) => {
   )
 }
 
-// KS Intelligence product switcher (Technology pages)
+// KS Intelligence apps, listed on the Technology page. Each opens its own page.
 export const TECH_PRODUCTS = [
-  { page: 'intelligence', name: 'RateIQ', line: 'Hotel rate intelligence' },
-  { page: 'rostering', name: 'Smart Rostering', line: 'Restaurant staffing' },
+  {
+    page: 'intelligence',
+    name: 'RateIQ',
+    line: 'Hotels · Revenue',
+    img: '/img/Technology/rateiq.jpg',
+    desc: 'See what up to three competitor hotels charge, night by night, and get the nightly rate that keeps your hotel competitive.',
+  },
+  {
+    page: 'rostering',
+    name: 'Smart Rostering for Restaurants',
+    line: 'Restaurants · Staffing',
+    img: '/img/Technology/rostering-restaurants.jpg',
+    desc: 'Enter your team and last week’s or expected guests. It works out how many hosts, servers, bartenders and cooks each service needs, and builds a fair weekly roster.',
+  },
+  {
+    page: 'hotel-rostering',
+    name: 'Smart Rostering for Hotels',
+    line: 'Hotels · Staffing',
+    img: '/img/Technology/rostering-hotels.jpg',
+    desc: 'Enter your team and nightly occupancy. It staffs the front desk, housekeeping, night audit and maintenance shift by shift, and builds a fair weekly roster.',
+  },
 ]
 
-export const ProductTabs = ({ active, onNav }) => (
-  <nav className="tech-tabs" aria-label="KS Intelligence products">
-    {TECH_PRODUCTS.map((p, i) => (
-      <a key={p.page} href={`?page=${p.page}`}
-        className={`tech-tab ${active === p.page ? 'is-active' : ''}`}
-        aria-current={active === p.page ? 'page' : undefined}
-        onClick={e => { if (!onNav) return; e.preventDefault(); if (active !== p.page) onNav(p.page) }}>
-        <span className="mono">{String(i + 1).padStart(2, '0')} · {p.line}</span>
-        <span className="tech-tab-name">{p.name}</span>
-      </a>
-    ))}
-  </nav>
-)
+// "← Technology / App name" at the top of each app page.
+export const TechCrumb = ({ page, onNav }) => {
+  const product = TECH_PRODUCTS.find(p => p.page === page)
+  return (
+    <nav className="tech-crumb mono" aria-label="Breadcrumb">
+      <a href="?page=technology" onClick={e => { if (!onNav) return; e.preventDefault(); onNav('technology') }}>← Technology</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{product ? product.name : ''}</span>
+    </nav>
+  )
+}
